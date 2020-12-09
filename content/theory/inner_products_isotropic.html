@@ -1,0 +1,543 @@
+
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Isotropic Constitutive Relationships &mdash; discretize 0.6.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-dataframe.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/logo-block.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Anisotropic Constitutive Relationships" href="inner_products_anisotropic.html" />
+    <link rel="prev" title="Basic Inner Products" href="inner_products_basic.html" />
+ 
+
+<meta name="description" content="Simulation and Parameter Estimation in Geophysics">
+<meta name="author" content="SimPEG Developers">
+<meta name="keywords" content="python, geophysics, inversion, electromagnetics, magnetotellurics, magnetics, gravity, DC, flow inverse problems, open source, finite volume">
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-45185336-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> discretize
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+    
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../big_picture.html">Why discretize?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../additional_resources.html">Additional Resources</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/mesh_generation/index.html">Mesh Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/operators/index.html">Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/inner_products/index.html">Inner Products</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/pde/index.html">Solving PDEs</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API Reference</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Theory</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../finite_volume_index.html">Intoduction to Finite Volume</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes_index.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="operators_index.html">Operators</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="inner_products_index.html">Inner Products</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="inner_products_basic.html">Basic Inner Products</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Isotropic Constitutive Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#summary">Summary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vectors-on-cell-faces">Vectors on Cell Faces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vectors-on-cell-edges">Vectors on Cell Edges</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reciprocal-properties">Reciprocal Properties</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="inner_products_anisotropic.html">Anisotropic Constitutive Relationships</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inner_products_differential.html">Differential Operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inner_products_boundary_conditions.html">Boundary Conditions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="derivation_examples_index.html">Solving PDEs Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Meta Information</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../release/index.html">Release Notes</a></li>
+</ul>
+
+            
+          
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Getting connected
+            
+            </span>
+        </p>
+        <ul>
+            
+                <li class="toctree-l1"><a href="https://simpeg.xyz"><i class="fa fa-external-link-square fa-fw"></i> SimPEG</a></li>
+            
+                <li class="toctree-l1"><a href="http://slack.simpeg.xyz"><i class="fa fa-comment fa-fw"></i> Contact</a></li>
+            
+                <li class="toctree-l1"><a href="https://github.com/simpeg/discretize"><i class="fa fa-github fa-fw"></i> Source Code</a></li>
+            
+        </ul>
+    
+
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">discretize</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="inner_products_index.html">Inner Products</a> &raquo;</li>
+        
+      <li>Isotropic Constitutive Relationships</li>
+    
+    
+
+    <li class="wy-breadcrumbs-aside">
+        
+            
+                <a href="https://github.com/simpeg/discretize/edit/master/doc/content/theory/inner_products_isotropic.rst"
+                   class="fa fa-github"> Edit this page</a>
+            
+        
+        
+    </li>
+
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="isotropic-constitutive-relationships">
+<span id="inner-products-isotropic"></span><h1>Isotropic Constitutive Relationships<a class="headerlink" href="#isotropic-constitutive-relationships" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>A constitutive relationship quantifies the response of a material to an external stimulus.
+Examples include Ohm’s law and Hooke’s law. For practical applications of the finite volume method,
+we may need to take the inner product of expressions containing constitutive relationships.</p>
+<p>Let <span class="math notranslate nohighlight">\(\vec{v}\)</span> and <span class="math notranslate nohighlight">\(\vec{w}\)</span> be two physically related quantities.
+If their relationship is isotropic (defined by a constant <span class="math notranslate nohighlight">\(\sigma\)</span>),
+then the constitutive relation is given by:</p>
+<div class="math notranslate nohighlight" id="equation-inner-product-isotropic">
+<span class="eqno">(1)<a class="headerlink" href="#equation-inner-product-isotropic" title="Permalink to this equation">¶</a></span>\[\vec{v} = \sigma \vec{w}\]</div>
+<p>Here we show that for isotropic constitutive relationships, the inner
+product between a vector <span class="math notranslate nohighlight">\(\vec{u}\)</span> and the right-hand side of
+equation <a class="reference internal" href="#equation-inner-product-isotropic">(1)</a> is approximated by:</p>
+<div class="math notranslate nohighlight">
+\[(\vec{u}, \sigma \vec{w} ) = \int_\Omega \vec{u} \cdot \sigma \vec{w} \, dv \approx \boldsymbol{u^T M w}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{M}\)</span> represents an <em>inner-product matrix</em>, and vectors
+<span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span> are discrete variables that live
+on the mesh. It is important to note a few things about the
+inner-product matrix in this case:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>It depends on the dimensions and discretization of the mesh</p></li>
+<li><p>It depends on where the discrete variables live; e.g. edges, faces</p></li>
+<li><p>It depends on the spacial variation of the material property <span class="math notranslate nohighlight">\(\sigma\)</span></p></li>
+</ol>
+</div></blockquote>
+<p>For this class of inner products, the corresponding inner product matricies for
+discrete quantities living on various parts of the mesh are given by:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\textrm{Vectors on faces:} \; \boldsymbol{M_{\sigma f}} &amp;= \frac{1}{4} \boldsymbol{P_f^T } \textrm{diag} \boldsymbol{\big ( e_k \otimes (v \odot \sigma ) \big )} \boldsymbol{P_f} \\
+\textrm{Vectors on edges:} \; \boldsymbol{M_{\sigma e}} &amp;= \frac{1}{4^{k-1}} \boldsymbol{P_e^T } \textrm{diag} \boldsymbol{\big ( e_k \otimes (v \odot \sigma) \big )} \boldsymbol{P_e}\end{split}\]</div>
+<p>where</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(k = 1,2,3\)</span> represent the dimension (1D, 2D or 3D)</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{e_k}\)</span> is a vector of 1s of length <span class="math notranslate nohighlight">\(k\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\odot\)</span> is the Hadamard product</p></li>
+<li><p><span class="math notranslate nohighlight">\(\otimes\)</span> is the kronecker product</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{P_f}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{P_e}\)</span> are projection matricies that map quantities from faces and edges to cell centers, respectively</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{v}\)</span> is a vector that stores all of the volumes of the cells</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{\sigma}\)</span> is a vector containing the physical property values for the cells</p></li>
+</ul>
+</div></blockquote>
+<p><strong>Tutorial:</strong> To construct the inner product matrix and/or approximate inner products of this type, see the <a class="reference internal" href="../../tutorials/inner_products/2_physical_properties.html#sphx-glr-tutorials-inner-products-2-physical-properties-py"><span class="std std-ref">tutorial on inner products with constitutive relationships</span></a></p>
+</div>
+<div class="section" id="vectors-on-cell-faces">
+<span id="inner-products-isotropic-faces"></span><h2>Vectors on Cell Faces<a class="headerlink" href="#vectors-on-cell-faces" title="Permalink to this headline">¶</a></h2>
+<p>We want to approximate the inner product between a vector quantity <span class="math notranslate nohighlight">\(\vec{u}\)</span> and the product of
+<span class="math notranslate nohighlight">\(\sigma\)</span> and <span class="math notranslate nohighlight">\(\vec{w}\)</span>. Here, we discretize such that <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span> are defined
+to live on cess faces. Our goal is to construct the inner product matrix <span class="math notranslate nohighlight">\(\boldsymbol{M}\)</span> in the expression below:</p>
+<div class="math notranslate nohighlight" id="equation-inner-product-isotropic-faces">
+<span class="eqno">(2)<a class="headerlink" href="#equation-inner-product-isotropic-faces" title="Permalink to this equation">¶</a></span>\[(\vec{u}, \sigma \vec{w}) = \int_\Omega \vec{u} \cdot \sigma \vec{w} \, dv \approx \boldsymbol{u^T M \, w}\]</div>
+<p>We must respect the dot product. For vectors defined on cell faces, we discretize such that the
+x-component of the vectors live on the x-faces, the y-component lives y-faces and the z-component
+lives on the z-faces. For a single cell, this is illustrated in 2D and 3D below. By decomposing the
+domain into a set of finite cells, we assume the physical properties are spacial invariant within each cell.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/face_discretization.png"><img alt="../../_images/face_discretization.png" src="../../_images/face_discretization.png" style="width: 600px;" /></a>
+</div>
+<p>As we can see there are 2 faces for each component. Therefore, we need to project each component of the
+vector from its faces to the cell centers and take their averages separately.
+For a single cell with volume <span class="math notranslate nohighlight">\(v_i\)</span> and material property value <span class="math notranslate nohighlight">\(\sigma_i\)</span>,
+the contribution towards the inner product is:</p>
+<div class="math notranslate nohighlight" id="equation-inner-product-isotropic-faces-1">
+<span class="eqno">(3)<a class="headerlink" href="#equation-inner-product-isotropic-faces-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{align}
+\mathbf{In \; 2D:} \; \int_{\Omega_i} \vec{u} \cdot \vec{w} \, dv \approx &amp; \;\; \frac{v_i \sigma_i}{4} \Big ( u_x^{(1)} + u_x^{(2)} \Big ) \Big ( w_x^{(1)} + w_x^{(2)} \Big ) \\
+&amp; + \frac{v_i \sigma_i}{4} \Big ( u_y^{(1)} + u_y^{(2)} \Big ) \Big ( w_y^{(1)} + w_y^{(2)} \Big ) \\
+&amp; \\
+\mathbf{In \; 3D:} \; \int_{\Omega_i} \vec{u} \cdot \vec{w} \, dv \approx &amp; \;\; \frac{v_i \sigma_i}{4} \Big ( u_x^{(1)} + u_x^{(2)} \Big ) \Big ( w_x^{(1)} + w_x^{(2)} \Big ) \\
+&amp; + \frac{v_i \sigma_i}{4} \Big ( u_y^{(1)} + u_y^{(2)} \Big ) \Big ( w_y^{(1)} + w_y^{(2)} \Big ) \\
+&amp; + \frac{v_i \sigma_i}{4} \Big ( u_z^{(1)} + u_z^{(2)} \Big ) \Big ( w_z^{(1)} + w_z^{(2)} \Big )
+\end{align}\end{split}\]</div>
+<p>where superscripts <span class="math notranslate nohighlight">\((1)\)</span> and <span class="math notranslate nohighlight">\((2)\)</span> denote face 1 and face 2, respectively.
+Using the contribution for each cell described in expression <a class="reference internal" href="#equation-inner-product-isotropic-faces-1">(3)</a>,
+we want to approximate the inner product in the form described by
+equation <a class="reference internal" href="#equation-inner-product-isotropic-faces">(2)</a>. To accomlish this, we construct a sparse matrix
+<span class="math notranslate nohighlight">\(\boldsymbol{P_f}\)</span> which projects quantities on the x, y and z faces separately to the
+the cell centers.</p>
+<p>For discretize vectors <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span> whose x, y (and z) components
+are organized on cell faces as follows:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol{u} = \begin{bmatrix} \boldsymbol{u_x} \\ \boldsymbol{u_y} \\ \boldsymbol{u_y} \\ \end{bmatrix}
+\;\;\;\; \textrm{and} \;\;\;\;
+\boldsymbol{w} = \begin{bmatrix} \boldsymbol{e_x} \\ \boldsymbol{e_y} \\ \boldsymbol{e_y} \\ \end{bmatrix}\end{split}\]</div>
+<p>the approximation to the inner product is given by:</p>
+<div class="math notranslate nohighlight">
+\[(\vec{u}, \sigma \vec{w}) = \int_\Omega \vec{u} \cdot \sigma \vec{w} \, dv \approx \boldsymbol{\boldsymbol{u} M_{\sigma f}} \, \boldsymbol{w}\]</div>
+<p>where the mass matrix has the form:</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol{M_{\sigma f}} = \frac{1}{4} \boldsymbol{P_f^T } \textrm{diag} \boldsymbol{\big ( e_k \otimes (v \odot \sigma ) \big )} \boldsymbol{P_f}\]</div>
+<p>and</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(k = 1,2,3\)</span> represent the dimension (1D, 2D or 3D)</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{e_k}\)</span> is a vector of 1s of length <span class="math notranslate nohighlight">\(k\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\odot\)</span> is the Hadamard product</p></li>
+<li><p><span class="math notranslate nohighlight">\(\otimes\)</span> is the kronecker product</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{P_f}\)</span> is a projection matrix that maps from faces to cell centers</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{v}\)</span> is a vector that stores all of the volumes of the cells</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{\sigma}\)</span> is a vector containing the physical property values for the cells</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="vectors-on-cell-edges">
+<span id="inner-products-isotropic-edges"></span><h2>Vectors on Cell Edges<a class="headerlink" href="#vectors-on-cell-edges" title="Permalink to this headline">¶</a></h2>
+<p>We want to approximate the inner product between a vector quantity <span class="math notranslate nohighlight">\(\vec{u}\)</span> and the product of
+<span class="math notranslate nohighlight">\(\sigma\)</span> and <span class="math notranslate nohighlight">\(\vec{w}\)</span>. Here, we discretize such that <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span> are defined
+to live at cell edges. Our goal is to construct the inner product matrix <span class="math notranslate nohighlight">\(\boldsymbol{M}\)</span> in the expression below:</p>
+<div class="math notranslate nohighlight" id="equation-inner-product-isotropic-edges">
+<span class="eqno">(4)<a class="headerlink" href="#equation-inner-product-isotropic-edges" title="Permalink to this equation">¶</a></span>\[(\vec{u}, \sigma \vec{w}) = \int_\Omega \vec{u} \cdot \sigma \vec{w} \, dv \approx \boldsymbol{u^T M \, w}\]</div>
+<p>We must respect the dot product. For vectors defined on cell edges, we discretize such that the
+x-component of the vectors live on the x-edges, the y-component lives y-edges and the z-component
+lives on the z-edges. This is illustrated in 2D and 3D below. By decomposing the
+domain into a set of finite cells, we assume the material properties are spacial invariant within each cell.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/edge_discretization.png"><img alt="../../_images/edge_discretization.png" src="../../_images/edge_discretization.png" style="width: 600px;" /></a>
+</div>
+<p>As we can see there are 2 edges for each component in 2D and 4 edges for each component in 3D.
+Therefore, we need to project each component of the
+vector from its edges to the cell centers and take their averages separately. For a single cell with volume <span class="math notranslate nohighlight">\(v_i\)</span>
+and material property value <span class="math notranslate nohighlight">\(\sigma_i\)</span>, the contribution towards the inner product is:</p>
+<div class="math notranslate nohighlight" id="equation-inner-product-isotropic-edges-1">
+<span class="eqno">(5)<a class="headerlink" href="#equation-inner-product-isotropic-edges-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{align}
+\mathbf{In \; 2D:} \; \int_{\Omega_i} \vec{u} \cdot \vec{w} \, dv \approx &amp; \;\; \frac{v_i \sigma_i}{4} \Big ( u_x^{(1)} + u_x^{(2)} \Big ) \Big ( w_x^{(1)} + w_x^{(2)} \Big ) \\
+&amp; + \frac{v_i \sigma_i}{4} \Big ( u_y^{(1)} + u_y^{(2)} \Big ) \Big ( w_y^{(1)} + w_y^{(2)} \Big ) \\
+&amp; \\
+\mathbf{In \; 3D:} \; \int_{\Omega_i} \vec{u} \cdot \vec{w} \, dv \approx &amp; \;\; \frac{v_i \sigma_i}{16} \Bigg ( \sum_{n=1}^4 u_x^{(n)} \Bigg ) \Bigg ( \sum_{n=1}^4 w_x^{(n)} \Bigg ) \\
+&amp; + \frac{v_i \sigma_i}{16} \Bigg ( \sum_{n=1}^4 u_y^{(n)} \Bigg ) \Bigg ( \sum_{n=1}^4 w_y^{(n)} \Bigg ) \\
+&amp; + \frac{v_i \sigma_i}{16} \Bigg ( \sum_{n=1}^4 u_z^{(n)} \Bigg ) \Bigg ( \sum_{n=1}^4 w_z^{(n)} \Bigg )
+\end{align}\end{split}\]</div>
+<p>where the superscript <span class="math notranslate nohighlight">\((n)\)</span> denotes a particular edge.
+Using the contribution for each cell described in expression <a class="reference internal" href="#equation-inner-product-isotropic-edges-1">(5)</a>,
+we want to approximate the inner product in the form described by
+equation <a class="reference internal" href="#equation-inner-product-isotropic-edges">(4)</a>. To accomlish this, we construct a sparse matrix
+<span class="math notranslate nohighlight">\(\boldsymbol{P_e}\)</span> which projects quantities on the x, y and z edges separately to the
+the cell centers.</p>
+<p>For discretize vectors <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span> whose x, y (and z) components
+are organized on cell edges as follows:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol{u} = \begin{bmatrix} \boldsymbol{u_x} \\ \boldsymbol{u_y} \\ \boldsymbol{u_y} \\ \end{bmatrix}
+\;\;\;\; \textrm{and} \;\;\;\;
+\boldsymbol{w} = \begin{bmatrix} \boldsymbol{e_x} \\ \boldsymbol{e_y} \\ \boldsymbol{e_y} \\ \end{bmatrix}\end{split}\]</div>
+<p>the approximation to the inner product is given by:</p>
+<div class="math notranslate nohighlight">
+\[(\vec{u}, \vec{w}) = \int_\Omega \vec{u} \cdot \vec{w} \, dv \approx \boldsymbol{\boldsymbol{u} M_e \, \boldsymbol{w}}\]</div>
+<p>where the mass matrix for face quantities has the form:</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol{M_{\sigma e}} = \frac{1}{4^{k-1}} \boldsymbol{P_e^T } \textrm{diag} \boldsymbol{\big ( e_k \otimes (v \odot \sigma) \big )} \boldsymbol{P_e}\]</div>
+<p>and</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(k = 1,2,3\)</span> represent the dimension (1D, 2D or 3D)</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{e_k}\)</span> is a vector of 1s of length <span class="math notranslate nohighlight">\(k\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\odot\)</span> is the Hadamard product</p></li>
+<li><p><span class="math notranslate nohighlight">\(\otimes\)</span> is the kronecker product</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{P_e}\)</span> is a projection matrix that maps from edges to cell centers</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{v}\)</span> is a vector that stores all of the volumes of the cells</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{\sigma}\)</span> is a vector containing the physical property values for the cells</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="reciprocal-properties">
+<span id="inner-products-isotropic-reciprocal"></span><h2>Reciprocal Properties<a class="headerlink" href="#reciprocal-properties" title="Permalink to this headline">¶</a></h2>
+<p>Let <span class="math notranslate nohighlight">\(\vec{v}\)</span> and <span class="math notranslate nohighlight">\(\vec{w}\)</span> be two physically related quantities.
+If their relationship is isotropic and defined by the reciprocal of a physical property (defined by a constant <span class="math notranslate nohighlight">\(\rho\)</span>),
+then the constitutive relation is given by:</p>
+<div class="math notranslate nohighlight" id="equation-inner-product-isotropic-reciprocal">
+<span class="eqno">(6)<a class="headerlink" href="#equation-inner-product-isotropic-reciprocal" title="Permalink to this equation">¶</a></span>\[\vec{v} = \rho^{-1} \vec{w}\]</div>
+<p>Because the relationship between <span class="math notranslate nohighlight">\(\vec{v}\)</span> and <span class="math notranslate nohighlight">\(\vec{w}\)</span> is a constant,
+the derivation of the inner-product matrix at edges and faces is effectively the same.
+For this case, the corresponding inner product matricies for
+discrete quantities living on various parts of the mesh are given by:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\textrm{Vectors on faces:} \; \boldsymbol{M_{\rho f}} &amp;= \frac{1}{4} \boldsymbol{P_f^T } \textrm{diag} \boldsymbol{\big ( e_k \otimes (v \odot \rho^{-1} ) \big )} \boldsymbol{P_f} \\
+\textrm{Vectors on edges:} \; \boldsymbol{M_{\rho e}} &amp;= \frac{1}{4^{k-1}} \boldsymbol{P_e^T } \textrm{diag} \boldsymbol{\big ( e_k \otimes (v \odot \rho^{-1}) \big )} \boldsymbol{P_e}\end{split}\]</div>
+<p>where</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(k = 1,2,3\)</span> represent the dimension (1D, 2D or 3D)</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{e_k}\)</span> is a vector of 1s of length <span class="math notranslate nohighlight">\(k\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\odot\)</span> is the Hadamard product</p></li>
+<li><p><span class="math notranslate nohighlight">\(\otimes\)</span> is the kronecker product</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{P_f}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{P_e}\)</span> are projection matricies that map quantities from faces and edges to cell centers, respectively</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{v}\)</span> is a vector that stores all of the volumes of the cells</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{\rho^{-1}}\)</span> is a vector containing the reciprocal of <span class="math notranslate nohighlight">\(\rho\)</span> for all cells</p></li>
+</ul>
+</div></blockquote>
+<p><strong>Tutorial:</strong> To construct the inner product matrix and/or approximate inner products of this type, see the <a class="reference internal" href="../../tutorials/inner_products/2_physical_properties.html#sphx-glr-tutorials-inner-products-2-physical-properties-py"><span class="std std-ref">tutorial on inner products with constitutive relationships</span></a></p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="inner_products_anisotropic.html" class="btn btn-neutral float-right" title="Anisotropic Constitutive Relationships" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="inner_products_basic.html" class="btn btn-neutral float-left" title="Basic Inner Products" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+<div role="contentinfo">
+    <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" width="60px"; style="float:right;height:3em;line-height:3em;padding:10px 0 0 1em;">
+        <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+    </a>
+    2013-2020,
+    <a href="http://simpeg.xyz">SimPEG Developers.</a><br />
+    Except where noted, this work is licensed under a <br />
+    <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+        Creative Commons Attribution 4.0 International License
+    </a>
+</div>
+<br>
+<div>
+Built with
+    <a href="http://sphinx-doc.org/">Sphinx</a>
+    using a
+    <a href="https://github.com/snide/sphinx_rtd_theme">theme</a>
+    provided by
+    <a href="https://readthedocs.org">Read the Docs</a>.
+ </div>
+
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

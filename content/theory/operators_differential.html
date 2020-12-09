@@ -1,0 +1,559 @@
+
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Differential Operators &mdash; discretize 0.6.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-dataframe.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/logo-block.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Inner Products" href="inner_products_index.html" />
+    <link rel="prev" title="Averaging" href="operators_averaging.html" />
+ 
+
+<meta name="description" content="Simulation and Parameter Estimation in Geophysics">
+<meta name="author" content="SimPEG Developers">
+<meta name="keywords" content="python, geophysics, inversion, electromagnetics, magnetotellurics, magnetics, gravity, DC, flow inverse problems, open source, finite volume">
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-45185336-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> discretize
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+    
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../big_picture.html">Why discretize?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../additional_resources.html">Additional Resources</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/mesh_generation/index.html">Mesh Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/operators/index.html">Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/inner_products/index.html">Inner Products</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/pde/index.html">Solving PDEs</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API Reference</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Theory</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../finite_volume_index.html">Intoduction to Finite Volume</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes_index.html">Meshes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="operators_index.html">Operators</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="operators_interpolation.html">Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operators_averaging.html">Averaging</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Differential Operators</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#divergence">Divergence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gradient">Gradient</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#curl">Curl</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="inner_products_index.html">Inner Products</a></li>
+<li class="toctree-l1"><a class="reference internal" href="derivation_examples_index.html">Solving PDEs Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Meta Information</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../release/index.html">Release Notes</a></li>
+</ul>
+
+            
+          
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Getting connected
+            
+            </span>
+        </p>
+        <ul>
+            
+                <li class="toctree-l1"><a href="https://simpeg.xyz"><i class="fa fa-external-link-square fa-fw"></i> SimPEG</a></li>
+            
+                <li class="toctree-l1"><a href="http://slack.simpeg.xyz"><i class="fa fa-comment fa-fw"></i> Contact</a></li>
+            
+                <li class="toctree-l1"><a href="https://github.com/simpeg/discretize"><i class="fa fa-github fa-fw"></i> Source Code</a></li>
+            
+        </ul>
+    
+
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">discretize</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="operators_index.html">Operators</a> &raquo;</li>
+        
+      <li>Differential Operators</li>
+    
+    
+
+    <li class="wy-breadcrumbs-aside">
+        
+            
+                <a href="https://github.com/simpeg/discretize/edit/master/doc/content/theory/operators_differential.rst"
+                   class="fa fa-github"> Edit this page</a>
+            
+        
+        
+    </li>
+
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="differential-operators">
+<span id="operators-differential"></span><h1>Differential Operators<a class="headerlink" href="#differential-operators" title="Permalink to this headline">¶</a></h1>
+<p>Here, we provide the background theory for how discrete differential operators are formed.
+For geophysical problems, the relationship between two physical quantities may include one of several differential operators:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Divergence:</strong> <span class="math notranslate nohighlight">\(\nabla \cdot \vec{u} = \dfrac{\partial u_x}{\partial x} + \dfrac{\partial u_y}{\partial y} + \dfrac{\partial u_y}{\partial y}\)</span></p></li>
+<li><p><strong>Gradient:</strong> <span class="math notranslate nohighlight">\(\nabla \phi = \dfrac{\partial \phi}{\partial x}\hat{x} + \dfrac{\partial \phi}{\partial y}\hat{y} + \dfrac{\partial \phi}{\partial z}\hat{z}\)</span></p></li>
+<li><p><strong>Curl:</strong> <span class="math notranslate nohighlight">\(\nabla \times \vec{u} = \Bigg ( \dfrac{\partial u_y}{\partial z} - \dfrac{\partial u_z}{\partial y} \Bigg )\hat{x} - \Bigg ( \dfrac{\partial u_x}{\partial z} - \dfrac{\partial u_z}{\partial x} \Bigg )\hat{y} + \Bigg ( \dfrac{\partial u_x}{\partial y} - \dfrac{\partial u_y}{\partial x} \Bigg )\hat{z}\)</span></p></li>
+</ul>
+</div></blockquote>
+<p>When implementing the finite volume method, continuous variables are discretized to live at the cell centers, nodes, edges or faces of a mesh.
+Thus for each differential operator, we need a discrete approximation that acts on the discrete variables living on the mesh.</p>
+<p>Our approximations are derived using numerical differentiation (figure below). So long as a function <span class="math notranslate nohighlight">\(f(x)\)</span> is sufficiently smooth
+within the interval <span class="math notranslate nohighlight">\([x-h/2, \; x+h/2]\)</span>, then the derivative of the function at <span class="math notranslate nohighlight">\(x\)</span> is approximated by:</p>
+<div class="math notranslate nohighlight">
+\[\frac{df(x)}{dx} \approx \frac{f(x+h/2) \; - \; f(x-h/2)}{h}\]</div>
+<p>where the approximation becomes increasingly accurate as <span class="math notranslate nohighlight">\(h \rightarrow 0\)</span>. In subsequent sections, we will show how
+the gradient, divergence and curl can be computed for discrete variables.</p>
+<div class="figure align-center" id="id1">
+<a class="reference internal image-reference" href="../../_images/approximate_derivative.png"><img alt="../../_images/approximate_derivative.png" src="../../_images/approximate_derivative.png" style="width: 300px;" /></a>
+<p class="caption"><span class="caption-text">Approximating the derivative of <span class="math notranslate nohighlight">\(f(x)\)</span> using numerical differentiation.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+<p><strong>Tutorial:</strong> <a class="reference internal" href="../../tutorials/operators/2_differential.html#sphx-glr-tutorials-operators-2-differential-py"><span class="std std-ref">tutorial for constructing and applying differential operators</span></a></p>
+<div class="section" id="divergence">
+<span id="operators-differential-divergence"></span><h2>Divergence<a class="headerlink" href="#divergence" title="Permalink to this headline">¶</a></h2>
+<p>Let us define a continuous scalar function <span class="math notranslate nohighlight">\(\phi\)</span> and a continuous vector function <span class="math notranslate nohighlight">\(\vec{u}\)</span> such that:</p>
+<div class="math notranslate nohighlight">
+\[\phi = \nabla \cdot \vec{u}\]</div>
+<p>And let <span class="math notranslate nohighlight">\(\boldsymbol{\phi}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> be the discrete representations of <span class="math notranslate nohighlight">\(\phi\)</span> and <span class="math notranslate nohighlight">\(\vec{u}\)</span>
+that live on the mesh (centers, nodes, edges or faces), respectively. Provided we know the discrete values <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span>,
+our goal is to use discrete differentiation to approximate the values of <span class="math notranslate nohighlight">\(\boldsymbol{\phi}\)</span>.
+We begin by considering a single cell (2D or 3D). We let the indices <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(j\)</span> and <span class="math notranslate nohighlight">\(k\)</span>
+denote positions along the x, y and z axes, respectively.</p>
+<div class="figure align-center" id="id2">
+<a class="reference internal image-reference" href="../../_images/divergence_discretization.png"><img alt="../../_images/divergence_discretization.png" src="../../_images/divergence_discretization.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-text">Discretization for approximating the divergence at the center of a single 2D cell (left) and 3D cell (right).</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 43%" />
+<col style="width: 46%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td></td>
+<td><p><strong>2D</strong></p></td>
+<td><p><strong>3D</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>center</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\((i,j)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\((i,j,k)\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>x-faces</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\((i-\frac{1}{2},j)\;\; (i+\frac{1}{2},j)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\((i-\frac{1}{2},j,k)\;\; (i+\frac{1}{2},j,k)\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>y-faces</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\((i,j-\frac{1}{2})\;\; (i,j+\frac{1}{2})\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\((i,j-\frac{1}{2},k)\;\; (i,j+\frac{1}{2},k)\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>z-faces</strong></p></td>
+<td><p>N/A</p></td>
+<td><p><span class="math notranslate nohighlight">\((i,j,k-\frac{1}{2})\;\; (i,j,k+\frac{1}{2})\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p>As we will see, it makes the most sense for <span class="math notranslate nohighlight">\(\boldsymbol{\phi}\)</span> to live at the cell centers and
+for the components of <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> to live on the faces. If <span class="math notranslate nohighlight">\(u_x\)</span> lives on x-faces, then its discrete
+derivative with respect to <span class="math notranslate nohighlight">\(x\)</span> lives at the cell center. And if <span class="math notranslate nohighlight">\(u_y\)</span> lives on y-faces its discrete
+derivative with respect to <span class="math notranslate nohighlight">\(y\)</span> lives at the cell center. Likewise for <span class="math notranslate nohighlight">\(u_z\)</span>. Thus to approximate the
+divergence of <span class="math notranslate nohighlight">\(\vec{u}\)</span> at the cell center, we simply need to sum the discrete derivatives of <span class="math notranslate nohighlight">\(u_x\)</span>, <span class="math notranslate nohighlight">\(u_y\)</span>
+and <span class="math notranslate nohighlight">\(u_z\)</span> that are defined at the cell center. Where <span class="math notranslate nohighlight">\(h_x\)</span>, <span class="math notranslate nohighlight">\(h_y\)</span> and <span class="math notranslate nohighlight">\(h_z\)</span> represent the dimension of the cell along the x, y and
+z directions, respectively:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+\mathbf{In \; 2D:} \;\; \phi(i,j) \approx \; &amp; \frac{u_x(i,j+\frac{1}{2}) - u_x(i,j-\frac{1}{2})}{h_x} \\
+&amp; + \frac{u_y(i+\frac{1}{2},j) - u_y(i-\frac{1}{2},j)}{h_y}
+\end{align}\end{split}\]</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+\mathbf{In \; 3D:} \;\; \phi(i,j,k) \approx \; &amp; \frac{u_x(i+\frac{1}{2},j,k) - u_x(i-\frac{1}{2},j,k)}{h_x} \\
+&amp; + \frac{u_y(i,j+\frac{1}{2},k) - u_y(i,j-\frac{1}{2},k)}{h_y} \\
+&amp; + \frac{u_z(i,j,k+\frac{1}{2}) - u_z(i,j,k-\frac{1}{2})}{h_z}
+\end{align}\end{split}\]</div>
+<p>Ultimately we are trying to approximate the divergence at the center of every cell in a mesh.
+Adjacent cells share faces. If the components <span class="math notranslate nohighlight">\(u_x\)</span>, <span class="math notranslate nohighlight">\(u_y\)</span> and <span class="math notranslate nohighlight">\(u_z\)</span> are
+continuous across their respective faces, then <span class="math notranslate nohighlight">\(\boldsymbol{\phi}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span>
+can be related by a sparse matrix-vector product:</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol{\phi} = \boldsymbol{D \, u}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{D}\)</span> is the divergence matrix from faces to cell centers,
+<span class="math notranslate nohighlight">\(\boldsymbol{\phi}\)</span> is a vector containing the discrete approximations of <span class="math notranslate nohighlight">\(\phi\)</span> at all cell centers,
+and <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> stores the components of <span class="math notranslate nohighlight">\(\vec{u}\)</span> on cell faces as a vector of the form:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol{u} = \begin{bmatrix} \boldsymbol{u_x} \\ \boldsymbol{u_y} \\ \boldsymbol{u_z} \end{bmatrix}\end{split}\]</div>
+</div>
+<div class="section" id="gradient">
+<span id="operators-differential-gradient"></span><h2>Gradient<a class="headerlink" href="#gradient" title="Permalink to this headline">¶</a></h2>
+<p>Let us define a continuous scalar function <span class="math notranslate nohighlight">\(\phi\)</span> and a continuous vector function <span class="math notranslate nohighlight">\(\vec{u}\)</span> such that:</p>
+<div class="math notranslate nohighlight">
+\[\vec{u} = \nabla \phi\]</div>
+<p>And let <span class="math notranslate nohighlight">\(\boldsymbol{\phi}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> be the discrete representations of <span class="math notranslate nohighlight">\(\phi\)</span> and <span class="math notranslate nohighlight">\(\vec{u}\)</span>
+that live on the mesh (centers, nodes, edges or faces), respectively. Provided we know the discrete values <span class="math notranslate nohighlight">\(\boldsymbol{\phi}\)</span>,
+our goal is to use discrete differentiation to approximate the vector components of <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span>.
+We begin by considering a single cell (2D or 3D). We let the indices <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(j\)</span> and <span class="math notranslate nohighlight">\(k\)</span>
+denote positions along the x, y and z axes, respectively.</p>
+<div class="figure align-center" id="id3">
+<a class="reference internal image-reference" href="../../_images/gradient_discretization.png"><img alt="../../_images/gradient_discretization.png" src="../../_images/gradient_discretization.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-text">Discretization for approximating the gradient on the edges of a single 2D cell (left) and 3D cell (right).</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</div>
+<p>As we will see, it makes the most sense for <span class="math notranslate nohighlight">\(\boldsymbol{\phi}\)</span> to live at the cell nodes and
+for the components of <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> to live on corresponding edges. If <span class="math notranslate nohighlight">\(\phi\)</span> lives on the nodes, then:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>the partial derivative <span class="math notranslate nohighlight">\(\dfrac{\partial \phi}{\partial x}\hat{x}\)</span> lives on x-edges,</p></li>
+<li><p>the partial derivative <span class="math notranslate nohighlight">\(\dfrac{\partial \phi}{\partial y}\hat{y}\)</span> lives on y-edges, and</p></li>
+<li><p>the partial derivative <span class="math notranslate nohighlight">\(\dfrac{\partial \phi}{\partial z}\hat{z}\)</span> lives on z-edges</p></li>
+</ul>
+</div></blockquote>
+<p>Thus to approximate the gradient of <span class="math notranslate nohighlight">\(\phi\)</span>,
+we simply need to take discrete derivatives of <span class="math notranslate nohighlight">\(\phi\)</span> with respect to <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span>,
+and organize the resulting vector components on the corresponding edges.
+Let <span class="math notranslate nohighlight">\(h_x\)</span>, <span class="math notranslate nohighlight">\(h_y\)</span> and <span class="math notranslate nohighlight">\(h_z\)</span> represent the dimension of the cell along the x, y and
+z directions, respectively.</p>
+<p><strong>In 2D</strong>, the value of <span class="math notranslate nohighlight">\(\phi\)</span> at 4 node locations is used to approximate the vector components of the
+gradient at 4 edges locations (2 x-edges and 2 y-edges) as follows:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+u_x \Big ( i+\frac{1}{2},j \Big ) \approx \; &amp; \frac{\phi (i+1,j) - \phi (i,j)}{h_x} \\
+u_x \Big ( i+\frac{1}{2},j+1 \Big ) \approx \; &amp; \frac{\phi (i+1,j+1) - \phi (i,j+1)}{h_x} \\
+u_y \Big ( i,j+\frac{1}{2} \Big ) \approx \; &amp; \frac{\phi (i,j+1) - \phi (i,j)}{h_y} \\
+u_y \Big ( i+1,j+\frac{1}{2} \Big ) \approx \; &amp; \frac{\phi (i+1,j+1) - \phi (i+1,j)}{h_y}
+\end{align}\end{split}\]</div>
+<p><strong>In 3D</strong>, the value of <span class="math notranslate nohighlight">\(\phi\)</span> at 8 node locations is used to approximate the vector components of the
+gradient at 12 edges locations (4 x-edges, 4 y-edges and 4 z-edges). An example of the approximation
+for each vector component is given below:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+u_x \Big ( i+\frac{1}{2},j,k \Big ) \approx \; &amp; \frac{\phi (i+1,j,k) - \phi (i,j,k)}{h_x} \\
+u_y \Big ( i,j+\frac{1}{2},k \Big ) \approx \; &amp; \frac{\phi (i,j+1,k) - \phi (i,j,k)}{h_y} \\
+u_z \Big ( i,j,k+\frac{1}{2} \Big ) \approx \; &amp; \frac{\phi (i,j,k+1) - \phi (i,j,k)}{h_z}
+\end{align}\end{split}\]</div>
+<p>Ultimately we are trying to approximate the vector components of the gradient at all edges of a mesh.
+Adjacent cells share nodes. If <span class="math notranslate nohighlight">\(\phi\)</span> is continuous at the nodes, then <span class="math notranslate nohighlight">\(\boldsymbol{\phi}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span>
+can be related by a sparse matrix-vector product:</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol{u} = \boldsymbol{G \, \phi}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{G}\)</span> is the gradient matrix that maps from nodes to edges,
+<span class="math notranslate nohighlight">\(\boldsymbol{\phi}\)</span> is a vector containing <span class="math notranslate nohighlight">\(\phi\)</span> at all nodes,
+and <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> stores the components of <span class="math notranslate nohighlight">\(\vec{u}\)</span> on cell edges as a vector of the form:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol{u} = \begin{bmatrix} \boldsymbol{u_x} \\ \boldsymbol{u_y} \\ \boldsymbol{u_z} \end{bmatrix}\end{split}\]</div>
+</div>
+<div class="section" id="curl">
+<span id="operators-differential-curl"></span><h2>Curl<a class="headerlink" href="#curl" title="Permalink to this headline">¶</a></h2>
+<p>Let us define two continuous vector functions <span class="math notranslate nohighlight">\(\vec{u}\)</span> and <span class="math notranslate nohighlight">\(\vec{w}\)</span> such that:</p>
+<div class="math notranslate nohighlight">
+\[\vec{w} = \nabla \times \vec{u}\]</div>
+<p>And let <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span> be the discrete representations of <span class="math notranslate nohighlight">\(\vec{u}\)</span> and <span class="math notranslate nohighlight">\(\vec{w}\)</span>
+that live on the mesh (centers, nodes, edges or faces), respectively. Provided we know the discrete values <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span>,
+our goal is to use discrete differentiation to approximate the vector components of <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span>.
+We begin by considering a single 3D cell. We let the indices <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(j\)</span> and <span class="math notranslate nohighlight">\(k\)</span>
+denote positions along the x, y and z axes, respectively.</p>
+<div class="figure align-center" id="id4">
+<a class="reference internal image-reference" href="../../_images/curl_discretization.png"><img alt="../../_images/curl_discretization.png" src="../../_images/curl_discretization.png" style="width: 800px;" /></a>
+<p class="caption"><span class="caption-text">Discretization for approximating the x, y and z components of the curl on the respective faces of a 3D cell.</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</div>
+<p>As we will see, it makes the most sense for the vector components of <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> to live on the edges
+for the vector components of <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span> to live the faces. In this case, we need to approximate:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>the partial derivatives <span class="math notranslate nohighlight">\(\dfrac{\partial u_y}{\partial z}\)</span> and <span class="math notranslate nohighlight">\(\dfrac{\partial u_z}{\partial y}\)</span> to compute <span class="math notranslate nohighlight">\(w_x\)</span>,</p></li>
+<li><p>the partial derivatives <span class="math notranslate nohighlight">\(\dfrac{\partial u_x}{\partial z}\)</span> and <span class="math notranslate nohighlight">\(\dfrac{\partial u_z}{\partial x}\)</span> to compute <span class="math notranslate nohighlight">\(w_y\)</span>, and</p></li>
+<li><p>the partial derivatives <span class="math notranslate nohighlight">\(\dfrac{\partial u_x}{\partial y}\)</span> and <span class="math notranslate nohighlight">\(\dfrac{\partial u_y}{\partial x}\)</span> to compute <span class="math notranslate nohighlight">\(w_z\)</span></p></li>
+</ul>
+</div></blockquote>
+<p><strong>In 3D</strong>, discrete values at 12 edge locations (4 x-edges, 4 y-edges and 4 z-edges) are used to
+approximate the vector components of the curl at 6 face locations (2 x-faces, 2-faces and 2 z-faces).
+An example of the approximation for each vector component is given below:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+w_x \Big ( i,j \! +\!\!\frac{1}{2},k \! +\!\!\frac{1}{2} \Big ) \!\approx\! \; &amp;
+\!\Bigg ( \! \frac{u_y (i,j \! +\!\!\frac{1}{2},k \! +\!\!1)  \! -\! u_y (i,j \! +\!\!\frac{1}{2},k)}{h_z} \Bigg) \!
+\! -\! \!\Bigg ( \! \frac{u_z (i,j \! +\!\!1,k \! +\!\!\frac{1}{2})  \! -\! u_z (i,j,k \! +\!\!\frac{1}{2})}{h_y} \Bigg) \! \\
+&amp; \\
+w_y \Big ( i \! +\!\!\frac{1}{2},j,k \! +\!\!\frac{1}{2} \Big ) \!\approx\! \; &amp;
+\!\Bigg ( \! \frac{u_z (i \! +\!\!1,j,k \! +\!\!\frac{1}{2})  \! -\! u_z (i,j,k \! +\!\!\frac{1}{2})}{h_x} \Bigg) \!
+\! -\! \!\Bigg ( \! \frac{u_x (i \! +\!\!\frac{1}{2},j,k \! +\!\!1)  \! -\! u_x (i \! +\!\!\frac{1}{2},j,k)}{h_z} \Bigg) \\
+&amp; \\
+w_z \Big ( i \! +\!\!\frac{1}{2},j \! +\!\!\frac{1}{2},k \Big ) \!\approx\! \; &amp;
+\!\Bigg ( \! \frac{u_x (i \! +\!\!\frac{1}{2},j \! +\!\!1,k)  \! -\! u_x (i \! +\!\!\frac{1}{2},j,k)}{h_y} \Bigg) \!
+\! -\! \!\Bigg ( \! \frac{u_y (i \! +\!\!1,j \! +\!\!\frac{1}{2},k)  \! -\! u_y (i,j \! +\!\!\frac{1}{2},k)}{h_x} \Bigg )
+\end{align}\end{split}\]</div>
+<p>Ultimately we are trying to approximate the curl on all the faces within a mesh.
+Adjacent cells share edges. If the components <span class="math notranslate nohighlight">\(u_x\)</span>, <span class="math notranslate nohighlight">\(u_y\)</span> and <span class="math notranslate nohighlight">\(u_z\)</span> are
+continuous across at the edges, then <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span>
+can be related by a sparse matrix-vector product:</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol{w} = \boldsymbol{C \, u}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{C}\)</span> is the curl matrix from edges to faces,
+<span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> is a vector that stores the components of <span class="math notranslate nohighlight">\(\vec{u}\)</span> on cell edges,
+and <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span> is a vector that stores the components of <span class="math notranslate nohighlight">\(\vec{w}\)</span> on cell faces such that:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol{u} = \begin{bmatrix} \boldsymbol{u_x} \\ \boldsymbol{u_y} \\ \boldsymbol{u_z} \end{bmatrix}
+\;\;\;\; \textrm{and} \;\;\;\; \begin{bmatrix} \boldsymbol{w_x} \\ \boldsymbol{w_y} \\ \boldsymbol{w_z} \end{bmatrix}\end{split}\]</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="inner_products_index.html" class="btn btn-neutral float-right" title="Inner Products" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="operators_averaging.html" class="btn btn-neutral float-left" title="Averaging" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+<div role="contentinfo">
+    <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" width="60px"; style="float:right;height:3em;line-height:3em;padding:10px 0 0 1em;">
+        <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+    </a>
+    2013-2020,
+    <a href="http://simpeg.xyz">SimPEG Developers.</a><br />
+    Except where noted, this work is licensed under a <br />
+    <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+        Creative Commons Attribution 4.0 International License
+    </a>
+</div>
+<br>
+<div>
+Built with
+    <a href="http://sphinx-doc.org/">Sphinx</a>
+    using a
+    <a href="https://github.com/snide/sphinx_rtd_theme">theme</a>
+    provided by
+    <a href="https://readthedocs.org">Read the Docs</a>.
+ </div>
+
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

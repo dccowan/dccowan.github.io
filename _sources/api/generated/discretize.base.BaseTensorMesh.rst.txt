@@ -1,0 +1,236 @@
+discretize.base.BaseTensorMesh
+==============================
+
+.. currentmodule:: discretize.base
+
+.. autoclass:: BaseTensorMesh
+    :show-inheritance:
+
+.. include:: backreferences/discretize.base.BaseTensorMesh.examples
+
+.. raw:: html
+
+     <div style='clear:both'></div>
+
+Attributes
+^^^^^^^^^^
+
+
+.. autoattribute:: BaseTensorMesh.axis_u
+
+.. autoattribute:: BaseTensorMesh.axis_v
+
+.. autoattribute:: BaseTensorMesh.axis_w
+
+.. autoattribute:: BaseTensorMesh.dim
+
+.. autoattribute:: BaseTensorMesh.edge_tangents
+
+.. autoattribute:: BaseTensorMesh.face_normals
+
+.. autoattribute:: BaseTensorMesh.grid_cell_centers
+
+.. autoattribute:: BaseTensorMesh.grid_cell_centers_x
+
+.. autoattribute:: BaseTensorMesh.grid_cell_centers_y
+
+.. autoattribute:: BaseTensorMesh.grid_cell_centers_z
+
+.. autoattribute:: BaseTensorMesh.grid_edges_x
+
+.. autoattribute:: BaseTensorMesh.grid_edges_y
+
+.. autoattribute:: BaseTensorMesh.grid_edges_z
+
+.. autoattribute:: BaseTensorMesh.grid_faces_x
+
+.. autoattribute:: BaseTensorMesh.grid_faces_y
+
+.. autoattribute:: BaseTensorMesh.grid_faces_z
+
+.. autoattribute:: BaseTensorMesh.grid_nodes
+
+.. autoattribute:: BaseTensorMesh.grid_nodes_x
+
+.. autoattribute:: BaseTensorMesh.grid_nodes_y
+
+.. autoattribute:: BaseTensorMesh.grid_nodes_z
+
+.. autoattribute:: BaseTensorMesh.h
+
+.. autoattribute:: BaseTensorMesh.h_gridded
+
+.. autoattribute:: BaseTensorMesh.hx
+
+.. autoattribute:: BaseTensorMesh.hy
+
+.. autoattribute:: BaseTensorMesh.hz
+
+.. autoattribute:: BaseTensorMesh.n_cells
+
+.. autoattribute:: BaseTensorMesh.n_edges
+
+.. autoattribute:: BaseTensorMesh.n_edges_x
+
+.. autoattribute:: BaseTensorMesh.n_edges_y
+
+.. autoattribute:: BaseTensorMesh.n_edges_z
+
+.. autoattribute:: BaseTensorMesh.n_faces
+
+.. autoattribute:: BaseTensorMesh.n_faces_x
+
+.. autoattribute:: BaseTensorMesh.n_faces_y
+
+.. autoattribute:: BaseTensorMesh.n_faces_z
+
+.. autoattribute:: BaseTensorMesh.n_nodes
+
+.. autoattribute:: BaseTensorMesh.normals
+
+.. autoattribute:: BaseTensorMesh.reference_is_rotated
+
+.. autoattribute:: BaseTensorMesh.reference_system
+
+.. autoattribute:: BaseTensorMesh.rotation_matrix
+
+.. autoattribute:: BaseTensorMesh.tangents
+
+.. autoattribute:: BaseTensorMesh.vectorCCx
+
+.. autoattribute:: BaseTensorMesh.vectorCCy
+
+.. autoattribute:: BaseTensorMesh.vectorCCz
+
+.. autoattribute:: BaseTensorMesh.vectorNx
+
+.. autoattribute:: BaseTensorMesh.vectorNy
+
+.. autoattribute:: BaseTensorMesh.vectorNz
+
+.. autoattribute:: BaseTensorMesh.vnE
+
+.. autoattribute:: BaseTensorMesh.vnF
+
+.. autoattribute:: BaseTensorMesh.x0
+
+
+
+Methods
+^^^^^^^
+
+
+
+
+
+.. automethod:: BaseTensorMesh.copy
+
+
+
+.. automethod:: BaseTensorMesh.deserialize
+
+
+
+.. automethod:: BaseTensorMesh.equal
+
+
+
+.. automethod:: BaseTensorMesh.getInterpolationMat
+
+
+
+.. automethod:: BaseTensorMesh.getTensor
+
+
+
+.. automethod:: BaseTensorMesh.get_interpolation_matrix
+
+
+
+.. automethod:: BaseTensorMesh.get_tensor
+
+
+
+.. automethod:: BaseTensorMesh.isInside
+
+
+
+.. automethod:: BaseTensorMesh.is_inside
+
+
+
+.. automethod:: BaseTensorMesh.plotGrid
+
+
+
+.. automethod:: BaseTensorMesh.plotImage
+
+
+
+.. automethod:: BaseTensorMesh.plotSlice
+
+
+
+.. automethod:: BaseTensorMesh.plot_3d_slicer
+
+
+
+.. automethod:: BaseTensorMesh.plot_grid
+
+
+
+.. automethod:: BaseTensorMesh.plot_image
+
+
+
+.. automethod:: BaseTensorMesh.plot_slice
+
+
+
+.. automethod:: BaseTensorMesh.projectEdgeVector
+
+
+
+.. automethod:: BaseTensorMesh.projectFaceVector
+
+
+
+.. automethod:: BaseTensorMesh.project_edge_vector
+
+
+
+.. automethod:: BaseTensorMesh.project_face_vector
+
+
+
+.. automethod:: BaseTensorMesh.save
+
+
+
+.. automethod:: BaseTensorMesh.serialize
+
+
+
+.. automethod:: BaseTensorMesh.toVTK
+
+
+
+.. automethod:: BaseTensorMesh.to_vtk
+
+
+
+.. automethod:: BaseTensorMesh.validate
+
+
+
+.. automethod:: BaseTensorMesh.writeVTK
+
+
+
+.. automethod:: BaseTensorMesh.write_vtk
+
+
+
+.. raw:: html
+
+     <div style='clear:both'></div>

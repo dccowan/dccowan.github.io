@@ -1,0 +1,613 @@
+
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Differential Operators &mdash; discretize 0.6.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-dataframe.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/logo-block.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Boundary Conditions" href="inner_products_boundary_conditions.html" />
+    <link rel="prev" title="Anisotropic Constitutive Relationships" href="inner_products_anisotropic.html" />
+ 
+
+<meta name="description" content="Simulation and Parameter Estimation in Geophysics">
+<meta name="author" content="SimPEG Developers">
+<meta name="keywords" content="python, geophysics, inversion, electromagnetics, magnetotellurics, magnetics, gravity, DC, flow inverse problems, open source, finite volume">
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-45185336-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> discretize
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+    
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../big_picture.html">Why discretize?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../additional_resources.html">Additional Resources</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/mesh_generation/index.html">Mesh Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/operators/index.html">Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/inner_products/index.html">Inner Products</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/pde/index.html">Solving PDEs</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API Reference</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Theory</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../finite_volume_index.html">Intoduction to Finite Volume</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes_index.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="operators_index.html">Operators</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="inner_products_index.html">Inner Products</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="inner_products_basic.html">Basic Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inner_products_isotropic.html">Isotropic Constitutive Relationships</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inner_products_anisotropic.html">Anisotropic Constitutive Relationships</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Differential Operators</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#gradient">Gradient</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#divergence">Divergence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#curl">Curl</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#vector-and-the-gradient-of-a-scalar">Vector and the Gradient of a Scalar</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#inner-product-on-edges">Inner Product on Edges</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#inner-product-on-faces">Inner Product on Faces</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#scalar-and-the-divergence-of-a-vector">Scalar and the Divergence of a Vector</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">Inner Product on Faces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2">Inner Product on Edges</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#vector-and-the-curl-of-a-vector">Vector and the Curl of a Vector</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#inner-product-at-faces">Inner Product at Faces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#inner-product-at-edges">Inner Product at Edges</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="inner_products_boundary_conditions.html">Boundary Conditions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="derivation_examples_index.html">Solving PDEs Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Meta Information</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../release/index.html">Release Notes</a></li>
+</ul>
+
+            
+          
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Getting connected
+            
+            </span>
+        </p>
+        <ul>
+            
+                <li class="toctree-l1"><a href="https://simpeg.xyz"><i class="fa fa-external-link-square fa-fw"></i> SimPEG</a></li>
+            
+                <li class="toctree-l1"><a href="http://slack.simpeg.xyz"><i class="fa fa-comment fa-fw"></i> Contact</a></li>
+            
+                <li class="toctree-l1"><a href="https://github.com/simpeg/discretize"><i class="fa fa-github fa-fw"></i> Source Code</a></li>
+            
+        </ul>
+    
+
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">discretize</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="inner_products_index.html">Inner Products</a> &raquo;</li>
+        
+      <li>Differential Operators</li>
+    
+    
+
+    <li class="wy-breadcrumbs-aside">
+        
+            
+                <a href="https://github.com/simpeg/discretize/edit/master/doc/content/theory/inner_products_differential.rst"
+                   class="fa fa-github"> Edit this page</a>
+            
+        
+        
+    </li>
+
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="differential-operators">
+<span id="inner-products-differential"></span><h1>Differential Operators<a class="headerlink" href="#differential-operators" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>For practical applications of the finite volume method,
+we may need to take the inner product of expressions containing differential operators.
+These operators include the:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>the gradient (<span class="math notranslate nohighlight">\(\nabla \phi\)</span> )</p></li>
+<li><p>the divergence (<span class="math notranslate nohighlight">\(\nabla \cdot \vec{w}\)</span> )</p></li>
+<li><p>the curl (<span class="math notranslate nohighlight">\(\nabla \times \vec{w}\)</span> )</p></li>
+</ul>
+</div></blockquote>
+<p>For scalar quantities <span class="math notranslate nohighlight">\(\psi\)</span> and <span class="math notranslate nohighlight">\(\phi\)</span> and for vector quantities <span class="math notranslate nohighlight">\(\vec{u}\)</span> and <span class="math notranslate nohighlight">\(\vec{w}\)</span>
+we are interested in approximating the following inner products:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+(\vec{u}, \nabla \phi ) &amp;= \int_\Omega \vec{u} \cdot \nabla \phi \, dv\\
+(\psi, \nabla \cdot \vec{w} ) &amp;= \int_\Omega \psi \; (\nabla \cdot \vec{w}) \, dv \\
+(\vec{u}, \nabla \times \vec{w} ) &amp;= \int_\Omega \vec{u} \cdot (\nabla \times \vec{w} ) \, dv
+\end{align}\end{split}\]</div>
+<p><strong>Tutorial:</strong> To construct differential operators and/or approximate inner products of this type, see the <a class="reference internal" href="../../tutorials/inner_products/3_calculus.html#sphx-glr-tutorials-inner-products-3-calculus-py"><span class="std std-ref">tutorial on inner products with differential operators</span></a></p>
+<div class="section" id="gradient">
+<span id="inner-products-differential-gradient"></span><h3>Gradient<a class="headerlink" href="#gradient" title="Permalink to this headline">¶</a></h3>
+<p>For the inner product between a vector <span class="math notranslate nohighlight">\(\vec{u}\)</span> and the gradient of a scalar <span class="math notranslate nohighlight">\(\phi\)</span>,
+there are two options for where the variables should live. For <span class="math notranslate nohighlight">\(\boldsymbol{\phi}\)</span> defined on the nodes
+and <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> defined on cell edges:</p>
+<div class="math notranslate nohighlight">
+\[\int_\Omega \vec{u} \cdot \nabla \phi \, dv \approx \boldsymbol{u^T M_e G \, \phi}\]</div>
+<p>And for <span class="math notranslate nohighlight">\(\boldsymbol{\phi}\)</span> defined at cell centers and <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> defined on cell faces:</p>
+<div class="math notranslate nohighlight">
+\[\int_\Omega \vec{u} \cdot \nabla \phi \, dv \approx - \boldsymbol{u^T D^T M_c \, \phi} + B.\! C.\]</div>
+<p>where</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{G}\)</span> is a <a class="reference internal" href="operators_differential.html#operators-differential-gradient"><span class="std std-ref">discrete gradient operator</span></a></p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{D}\)</span> is a <a class="reference internal" href="operators_differential.html#operators-differential-divergence"><span class="std std-ref">discrete divergence operator</span></a></p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{M_c}\)</span> is the <a class="reference internal" href="inner_products_basic.html#inner-products-basic"><span class="std std-ref">basic inner product matrix for vectors at cell centers</span></a></p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{M_e}\)</span> is the <a class="reference internal" href="inner_products_basic.html#inner-products-basic"><span class="std std-ref">basic inner product matrix for vectors at edges</span></a></p></li>
+<li><p><span class="math notranslate nohighlight">\(B.\! C.\)</span> represents an additional term that must be constructed to impose boundary conditions correctly on <span class="math notranslate nohighlight">\(\phi\)</span>. It is zero when <span class="math notranslate nohighlight">\(\phi = 0\)</span> on the boundary.</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="divergence">
+<span id="inner-products-differential-divergence"></span><h3>Divergence<a class="headerlink" href="#divergence" title="Permalink to this headline">¶</a></h3>
+<p>For the inner product between a scalar (<span class="math notranslate nohighlight">\(\psi\)</span>) and the divergence of a vector (<span class="math notranslate nohighlight">\(\vec{w}\)</span>),
+there are two options for where the variables should live. For <span class="math notranslate nohighlight">\(\boldsymbol{\psi}\)</span> defined at cell centers
+and <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span> defined on cell faces:</p>
+<div class="math notranslate nohighlight">
+\[\int_\Omega \psi \; (\nabla \cdot \vec{w}) \, dv \approx \boldsymbol{\psi^T M_c D \, w}\]</div>
+<p>And for <span class="math notranslate nohighlight">\(\boldsymbol{\psi}\)</span> defined on the nodes and <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span> defined on cell edges:</p>
+<div class="math notranslate nohighlight">
+\[\int_\Omega \psi \; (\nabla \cdot \vec{w}) \, dv \approx - \boldsymbol{\psi^T G^T M_e \, w } + B.\! C.\]</div>
+<p>where</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{G}\)</span> is a <a class="reference internal" href="operators_differential.html#operators-differential-gradient"><span class="std std-ref">discrete gradient operator</span></a></p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{D}\)</span> is a <a class="reference internal" href="operators_differential.html#operators-differential-divergence"><span class="std std-ref">discrete divergence operator</span></a></p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{M_c}\)</span> is the <a class="reference internal" href="inner_products_basic.html#inner-products-basic"><span class="std std-ref">basic inner product matrix for vectors at cell centers</span></a></p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{M_e}\)</span> is the <a class="reference internal" href="inner_products_basic.html#inner-products-basic"><span class="std std-ref">basic inner product matrix for vectors at edges</span></a></p></li>
+<li><p><span class="math notranslate nohighlight">\(B.\! C.\)</span> represents an additional term that must be constructed to impose boundary conditions correctly on <span class="math notranslate nohighlight">\(\vec{w}\)</span>. It is zero when <span class="math notranslate nohighlight">\(\hat{n} \cdot \vec{w} = 0\)</span> on the boundary.</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="curl">
+<span id="inner-products-differential-curl"></span><h3>Curl<a class="headerlink" href="#curl" title="Permalink to this headline">¶</a></h3>
+<p>For the inner product between a vector (<span class="math notranslate nohighlight">\(\vec{u}\)</span>) and the curl of another vector (<span class="math notranslate nohighlight">\(\vec{w}\)</span>),
+there are two options for where the variables should live. For <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> defined on the faces
+and <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span> defined on cell edges:</p>
+<div class="math notranslate nohighlight">
+\[\int_\Omega \vec{u} \cdot (\nabla \times \vec{w} ) \, dv \approx \boldsymbol{u^T M_f C \, w}\]</div>
+<p>And for <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> defined on the edges and <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span> defined on cell faces:</p>
+<div class="math notranslate nohighlight">
+\[\int_\Omega \vec{u} \cdot (\nabla \times \vec{w} ) \, dv \approx \boldsymbol{u^T C^T \! M_f \, w } + B.\! C.\]</div>
+<p>where</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{C}\)</span> is a <a class="reference internal" href="operators_differential.html#operators-differential-curl"><span class="std std-ref">discrete curl operator</span></a></p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{M_f}\)</span> is the <a class="reference internal" href="inner_products_basic.html#inner-products-basic"><span class="std std-ref">basic inner product matrix for vectors on cell faces</span></a></p></li>
+<li><p><span class="math notranslate nohighlight">\(B.\! C.\)</span> represents an additional term that must be constructed to impose boundary conditions correctly on <span class="math notranslate nohighlight">\(\vec{w}\)</span>. It is zero when <span class="math notranslate nohighlight">\(\hat{n} \times \vec{w} = 0\)</span> on the boundary.</p></li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="vector-and-the-gradient-of-a-scalar">
+<span id="inner-products-differential-gradient-full"></span><h2>Vector and the Gradient of a Scalar<a class="headerlink" href="#vector-and-the-gradient-of-a-scalar" title="Permalink to this headline">¶</a></h2>
+<p>Let <span class="math notranslate nohighlight">\(\phi\)</span> be a scalar quantity and let <span class="math notranslate nohighlight">\(\vec{u}\)</span> be a vector quantity.
+We are interested in approximating the following inner product:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-differential-gradient">
+<span class="eqno">(1)<a class="headerlink" href="#equation-inner-products-differential-gradient" title="Permalink to this equation">¶</a></span>\[(\vec{u}, \nabla \phi ) = \int_\Omega \vec{u} \cdot \nabla \phi \, dv\]</div>
+<div class="section" id="inner-product-on-edges">
+<h3>Inner Product on Edges<a class="headerlink" href="#inner-product-on-edges" title="Permalink to this headline">¶</a></h3>
+<p>Here, the discrete representation <span class="math notranslate nohighlight">\(\boldsymbol{\phi}\)</span> lives on the nodes and
+the discrete representation <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> lives on the edges.
+Since the <a class="reference internal" href="operators_differential.html#operators-differential-gradient"><span class="std std-ref">discrete gradient operator</span></a> maps
+a discrete scalar quantity from nodes to edges, we can approximate the inner product
+between two discrete quantities living on the edges. Thus:</p>
+<div class="math notranslate nohighlight">
+\[\int_\Omega \vec{u} \cdot \nabla \phi \, dv \approx \boldsymbol{u^T M_e G \, \phi}\]</div>
+<p>where</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{G}\)</span> is the <a class="reference internal" href="operators_differential.html#operators-differential-gradient"><span class="std std-ref">discrete gradient operator</span></a></p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{M_e}\)</span> is the <a class="reference internal" href="inner_products_basic.html#inner-products-basic"><span class="std std-ref">basic inner product matrix for vectors at edges</span></a></p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="inner-product-on-faces">
+<h3>Inner Product on Faces<a class="headerlink" href="#inner-product-on-faces" title="Permalink to this headline">¶</a></h3>
+<p>Here, the discrete representation <span class="math notranslate nohighlight">\(\boldsymbol{\phi}\)</span> lives at cell centers and
+the discrete representation <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> lives on the faces.
+In this case we cannot simply use a discrete gradient operator, as a mapping from cell centers
+to faces would require knowledge of the scalar at locations outside the mesh.</p>
+<p>To evaluate the inner product we use the identity
+<span class="math notranslate nohighlight">\(\vec{u} \cdot \nabla \phi = \nabla \cdot \phi\vec{u} - \phi \nabla \cdot \vec{u}\)</span>
+and apply the divergence theorem to equation <a class="reference internal" href="#equation-inner-products-differential-gradient">(1)</a>:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-differential-gradient-centers">
+<span class="eqno">(2)<a class="headerlink" href="#equation-inner-products-differential-gradient-centers" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{align}
+\int_\Omega \vec{u} \cdot \nabla \phi \, dv &amp;= - \int_\Omega \phi \nabla \cdot \vec{u} \, dv + \int_\Omega \nabla \cdot \phi\vec{u} \, dv \\
+&amp;= - \int_\Omega \phi \nabla \cdot \vec{u} \, dv + \oint_{\partial \Omega} \hat{n} \cdot \phi\vec{u} \, da \\
+&amp;= - \int_\Omega \phi \nabla \cdot \vec{u} \, dv + \oint_{\partial \Omega} \phi \hat{n} \cdot \vec{u} \, da
+\end{align}\end{split}\]</div>
+<p>Where boundary conditions are implemented in the surface integral. The approximate to the inner product is given by:</p>
+<div class="math notranslate nohighlight">
+\[\int_\Omega \vec{u} \cdot \nabla \phi \, dv \approx - \boldsymbol{u^T D^T M_c \, \phi} + B.\! C.\]</div>
+<p>where</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{D}\)</span> is the <a class="reference internal" href="operators_differential.html#operators-differential-divergence"><span class="std std-ref">discrete divergence operator</span></a></p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{M_c}\)</span> is the <a class="reference internal" href="inner_products_basic.html#inner-products-basic"><span class="std std-ref">basic inner product matrix for vectors at cell centers</span></a></p></li>
+<li><p><span class="math notranslate nohighlight">\(B.\! C.\)</span> represents an additional term that must be constructed to impose boundary conditions correctly on <span class="math notranslate nohighlight">\(\phi\)</span></p></li>
+</ul>
+</div></blockquote>
+<p>When formulating the approximation to the inner product in this way, the natural boundary condition is a Dirichlet condition such that <span class="math notranslate nohighlight">\(\phi = 0\)</span> on the boundary.
+In this case, the added boundary condition term is zero.</p>
+</div>
+</div>
+<div class="section" id="scalar-and-the-divergence-of-a-vector">
+<span id="inner-products-differential-divergence-full"></span><h2>Scalar and the Divergence of a Vector<a class="headerlink" href="#scalar-and-the-divergence-of-a-vector" title="Permalink to this headline">¶</a></h2>
+<p>Let <span class="math notranslate nohighlight">\(\psi\)</span> be a scalar quantity and let <span class="math notranslate nohighlight">\(\vec{w}\)</span> be a vector quantity.
+We are interested in approximating the following inner product:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-differential-divergence">
+<span class="eqno">(3)<a class="headerlink" href="#equation-inner-products-differential-divergence" title="Permalink to this equation">¶</a></span>\[\begin{split}(\psi, \nabla \cdot \vec{w} ) = \int_\Omega \psi \; (\nabla \cdot \vec{w}) \, dv \\\end{split}\]</div>
+<div class="section" id="id1">
+<h3>Inner Product on Faces<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Here, the discrete representation <span class="math notranslate nohighlight">\(\boldsymbol{\psi}\)</span> lives at cell centers and
+the discrete representation <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span> lives on the faces.
+Since the <a class="reference internal" href="operators_differential.html#operators-differential-divergence"><span class="std std-ref">discrete divergence operator</span></a> maps
+a discrete vector quantity from faces to cell centers, we can approximate the inner product
+between two discrete quantities living at the centers. Thus:</p>
+<div class="math notranslate nohighlight">
+\[\int_\Omega \psi \; (\nabla \cdot \vec{w}) \, dv \approx \boldsymbol{\psi^T M_c D \, w}\]</div>
+<p>where</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{D}\)</span> is the <a class="reference internal" href="operators_differential.html#operators-differential-divergence"><span class="std std-ref">discrete divergence operator</span></a></p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{M_c}\)</span> is the <a class="reference internal" href="inner_products_basic.html#inner-products-basic"><span class="std std-ref">basic inner product matrix for vectors at cell centers</span></a></p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id2">
+<h3>Inner Product on Edges<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>Here, the discrete representation <span class="math notranslate nohighlight">\(\boldsymbol{\psi}\)</span> lives on the nodes and
+the discrete representation <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span> lives on the edges.
+We cannot simply use a discrete divergence operator, as a mapping from edges
+to nodes would require knowledge of <span class="math notranslate nohighlight">\(\vec{w}\)</span> at locations outside the mesh.</p>
+<p>To evaluate the inner product we use the identity
+<span class="math notranslate nohighlight">\(\psi \nabla \cdot \vec{w} = \nabla \cdot \psi\vec{w} - \vec{w} \cdot \nabla \psi\)</span>
+and apply the divergence theorem to equation <a class="reference internal" href="#equation-inner-products-differential-gradient">(1)</a>:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-differential-divergence-edges">
+<span class="eqno">(4)<a class="headerlink" href="#equation-inner-products-differential-divergence-edges" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{align}
+\int_\Omega \psi \; (\nabla \cdot \vec{w}) \, dv &amp;= - \int_\Omega \vec{w} \cdot \nabla \psi \, dv + \int_\Omega \nabla \cdot \psi\vec{w} \, dv \\
+&amp;= - \int_\Omega \vec{w} \cdot \nabla \psi \, dv + \oint_{\partial \Omega} \hat{n} \cdot \psi\vec{w} \, da \\
+&amp;= - \int_\Omega \vec{w} \cdot \nabla \psi \, dv + \oint_{\partial \Omega} \psi (\hat{n} \cdot \vec{w}) \, da
+\end{align}\end{split}\]</div>
+<p>Where boundary conditions are implemented in the surface integral. The approximate to the inner product is given by:</p>
+<div class="math notranslate nohighlight">
+\[\int_\Omega \psi \; (\nabla \cdot \vec{w}) \, dv \approx - \boldsymbol{\psi^T G^T M_e \, w} + B.\! C.\]</div>
+<p>where</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{G}\)</span> is the <a class="reference internal" href="operators_differential.html#operators-differential-divergence"><span class="std std-ref">discrete gradient operator</span></a></p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{M_e}\)</span> is the <a class="reference internal" href="inner_products_basic.html#inner-products-basic"><span class="std std-ref">basic inner product matrix for vectors at the edges</span></a></p></li>
+<li><p><span class="math notranslate nohighlight">\(B.\! C.\)</span> represents an additional term that must be constructed to impose boundary conditions correctly on <span class="math notranslate nohighlight">\(\vec{w}\)</span></p></li>
+</ul>
+</div></blockquote>
+<p>When formulating the approximation to the inner product in this way, the natural boundary condition is for <span class="math notranslate nohighlight">\(\hat{n} \cdot \vec{w} = 0\)</span> on the boundary.
+In this case, the added boundary condition term is zero.</p>
+</div>
+</div>
+<div class="section" id="vector-and-the-curl-of-a-vector">
+<span id="inner-products-differential-curl-full"></span><h2>Vector and the Curl of a Vector<a class="headerlink" href="#vector-and-the-curl-of-a-vector" title="Permalink to this headline">¶</a></h2>
+<p>Let <span class="math notranslate nohighlight">\(\vec{u}\)</span> and <span class="math notranslate nohighlight">\(\vec{w}\)</span> be vector quantities.
+We are interested in approximating the following inner product:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-differential-curl">
+<span class="eqno">(5)<a class="headerlink" href="#equation-inner-products-differential-curl" title="Permalink to this equation">¶</a></span>\[(\vec{u}, \nabla \times \vec{w} ) = \int_\Omega \vec{u} \cdot (\nabla \times \vec{w} ) \, dv\]</div>
+<div class="section" id="inner-product-at-faces">
+<h3>Inner Product at Faces<a class="headerlink" href="#inner-product-at-faces" title="Permalink to this headline">¶</a></h3>
+<p>Here, the discrete representation <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> lives on the faces and
+the discrete representation <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span> lives on the edges.
+Since the <a class="reference internal" href="operators_differential.html#operators-differential-curl"><span class="std std-ref">discrete curl operator</span></a> maps
+a discrete vector quantity from edges to faces, we can approximate the inner product
+between two discrete quantities living on the faces. Thus:</p>
+<div class="math notranslate nohighlight">
+\[\int_\Omega \vec{u} \cdot (\nabla \times \vec{w}) \, dv \approx \boldsymbol{u^T M_f C w}\]</div>
+<p>where</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{C}\)</span> is the <a class="reference internal" href="operators_differential.html#operators-differential-curl"><span class="std std-ref">discrete curl operator</span></a></p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{M_f}\)</span> is the <a class="reference internal" href="inner_products_basic.html#inner-products-basic"><span class="std std-ref">basic inner product matrix for vectors on faces</span></a></p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="inner-product-at-edges">
+<h3>Inner Product at Edges<a class="headerlink" href="#inner-product-at-edges" title="Permalink to this headline">¶</a></h3>
+<p>Here, the discrete representation <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> lives on the edges and
+the discrete representation <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span> lives on the faces.
+We cannot simply use the discrete curl operator, as a mapping from faces
+to edges would require knowledge of <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span> at locations outside the mesh.</p>
+<p>To evaluate the inner product we use the identity
+<span class="math notranslate nohighlight">\(\vec{u} \cdot (\nabla \times \vec{w}) = \vec{w} \cdot (\nabla \times \vec{u}) - \nabla \cdot (\vec{u} \times \vec{w})\)</span>
+and apply the divergence theorem to equation <a class="reference internal" href="#equation-inner-products-differential-curl">(5)</a>:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-differential-curl-edges">
+<span class="eqno">(6)<a class="headerlink" href="#equation-inner-products-differential-curl-edges" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{align}
+\int_\Omega \vec{u} \cdot (\nabla \times \vec{w}) \, dv &amp;= \int_\Omega \vec{w} \cdot (\nabla \times \vec{u}) \, dv - \int_\Omega \nabla \cdot (\vec{u} \times \vec{w}) \, dv \\
+&amp;= \int_\Omega \vec{w} \cdot (\nabla \times \vec{u}) \, dv - \oint_{\partial \Omega} \hat{n} \cdot (\vec{u} \times \vec{w}) \, da \\
+&amp;= \int_\Omega \vec{w} \cdot (\nabla \times \vec{u}) \, dv - \oint_{\partial \Omega} (\vec{u} \times \vec{w}) \cdot d\vec{a}
+\end{align}\end{split}\]</div>
+<p>Where boundary conditions are implemented in the surface integral. The approximate to the inner product is given by:</p>
+<div class="math notranslate nohighlight">
+\[\int_\Omega \vec{u} \cdot (\nabla \times \vec{w}) \, dv \approx \boldsymbol{u^T C^T M_f \, w} + B.\! C.\]</div>
+<p>where</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{C}\)</span> is the <a class="reference internal" href="operators_differential.html#operators-differential-curl"><span class="std std-ref">discrete curl operator</span></a></p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{M_f}\)</span> is the <a class="reference internal" href="inner_products_basic.html#inner-products-basic"><span class="std std-ref">basic inner product matrix for vectors on faces</span></a></p></li>
+<li><p><span class="math notranslate nohighlight">\(B.\! C.\)</span> represents an additional term that must be constructed to impose boundary conditions correctly on <span class="math notranslate nohighlight">\(\vec{w}\)</span></p></li>
+</ul>
+</div></blockquote>
+<p>When formulating the approximation to the inner product in this way, the natural boundary condition is for <span class="math notranslate nohighlight">\(\hat{n} \times \vec{w} = 0\)</span> on the boundary.
+In this case, the added boundary condition term is zero.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="inner_products_boundary_conditions.html" class="btn btn-neutral float-right" title="Boundary Conditions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="inner_products_anisotropic.html" class="btn btn-neutral float-left" title="Anisotropic Constitutive Relationships" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+<div role="contentinfo">
+    <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" width="60px"; style="float:right;height:3em;line-height:3em;padding:10px 0 0 1em;">
+        <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+    </a>
+    2013-2020,
+    <a href="http://simpeg.xyz">SimPEG Developers.</a><br />
+    Except where noted, this work is licensed under a <br />
+    <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+        Creative Commons Attribution 4.0 International License
+    </a>
+</div>
+<br>
+<div>
+Built with
+    <a href="http://sphinx-doc.org/">Sphinx</a>
+    using a
+    <a href="https://github.com/snide/sphinx_rtd_theme">theme</a>
+    provided by
+    <a href="https://readthedocs.org">Read the Docs</a>.
+ </div>
+
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

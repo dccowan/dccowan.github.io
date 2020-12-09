@@ -1,0 +1,863 @@
+
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Boundary Conditions &mdash; discretize 0.6.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-dataframe.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/logo-block.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Solving PDEs Examples" href="derivation_examples_index.html" />
+    <link rel="prev" title="Differential Operators" href="inner_products_differential.html" />
+ 
+
+<meta name="description" content="Simulation and Parameter Estimation in Geophysics">
+<meta name="author" content="SimPEG Developers">
+<meta name="keywords" content="python, geophysics, inversion, electromagnetics, magnetotellurics, magnetics, gravity, DC, flow inverse problems, open source, finite volume">
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-45185336-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> discretize
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+    
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../big_picture.html">Why discretize?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../additional_resources.html">Additional Resources</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/mesh_generation/index.html">Mesh Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/operators/index.html">Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/inner_products/index.html">Inner Products</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/pde/index.html">Solving PDEs</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API Reference</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Theory</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../finite_volume_index.html">Intoduction to Finite Volume</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes_index.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="operators_index.html">Operators</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="inner_products_index.html">Inner Products</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="inner_products_basic.html">Basic Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inner_products_isotropic.html">Isotropic Constitutive Relationships</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inner_products_anisotropic.html">Anisotropic Constitutive Relationships</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inner_products_differential.html">Differential Operators</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Boundary Conditions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gradient">Gradient</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dirichlet">Dirichlet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neumann">Neumann</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mixed">Mixed</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#divergence">Divergence</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">Dirichlet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2">Neumann</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">Mixed</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#curl">Curl</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id4">Dirichlet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">Neumann</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">Mixed</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="derivation_examples_index.html">Solving PDEs Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Meta Information</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../release/index.html">Release Notes</a></li>
+</ul>
+
+            
+          
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Getting connected
+            
+            </span>
+        </p>
+        <ul>
+            
+                <li class="toctree-l1"><a href="https://simpeg.xyz"><i class="fa fa-external-link-square fa-fw"></i> SimPEG</a></li>
+            
+                <li class="toctree-l1"><a href="http://slack.simpeg.xyz"><i class="fa fa-comment fa-fw"></i> Contact</a></li>
+            
+                <li class="toctree-l1"><a href="https://github.com/simpeg/discretize"><i class="fa fa-github fa-fw"></i> Source Code</a></li>
+            
+        </ul>
+    
+
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">discretize</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="inner_products_index.html">Inner Products</a> &raquo;</li>
+        
+      <li>Boundary Conditions</li>
+    
+    
+
+    <li class="wy-breadcrumbs-aside">
+        
+            
+                <a href="https://github.com/simpeg/discretize/edit/master/doc/content/theory/inner_products_boundary_conditions.rst"
+                   class="fa fa-github"> Edit this page</a>
+            
+        
+        
+    </li>
+
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="boundary-conditions">
+<span id="inner-products-boundary-conditions"></span><h1>Boundary Conditions<a class="headerlink" href="#boundary-conditions" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>In <a class="reference internal" href="inner_products_differential.html#inner-products-differential"><span class="std std-ref">inner products containing differential operators</span></a>,
+we approximated inner products containing the gradient, the divergence and the curl.
+If our choice in discretization does not respect the boundary conditions naturally,
+we must construct a discrete approximation to a surface integral to impose the boundary conditions.
+Here, we demonstrate how the boundary conditions are implemented discretely.</p>
+</div>
+<div class="section" id="gradient">
+<span id="inner-products-boundary-conditions-gradient"></span><h2>Gradient<a class="headerlink" href="#gradient" title="Permalink to this headline">¶</a></h2>
+<p>Let <span class="math notranslate nohighlight">\(\phi\)</span> be a scalar quantity and let <span class="math notranslate nohighlight">\(\vec{u}\)</span> be a vector quantity.
+If the discrete representation <span class="math notranslate nohighlight">\(\boldsymbol{\phi}\)</span> lives at cell centers and
+the discrete representation <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> lives on the faces,
+the inner product is approximated by:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-1">
+<span class="eqno">(1)<a class="headerlink" href="#equation-inner-products-boundary-conditions-1" title="Permalink to this equation">¶</a></span>\[\int_\Omega \vec{u} \cdot \nabla \phi \, dv \approx - \boldsymbol{u^T D^T M_c \, \phi} + \oint_{\partial \Omega} \phi \hat{n} \cdot \vec{u} \, da\]</div>
+<p>where</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{D}\)</span> is a <a class="reference internal" href="operators_differential.html#operators-differential-divergence"><span class="std std-ref">discrete divergence operator</span></a></p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{M_c}\)</span> is the <a class="reference internal" href="inner_products_basic.html#inner-products-basic"><span class="std std-ref">basic inner product matrix for quantities at cell centers</span></a></p></li>
+</ul>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To see how equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-1">(1)</a> was obtained, visit <a class="reference internal" href="inner_products_differential.html#inner-products-differential-gradient-full"><span class="std std-ref">inner products with gradients</span></a>.</p>
+</div>
+<div class="figure align-center" id="id7">
+<a class="reference internal image-reference" href="../../_images/boundary_conditions_gradient.png"><img alt="../../_images/boundary_conditions_gradient.png" src="../../_images/boundary_conditions_gradient.png" style="width: 300px;" /></a>
+<p class="caption"><span class="caption-text">Figure 1: Boundary conditions for the gradient operator.</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+</div>
+<p>A discrete approximation to the surface integral in equation
+<a class="reference internal" href="#equation-inner-products-boundary-conditions-1">(1)</a> which imposes
+boundary conditions on <span class="math notranslate nohighlight">\(\phi\)</span> can be expressed as:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-1a">
+<span class="eqno">(2)<a class="headerlink" href="#equation-inner-products-boundary-conditions-1a" title="Permalink to this equation">¶</a></span>\[\oint_{\partial \Omega} \phi \hat{n} \cdot \vec{u} \, da \approx \boldsymbol{u^T} diag(\boldsymbol{\tilde{a}}) \,\boldsymbol{\tilde{\phi}}\]</div>
+<p>where</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{u^T}\)</span> is the discrete representation of <span class="math notranslate nohighlight">\(\vec{u}\)</span> on the faces</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{\tilde{\phi}}\)</span> is a discrete vector on the faces which contains the values of <span class="math notranslate nohighlight">\(\phi\)</span> approximated on boundary faces</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{\tilde{a}}\)</span> is a vector which stores the dot products between the surface area vectors of the boundary faces <span class="math notranslate nohighlight">\(\vec{a}\)</span> and the unit direction <span class="math notranslate nohighlight">\(\hat{u} = \frac{\vec{u}}{|\vec{u}|}\)</span>. That is, <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{a}} = \hat{u} \cdot \vec{a}\)</span> for faces on the boundary and <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{a}}=0\)</span> for all interior faces.</p></li>
+</ul>
+</div></blockquote>
+<p>Here, we describe how the vector <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{\phi}}\)</span> can be constructed to impose various boundary conditions.</p>
+<div class="section" id="dirichlet">
+<h3>Dirichlet<a class="headerlink" href="#dirichlet" title="Permalink to this headline">¶</a></h3>
+<p>Examine <a class="reference internal" href="#inner-products-boundary-conditions-gradient"><span class="std std-ref">Figure 1</span></a> and consider face <span class="math notranslate nohighlight">\(k\)</span>.
+When imposing Dirichlet conditions, we know the value of <span class="math notranslate nohighlight">\(\phi\)</span> on the boundary
+and we can construct <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{\phi}}\)</span> directly.
+Let <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{\phi}}\)</span> be a discrete vector defined on the faces of the mesh
+such that <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{\phi}} = \phi_k\)</span> for each face <span class="math notranslate nohighlight">\(k\)</span> on the boundary
+and <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{\phi}} = 0\)</span> for all interior faces.</p>
+<p>To implement the boundary condition practically,
+we construct a vector <span class="math notranslate nohighlight">\(\boldsymbol{b} = diag(\boldsymbol{\tilde{a}}) \, \boldsymbol{\tilde{\phi}}\)</span>
+that lives on the faces. For equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-1">(1)</a> in the case of
+Dirichlet boundary conditions we obtain:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-1b">
+<span class="eqno">(3)<a class="headerlink" href="#equation-inner-products-boundary-conditions-1b" title="Permalink to this equation">¶</a></span>\[\int_\Omega \vec{u} \cdot \nabla \phi \, dv \approx - \boldsymbol{u^T D^T M_c \, \phi + u^T b}\]</div>
+</div>
+<div class="section" id="neumann">
+<h3>Neumann<a class="headerlink" href="#neumann" title="Permalink to this headline">¶</a></h3>
+<p>According to equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-1a">(2)</a>, we need to approximate <span class="math notranslate nohighlight">\(\phi\)</span> on
+the boundary faces when the derivative of <span class="math notranslate nohighlight">\(\phi\)</span> normal to the surface is known.
+For each face, we will approximate <span class="math notranslate nohighlight">\(\phi\)</span> using a Taylor expansion.</p>
+<p>Examine <a class="reference internal" href="#inner-products-boundary-conditions-gradient"><span class="std std-ref">Figure 1</span></a>.
+We let <span class="math notranslate nohighlight">\(\phi_k\)</span> denote the value of <span class="math notranslate nohighlight">\(\phi\)</span> on face <span class="math notranslate nohighlight">\(k\)</span>,
+we let <span class="math notranslate nohighlight">\(\phi_c\)</span> denote the value of <span class="math notranslate nohighlight">\(\phi\)</span> at the nearest cell center,
+and <span class="math notranslate nohighlight">\(\Delta s_k\)</span> denotes the path from from face <span class="math notranslate nohighlight">\(k\)</span> to the cell center.
+Where the derivative of <span class="math notranslate nohighlight">\(\phi\)</span> normal to the surface for face <span class="math notranslate nohighlight">\(k\)</span> is denoted by <span class="math notranslate nohighlight">\(\frac{\partial \phi_k}{\partial n}\)</span>,
+we can define the following Taylor expansion:</p>
+<div class="math notranslate nohighlight">
+\[\phi_c = \phi_k + \frac{\partial \phi_k}{\partial n} \Delta s_k \; + \; ...\]</div>
+<p>If we rearrange this equation, we can use the value at the center of the cell and the Neumann condition on the boundary
+to approximate <span class="math notranslate nohighlight">\(\phi\)</span> on the corresponding face, i.e.:</p>
+<div class="math notranslate nohighlight">
+\[\phi_k \approx \phi_c - \frac{\partial \phi_k}{\partial n} \Delta s_k\]</div>
+<p>The same approach can be used to approximate <span class="math notranslate nohighlight">\(\phi\)</span> on the other boundary faces of the mesh.
+In this case, <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{\phi}}\)</span> in equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-1a">(2)</a> can be expressed as:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-1c">
+<span class="eqno">(4)<a class="headerlink" href="#equation-inner-products-boundary-conditions-1c" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{\tilde{\phi}} = \boldsymbol{P_{cf} \phi + \tilde{b}} \;\;\;\;
+\textrm{where} \;\; \boldsymbol{\tilde{b}} = \begin{cases}
+- \frac{\partial \phi_k}{\partial n} \Delta s_k \;\; \textrm{on boundary faces} \\
+0 \;\; \textrm{on interior faces}
+\end{cases}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{P_{cf}}\)</span> is a projection matrix from cell centers to faces and <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{b}}\)</span> is a vector that lives on the faces.
+If we substitute equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-1c">(4)</a> into equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-1a">(2)</a>,
+the surface integral is approximated by:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-1d">
+<span class="eqno">(5)<a class="headerlink" href="#equation-inner-products-boundary-conditions-1d" title="Permalink to this equation">¶</a></span>\[\oint_{\partial \Omega} \phi \hat{n} \cdot \vec{u} \, da \approx \boldsymbol{u^T} \, diag(\boldsymbol{\tilde{a}}) \, \big ( \boldsymbol{P_{cf} \phi + \tilde{b}} \big )\]</div>
+<p>To implement the result in equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-1d">(5)</a> practically,
+let us construct
+a matrix <span class="math notranslate nohighlight">\(\boldsymbol{B} = diag(\boldsymbol{\tilde{a}}) \boldsymbol{P_{cf}}\)</span> and
+a vector <span class="math notranslate nohighlight">\(\boldsymbol{b} = diag(\boldsymbol{\tilde{a}}) \, \boldsymbol{\tilde{b}}\)</span>
+that lives on the faces. For equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-1">(1)</a> in the case of
+Neumann boundary conditions we obtain:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-1e">
+<span class="eqno">(6)<a class="headerlink" href="#equation-inner-products-boundary-conditions-1e" title="Permalink to this equation">¶</a></span>\[\int_\Omega \vec{u} \cdot \nabla \phi \, dv \approx - \boldsymbol{u^T (D^T M_c - B) \, \phi + u^T b}\]</div>
+</div>
+<div class="section" id="mixed">
+<h3>Mixed<a class="headerlink" href="#mixed" title="Permalink to this headline">¶</a></h3>
+<p>Where <span class="math notranslate nohighlight">\(\alpha\)</span>, <span class="math notranslate nohighlight">\(\beta\)</span> and <span class="math notranslate nohighlight">\(\gamma\)</span> are constants,
+the boundary conditions are defined by the following ordinary differential equation:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-1f">
+<span class="eqno">(7)<a class="headerlink" href="#equation-inner-products-boundary-conditions-1f" title="Permalink to this equation">¶</a></span>\[\alpha \phi + \beta \frac{\partial \phi}{\partial n} = \gamma\]</div>
+<p>Examine <a class="reference internal" href="#inner-products-boundary-conditions-gradient"><span class="std std-ref">Figure 1</span></a>.
+We let <span class="math notranslate nohighlight">\(\phi_k\)</span> denote the value of <span class="math notranslate nohighlight">\(\phi\)</span> on face <span class="math notranslate nohighlight">\(k\)</span>,
+we let <span class="math notranslate nohighlight">\(\phi_c\)</span> denote the value of <span class="math notranslate nohighlight">\(\phi\)</span> at the nearest cell center,
+and <span class="math notranslate nohighlight">\(\Delta s_k\)</span> denotes the path from from face <span class="math notranslate nohighlight">\(k\)</span> to the cell center.
+Where the derivative of <span class="math notranslate nohighlight">\(\phi\)</span> normal to the surface for face <span class="math notranslate nohighlight">\(k\)</span> is denoted by <span class="math notranslate nohighlight">\(\frac{\partial \phi_k}{\partial n}\)</span>,
+we can define the following Taylor expansion:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-1g">
+<span class="eqno">(8)<a class="headerlink" href="#equation-inner-products-boundary-conditions-1g" title="Permalink to this equation">¶</a></span>\[\phi_c = \phi_k + \frac{\partial \phi_k}{\partial n} \Delta s_k \; + \; ...\]</div>
+<p>A first order approximation to the derivative on the boundary is given by:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-1h">
+<span class="eqno">(9)<a class="headerlink" href="#equation-inner-products-boundary-conditions-1h" title="Permalink to this equation">¶</a></span>\[\frac{\partial \phi_k}{\partial n} \approx \frac{\phi_c - \phi_k}{\Delta s_k}\]</div>
+<p>Substituting equations <a class="reference internal" href="#equation-inner-products-boundary-conditions-1g">(8)</a> and <a class="reference internal" href="#equation-inner-products-boundary-conditions-1h">(9)</a> into equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-1f">(7)</a> for face <span class="math notranslate nohighlight">\(k\)</span> we obtain:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-1i">
+<span class="eqno">(10)<a class="headerlink" href="#equation-inner-products-boundary-conditions-1i" title="Permalink to this equation">¶</a></span>\[\phi_k = \Bigg ( \frac{\beta}{\beta - \alpha \Delta s_k} \Bigg ) \phi_c - \Bigg ( \frac{\gamma \Delta s_k}{\beta - \alpha \Delta s_k} \Bigg )\]</div>
+<p>The same approach can be used to approximate <span class="math notranslate nohighlight">\(\phi\)</span> on the other boundary faces of the mesh.</p>
+<p>Let <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{b}_1}\)</span> be a discrete vector defined on the faces of the mesh such that <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{b_1}} = \frac{\beta}{\beta - \alpha \Delta s_k}\)</span> for faces on the boundary
+and <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{b}_1} = 0\)</span> for all internal faces.
+And let <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{b}_2}\)</span> be a discrete vector defined on the faces of the mesh
+such that <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{b}_2} = - \frac{\gamma \Delta s_k}{\beta - \alpha \Delta s_k}\)</span> for faces on the boundary
+and <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{b}_2} = 0\)</span> for all internal faces.
+In this case, we define the following vector <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{\phi}}\)</span> that lives on cell faces:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-1j">
+<span class="eqno">(11)<a class="headerlink" href="#equation-inner-products-boundary-conditions-1j" title="Permalink to this equation">¶</a></span>\[\boldsymbol{\tilde{\phi}} = diag (\boldsymbol{\tilde{b}_1}) \, \boldsymbol{P_{cf} \, \phi + \tilde{b}_2}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{P_{cf}}\)</span> is a projection matrix from cell centers to faces.
+If we substitute equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-1j">(11)</a> into equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-1a">(2)</a>,
+the surface integral is approximated by:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-1k">
+<span class="eqno">(12)<a class="headerlink" href="#equation-inner-products-boundary-conditions-1k" title="Permalink to this equation">¶</a></span>\[\oint_{\partial \Omega} \phi \hat{n} \cdot \vec{u} \, da \approx \boldsymbol{u^T} \, diag(\boldsymbol{\tilde{a}}) \, \big ( diag (\boldsymbol{\tilde{b}_1}) \, \boldsymbol{P_{cf} \phi + \tilde{b}_2} \big )\]</div>
+<p>To implement the result in equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-1k">(12)</a> practically,
+let us construct a matrix <span class="math notranslate nohighlight">\(\boldsymbol{B} = diag \big ( \boldsymbol{\tilde{a} \odot \tilde{b}_1} \big ) \, \boldsymbol{P_{cf}}\)</span> and
+a vector <span class="math notranslate nohighlight">\(\boldsymbol{b} = diag(\boldsymbol{\tilde{a}}) \, \boldsymbol{\tilde{b}_2}\)</span>
+that lives on the faces. For equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-1">(1)</a> in the case of
+Mixed boundary conditions we obtain:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-1l">
+<span class="eqno">(13)<a class="headerlink" href="#equation-inner-products-boundary-conditions-1l" title="Permalink to this equation">¶</a></span>\[\int_\Omega \vec{u} \cdot \nabla \phi \, dv \approx - \boldsymbol{u^T (D^T M_c - B) \, \phi + u^T b}\]</div>
+</div>
+</div>
+<div class="section" id="divergence">
+<span id="inner-products-boundary-conditions-divergence"></span><h2>Divergence<a class="headerlink" href="#divergence" title="Permalink to this headline">¶</a></h2>
+<p>Let <span class="math notranslate nohighlight">\(\psi\)</span> be a scalar quantity and let <span class="math notranslate nohighlight">\(\vec{w}\)</span> be a vector quantity.
+If the discrete representation <span class="math notranslate nohighlight">\(\boldsymbol{\psi}\)</span> lives on the nodes and
+the discrete representation <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span> lives on the edges,
+the inner product is approximated by:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-2">
+<span class="eqno">(14)<a class="headerlink" href="#equation-inner-products-boundary-conditions-2" title="Permalink to this equation">¶</a></span>\[\int_\Omega \psi \; (\nabla \cdot \vec{w}) \, dv \approx - \boldsymbol{\psi^T G^T M_e \, w} + \oint_{\partial \Omega} \psi (\hat{n} \cdot \vec{w}) \, da\]</div>
+<p>where</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{G}\)</span> is a <a class="reference internal" href="operators_differential.html#operators-differential-gradient"><span class="std std-ref">discrete gradient operator</span></a></p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{M_e}\)</span> is the <a class="reference internal" href="inner_products_basic.html#inner-products-basic"><span class="std std-ref">basic inner product matrix for vectors at edges</span></a></p></li>
+</ul>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To see how equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-2">(14)</a> was obtained, visit <a class="reference internal" href="inner_products_differential.html#inner-products-differential-divergence-full"><span class="std std-ref">inner products with the divergence</span></a>.</p>
+</div>
+<div class="figure align-center" id="id8">
+<a class="reference internal image-reference" href="../../_images/boundary_conditions_divergence.png"><img alt="../../_images/boundary_conditions_divergence.png" src="../../_images/boundary_conditions_divergence.png" style="width: 300px;" /></a>
+<p class="caption"><span class="caption-text">Figure 2: Boundary conditions for the divergence operator.</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
+</div>
+<p>A discrete approximation to the surface integral in equation
+<a class="reference internal" href="#equation-inner-products-boundary-conditions-2">(14)</a> which imposes
+boundary conditions on <span class="math notranslate nohighlight">\(\vec{w}\)</span> can be expressed as:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-2a">
+<span class="eqno">(15)<a class="headerlink" href="#equation-inner-products-boundary-conditions-2a" title="Permalink to this equation">¶</a></span>\[\oint_{\partial \Omega} \psi (\hat{n} \cdot \vec{w}) \, da \approx \boldsymbol{\psi^T P_{nf}^T} \, diag(\boldsymbol{\tilde{a}}) \, \boldsymbol{\tilde{w}}\]</div>
+<p>where</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{\psi^T}\)</span> is the discrete representation of <span class="math notranslate nohighlight">\(\psi\)</span> on the nodes</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{P_{nf}}\)</span> is sparse matrix that projects scalar quantities from nodes to faces</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{\tilde{a}}\)</span> is a vector which stores the dot products between the surface area vectors of the boundary faces <span class="math notranslate nohighlight">\(\vec{a}\)</span> and the unit direction <span class="math notranslate nohighlight">\(\hat{u} = \frac{\vec{u}}{|\vec{u}|}\)</span>. That is, <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{a}} = \hat{u} \cdot \vec{a}\)</span> for faces on the boundary and <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{a}}=0\)</span> for all interior faces.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{\tilde{w}}\)</span> is a discrete vector which contains the x, y (and z) components of <span class="math notranslate nohighlight">\(\vec{w}\)</span> approximated on boundary faces; i.e. <span class="math notranslate nohighlight">\(\tilde{w}_x\)</span>, <span class="math notranslate nohighlight">\(\tilde{w}_y\)</span> (and <span class="math notranslate nohighlight">\(\tilde{w}_z\)</span>).</p></li>
+</ul>
+</div></blockquote>
+<p>Here, we describe how the vector <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{w}}\)</span> can be constructed to impose various boundary conditions.</p>
+<div class="section" id="id1">
+<h3>Dirichlet<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Examine <a class="reference internal" href="#inner-products-boundary-conditions-gradient"><span class="std std-ref">Figure 1</span></a>.
+In the case of the Dirichlet condition, we know the value of <span class="math notranslate nohighlight">\(\vec{w}\)</span> on the boundary
+and we can construct <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{w}}\)</span> directly.
+Let <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{w}}\)</span> be a discrete vector defined on the faces of the mesh
+which organizes the x, y (and z components) as follows:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol{\tilde{w}} = \begin{bmatrix}
+\boldsymbol{\tilde{w}_x} \\ \boldsymbol{\tilde{w}_y} \\ \boldsymbol{\tilde{w}_z} \end{bmatrix}\end{split}\]</div>
+<p>For x-faces on the x-boundary, the entries of <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{w}_x}\)</span> equal the corresponding x-component of <span class="math notranslate nohighlight">\(\vec{w}\)</span>.
+And on all other x-faces, the entries are equal to zero.
+This is similar for <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{w}_y}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{w}_z}\)</span> which only have non-zero entries on y-faces
+and z-faces, respectively.</p>
+<p>To implement the boundary condition practically,
+let us construct a vector <span class="math notranslate nohighlight">\(\boldsymbol{b} = \boldsymbol{P_{nf}^T} \, diag(\boldsymbol{\tilde{a}}) \, \boldsymbol{\tilde{w}}\)</span>
+that utlimately lives on the nodes. For equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-2">(14)</a> in the case of
+Dirichlet boundary conditions we obtain:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-2b">
+<span class="eqno">(16)<a class="headerlink" href="#equation-inner-products-boundary-conditions-2b" title="Permalink to this equation">¶</a></span>\[\int_\Omega \psi \; (\nabla \cdot \vec{w}) \, dv \approx - \boldsymbol{\psi^T G^T M_e \, w + \psi^T b}\]</div>
+</div>
+<div class="section" id="id2">
+<h3>Neumann<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>According to equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-2a">(15)</a>, we need to construct the dicrete face vector
+<span class="math notranslate nohighlight">\(\boldsymbol{\tilde{w}}\)</span> when the derivative normal to the surface is known.</p>
+<p>Now examine <a class="reference internal" href="#inner-products-boundary-conditions-divergence"><span class="std std-ref">Figure 2</span></a>.
+Since the discrete vector <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span> is lives on the edges,
+we start by defining a Taylor expansion at node <span class="math notranslate nohighlight">\(k\)</span>.
+We let <span class="math notranslate nohighlight">\(w_k\)</span> denote the approximation of the x component of <span class="math notranslate nohighlight">\(\vec{w}\)</span> on node <span class="math notranslate nohighlight">\(k\)</span>,
+we let <span class="math notranslate nohighlight">\(w_x\)</span> denote the x component of <span class="math notranslate nohighlight">\(\vec{w}\)</span> at the nearest x-edge,
+and <span class="math notranslate nohighlight">\(\Delta s_k\)</span> denotes the path from node <span class="math notranslate nohighlight">\(k\)</span> to that edge.</p>
+<p>Where the derivative of <span class="math notranslate nohighlight">\(\vec{w}\)</span> normal to the surface at node <span class="math notranslate nohighlight">\(k\)</span> is known and is denoted by <span class="math notranslate nohighlight">\(\frac{\partial w_k}{\partial n}\)</span>,
+we can define the following Taylor expansion:</p>
+<div class="math notranslate nohighlight">
+\[w_x = w_k + \frac{\partial w_k}{\partial n} \Delta s_k \; + \; ...\]</div>
+<p>If we rearrange this equation, we can use the value on the x-edge and the Neumann condition on the boundary
+to approximate the component of <span class="math notranslate nohighlight">\(\vec{w}\)</span> on the corresponding x-face, i.e.:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-2b">
+<span class="eqno">(17)<a class="headerlink" href="#equation-inner-products-boundary-conditions-2b" title="Permalink to this equation">¶</a></span>\[w_k \approx w_x - \frac{\partial w_k}{\partial n} \Delta s_k\]</div>
+<p>The same approach can be used to approximate the value on the other x-boundary faces of the mesh.
+In this case:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-2c">
+<span class="eqno">(18)<a class="headerlink" href="#equation-inner-products-boundary-conditions-2c" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{\tilde{w}_x} = \boldsymbol{P_{fx}} \big ( \boldsymbol{P_{ex} w_x + \tilde{b}_x} \big )
+\;\;\; \textrm{where} \;\;\;
+\boldsymbol{\tilde{b}_x} = \begin{cases}
+- \frac{\partial w_k}{\partial n} \Delta s_k \;\; \textrm{on x-boundary nodes} \\
+0 \;\; \textrm{on all other nodes}
+\end{cases}\end{split}\]</div>
+<p>and where <span class="math notranslate nohighlight">\(\boldsymbol{P_{fx}}\)</span> is a projection matrix from nodes to x-faces, <span class="math notranslate nohighlight">\(\boldsymbol{P_{ex}}\)</span> is a projection matrix from x-edges to nodes, and <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{b}_x}\)</span> is a vector that lives on the nodes.
+The same approach can be applied for y and z boundaries.</p>
+<p>To compute the vector <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span> in equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-2a">(15)</a>,
+we must combine the Cartesian components. This results in the followin expression:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-2d">
+<span class="eqno">(19)<a class="headerlink" href="#equation-inner-products-boundary-conditions-2d" title="Permalink to this equation">¶</a></span>\[\boldsymbol{\tilde{w}} = \boldsymbol{\tilde{P}_{nf}} \big ( \boldsymbol{\tilde{P}_{en} w + \tilde{b}} \big )\]</div>
+<p>such that:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-2e">
+<span class="eqno">(20)<a class="headerlink" href="#equation-inner-products-boundary-conditions-2e" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{\tilde{w}} \! = \! \begin{bmatrix} \boldsymbol{\tilde{w}_x} \\ \boldsymbol{\tilde{w}_y} \\ \boldsymbol{\tilde{w}_z} \end{bmatrix}
+\textrm{,}\;\;
+\boldsymbol{\tilde{P}_{nf}} \! = \! \begin{bmatrix} \boldsymbol{P_{fx}} &amp; 0 &amp; 0 \\ 0 &amp; \boldsymbol{P_{fy}} &amp; 0 \\ 0 &amp; 0 &amp; \boldsymbol{P_{fz}} \end{bmatrix}
+\textrm{,}\;\;
+\boldsymbol{\tilde{P}_{en}} \! = \! \begin{bmatrix} \boldsymbol{P_{ex}} &amp; 0 &amp; 0 \\ 0 &amp; \boldsymbol{P_{ey}} &amp; 0 \\ 0 &amp; 0 &amp; \boldsymbol{P_{ez}} \end{bmatrix}
+\;\textrm{and}\;\;
+\boldsymbol{\tilde{b}} \! = \! \begin{bmatrix} \boldsymbol{\tilde{b}_x} \\ \boldsymbol{\tilde{b}_y} \\ \boldsymbol{\tilde{b}_z} \end{bmatrix}\end{split}\]</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>It should be noted that <span class="math notranslate nohighlight">\(\boldsymbol{P_{nf}}\)</span> in equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-2a">(15)</a> is <strong>not</strong> the same as <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{P}_{nf}}\)</span> in equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-2d">(19)</a>! Whereas <span class="math notranslate nohighlight">\(\boldsymbol{P_{nf}}\)</span> maps a scalar quantity from nodes to all faces, <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{P}_{nf}}\)</span> maps a vector quantity whose vector components are defined on all nodes to their respective faces.</p>
+</div>
+<p>To implement the result in equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-2e">(20)</a> practically,
+we expression equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-1">(1)</a> in the case of
+Neumann boundary conditions as:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-2f">
+<span class="eqno">(21)<a class="headerlink" href="#equation-inner-products-boundary-conditions-2f" title="Permalink to this equation">¶</a></span>\[\int_\Omega \vec{u} \cdot \nabla \phi \, dv \approx - \boldsymbol{u^T [D^T M_c - B] \, \phi + u^T b}\]</div>
+<p>where</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{B} = \boldsymbol{P_{nf}^T} \, diag(\boldsymbol{\tilde{a}}) \, \boldsymbol{\tilde{P}_{nf}} \boldsymbol{\tilde{P}_{en}}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{b} = \boldsymbol{P_{nf}^T} \, diag(\boldsymbol{\tilde{a}}) \, \boldsymbol{\tilde{P}_{nf}} \boldsymbol{\tilde{b}}\)</span></p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id3">
+<h3>Mixed<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>Where <span class="math notranslate nohighlight">\(\alpha\)</span>, <span class="math notranslate nohighlight">\(\beta\)</span> and <span class="math notranslate nohighlight">\(\gamma\)</span> are constants,
+the boundary conditions are defined by the following ordinary differential equation:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-2g">
+<span class="eqno">(22)<a class="headerlink" href="#equation-inner-products-boundary-conditions-2g" title="Permalink to this equation">¶</a></span>\[\alpha \phi + \beta \frac{\partial \phi}{\partial n} = \gamma\]</div>
+<p>Examine <a class="reference internal" href="#inner-products-boundary-conditions-divergence"><span class="std std-ref">Figure 2</span></a>.
+Since the discrete vector <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span> is defined on the edges,
+we start by defining a Taylor expansion at node <span class="math notranslate nohighlight">\(k\)</span>.
+We let <span class="math notranslate nohighlight">\(w_k\)</span> denote the approximation of the x component of <span class="math notranslate nohighlight">\(\vec{w}\)</span> on node <span class="math notranslate nohighlight">\(k\)</span>,
+we let <span class="math notranslate nohighlight">\(w_x\)</span> denote the x component of <span class="math notranslate nohighlight">\(\vec{w}\)</span> at the nearest x-edge,
+and <span class="math notranslate nohighlight">\(\Delta s_k\)</span> denotes the path from from node <span class="math notranslate nohighlight">\(k\)</span> to that edge.</p>
+<p>Where the derivative of <span class="math notranslate nohighlight">\(\vec{w}\)</span> normal to the surface at node <span class="math notranslate nohighlight">\(k\)</span> is known and is denoted by <span class="math notranslate nohighlight">\(\frac{\partial w_k}{\partial n}\)</span>,
+we can define the following Taylor expansion:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-2h">
+<span class="eqno">(23)<a class="headerlink" href="#equation-inner-products-boundary-conditions-2h" title="Permalink to this equation">¶</a></span>\[w_x = w_k + \frac{\partial w_k}{\partial n} \Delta s_k \; + \; ...\]</div>
+<p>A first order approximation to the derivative on the boundary is given by:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-2i">
+<span class="eqno">(24)<a class="headerlink" href="#equation-inner-products-boundary-conditions-2i" title="Permalink to this equation">¶</a></span>\[\frac{\partial w_k}{\partial n} \approx \frac{w_x - w_k}{\Delta s_k}\]</div>
+<p>Substituting equations <a class="reference internal" href="#equation-inner-products-boundary-conditions-2h">(23)</a> and <a class="reference internal" href="#equation-inner-products-boundary-conditions-2i">(24)</a> into equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-2g">(22)</a> for face <span class="math notranslate nohighlight">\(k\)</span> we obtain:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-2j">
+<span class="eqno">(25)<a class="headerlink" href="#equation-inner-products-boundary-conditions-2j" title="Permalink to this equation">¶</a></span>\[w_k = \Bigg ( \frac{\beta}{\beta - \alpha \Delta s_k} \Bigg ) w_x - \Bigg ( \frac{\gamma \Delta s_k}{\beta - \alpha \Delta s_k} \Bigg )\]</div>
+<p>Let <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{w}_x}\)</span> be a vector defined on the nodes of the mesh such that <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{w}_x}\)</span> equals the approximation <span class="math notranslate nohighlight">\(\tilde{w}_x\)</span> for nodes touching the x boundary and <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{w}_x}\)</span> equals zero for all other nodes.
+This vector can be computed according to the following expression:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-2k">
+<span class="eqno">(26)<a class="headerlink" href="#equation-inner-products-boundary-conditions-2k" title="Permalink to this equation">¶</a></span>\[\boldsymbol{\tilde{w}_x} = \boldsymbol{P_{fx}} \big ( diag ( \boldsymbol{\tilde{c}_x} ) \, \boldsymbol{P_{ex} w_x + \tilde{d}_x} \big )\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{P_{fx}}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{P_{ex}}\)</span> are projection matrices that were defined in equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-2c">(18)</a>.
+Let <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{c}_x}\)</span> be a discrete vector defined on the faces of the mesh such that:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol{\tilde{c}_x} = \begin{cases} \frac{\beta}{\beta - \alpha \Delta s_k} \;\;\textrm{on nodes on the x-boundary}\\ 0 \;\; \textrm{on all other nodes} \end{cases}\end{split}\]</div>
+<p>And let <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{d}_x}\)</span> be a discrete vector defined on the nodes of the mesh such that:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol{\tilde{d}_x} = \begin{cases} - \frac{\gamma \Delta s_k}{\beta - \alpha \Delta s_k} \;\;\textrm{on nodes on the x-boundary}\\ 0 \;\; \textrm{on all other nodes} \end{cases}\end{split}\]</div>
+<p>The same approach can be applied for y and z boundaries.
+To compute the vector <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span> in equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-2a">(15)</a>,
+we must combine the Cartesian components. This results in the followin expression:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-2l">
+<span class="eqno">(27)<a class="headerlink" href="#equation-inner-products-boundary-conditions-2l" title="Permalink to this equation">¶</a></span>\[\boldsymbol{\tilde{w}} = \boldsymbol{\tilde{P}_{nf}} \big ( diag ( \boldsymbol{\tilde{c}} ) \boldsymbol{\tilde{P}_{en} w + \tilde{d}} \big )\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{w}}\)</span>, <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{P}_{nf}}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{P}_{en}}\)</span>
+were defined in equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-2d">(19)</a>. And where:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-2m">
+<span class="eqno">(28)<a class="headerlink" href="#equation-inner-products-boundary-conditions-2m" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{\tilde{c}} \! = \! \begin{bmatrix} \boldsymbol{\tilde{c}_x} \\ \boldsymbol{\tilde{c}_y} \\ \boldsymbol{\tilde{c}_z} \end{bmatrix}
+\;\textrm{and}\;\;
+\boldsymbol{\tilde{d}} \! = \! \begin{bmatrix} \boldsymbol{\tilde{d}_x} \\ \boldsymbol{\tilde{d}_y} \\ \boldsymbol{\tilde{d}_z} \end{bmatrix}\end{split}\]</div>
+<p>To implement the result in equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-2m">(28)</a> practically,
+we expression equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-1">(1)</a> in the case of
+Neumann boundary conditions as:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-1n">
+<span class="eqno">(29)<a class="headerlink" href="#equation-inner-products-boundary-conditions-1n" title="Permalink to this equation">¶</a></span>\[\int_\Omega \vec{u} \cdot \nabla \phi \, dv \approx - \boldsymbol{u^T (D^T M_c - B) \, \phi + u^T b}\]</div>
+<p>where</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{B} = \boldsymbol{P_{nf}^T} \, diag(\boldsymbol{\tilde{a}}) \, \boldsymbol{\tilde{P}_{nf}} \, diag ( \boldsymbol{\tilde{c}} )  \boldsymbol{\tilde{P}_{en}}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{b} = \boldsymbol{P_{nf}^T} \, diag(\boldsymbol{\tilde{a}}) \, \boldsymbol{\tilde{P}_{nf}} \boldsymbol{\tilde{d}}\)</span></p></li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="curl">
+<span id="inner-products-boundary-conditions-curl"></span><h2>Curl<a class="headerlink" href="#curl" title="Permalink to this headline">¶</a></h2>
+<p>Let <span class="math notranslate nohighlight">\(\vec{u}\)</span> and <span class="math notranslate nohighlight">\(\vec{w}\)</span> be vector quantities.
+If the discrete representation <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> lives on the edges and
+the discrete representation <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span> lives on the faces,
+the inner product is approximated by:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-3">
+<span class="eqno">(30)<a class="headerlink" href="#equation-inner-products-boundary-conditions-3" title="Permalink to this equation">¶</a></span>\[\int_\Omega \vec{u} \cdot (\nabla \times \vec{w}) \, dv
+\approx \boldsymbol{u^T C^T M_f \, w} - \oint_{\partial \Omega} (\vec{u} \times \vec{w}) \cdot d\vec{a}\]</div>
+<p>where</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{C}\)</span> is a <a class="reference internal" href="operators_differential.html#operators-differential-curl"><span class="std std-ref">discrete curl operator</span></a></p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{M_f}\)</span> is the <a class="reference internal" href="inner_products_basic.html#inner-products-basic"><span class="std std-ref">basic inner product matrix for vectors on cell faces</span></a></p></li>
+</ul>
+</div></blockquote>
+<div class="figure align-center" id="id9">
+<a class="reference internal image-reference" href="../../_images/boundary_conditions_curl.png"><img alt="../../_images/boundary_conditions_curl.png" src="../../_images/boundary_conditions_curl.png" style="width: 550px;" /></a>
+<p class="caption"><span class="caption-text">Figure 3: Quantities used to implement boundary conditions on the curl for an x-face.</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
+</div>
+<p>A discrete approximation to the surface integral in equation
+<a class="reference internal" href="#equation-inner-products-boundary-conditions-3">(30)</a> which imposes
+boundary conditions on <span class="math notranslate nohighlight">\(\vec{w}\)</span> can be expressed as:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-3a">
+<span class="eqno">(31)<a class="headerlink" href="#equation-inner-products-boundary-conditions-3a" title="Permalink to this equation">¶</a></span>\[\begin{split}\oint_{\partial \Omega} (\vec{u} \times \vec{w}) \cdot d\vec{a}
+\approx \boldsymbol{u^T}
+\begin{bmatrix} \boldsymbol{P_1} \\ \boldsymbol{P_2} \end{bmatrix}^T
+\begin{bmatrix} \boldsymbol{\Lambda} &amp; \boldsymbol{0} \\ \boldsymbol{0} &amp; \boldsymbol{-\Lambda} \end{bmatrix}
+\begin{bmatrix} \boldsymbol{P_1} &amp; \boldsymbol{0} \\ \boldsymbol{0} &amp; \boldsymbol{P_2} \end{bmatrix}
+\boldsymbol{\tilde{w}}\end{split}\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol{P_1} =
+\begin{bmatrix}
+0 &amp; P_{yx} &amp; 0 \\ 0 &amp; 0 &amp; P_{zy} \\ P_{xz} &amp; 0 &amp; 0
+\end{bmatrix}
+\textrm{,} \;\;
+\boldsymbol{P_2} =
+\begin{bmatrix}
+0 &amp; 0 &amp; P_{zx} \\ P_{xy} &amp; 0 &amp; 0 \\ 0 &amp; P_{yz} &amp; 0
+\end{bmatrix}
+\textrm{,} \;\;
+\boldsymbol{\Lambda} = diag(\boldsymbol{\tilde{a}})
+\;\; \textrm{and}\;\;
+\boldsymbol{\tilde{w}} =
+\begin{bmatrix}
+\boldsymbol{\tilde{w}_{yx}} \\ \boldsymbol{\tilde{w}_{zy}} \\ \boldsymbol{\tilde{w}_{xz}} \\
+\boldsymbol{\tilde{w}_{zx}} \\ \boldsymbol{\tilde{w}_{xy}} \\ \boldsymbol{\tilde{w}_{yz}}
+\end{bmatrix}\end{split}\]</div>
+<p>such that</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> is the discrete representation of <span class="math notranslate nohighlight">\(\vec{u}\)</span> on edges</p></li>
+<li><p><span class="math notranslate nohighlight">\(P_{ij}\)</span> is sparse matrix that projects a quantity from <span class="math notranslate nohighlight">\(i\)</span> edges to <span class="math notranslate nohighlight">\(j\)</span> faces for <span class="math notranslate nohighlight">\(i,j=x,y,z\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{\tilde{w}_{ij}}\)</span> is a vector that stores an approximation of component <span class="math notranslate nohighlight">\(i\)</span> of <span class="math notranslate nohighlight">\(\vec{w}\)</span> on <span class="math notranslate nohighlight">\(j\)</span> edges for <span class="math notranslate nohighlight">\(i,j=x,y,z\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{\tilde{a}}\)</span> is a vector which stores the dot products between the surface area vectors of the boundary faces <span class="math notranslate nohighlight">\(\vec{a}\)</span> and the unit direction of <span class="math notranslate nohighlight">\(\vec{u} \times \vec{w}\)</span>. That is, <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{a}} = \pm a\)</span> for faces on the boundary and <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{a}}=0\)</span> for all interior faces</p></li>
+</ul>
+</div></blockquote>
+<p>If we are able to construct matrices <span class="math notranslate nohighlight">\(\boldsymbol{P_{ij}}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{\Lambda}\)</span>, we must turn our attention
+to constructing <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{w}}\)</span>.</p>
+<div class="section" id="id4">
+<h3>Dirichlet<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>For a 3D mesh, examine a single boundary cell whose surface area vector points in the x-direction
+(<a class="reference internal" href="#inner-products-boundary-conditions-curl"><span class="std std-ref">Figure 3</span></a>); i.e. <span class="math notranslate nohighlight">\(\vec{a} = a\hat{x}\)</span>.
+When imposing Dirichlet conditions, we know the value of <span class="math notranslate nohighlight">\(\vec{w}\)</span> on the boundary.
+For boundary face <span class="math notranslate nohighlight">\(k\)</span> on the aforemention cell, the contribution towards the surface integral is given by:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-3b">
+<span class="eqno">(32)<a class="headerlink" href="#equation-inner-products-boundary-conditions-3b" title="Permalink to this equation">¶</a></span>\[\oint_{\partial \Omega_k} (\vec{u} \times \vec{w}) \, d\vec{a} = \int_{\partial \Omega_k} (u_y \tilde{w}_z - u_z \tilde{w}_y) \, da\]</div>
+<p>where <span class="math notranslate nohighlight">\(\tilde{w}_y\)</span> and <span class="math notranslate nohighlight">\(\tilde{w}_z\)</span> are component values of <span class="math notranslate nohighlight">\(\vec{w}\)</span> at the same edge
+locations as <span class="math notranslate nohighlight">\(u_z\)</span> and <span class="math notranslate nohighlight">\(u_y\)</span>, respectively. Thus for boundary face <span class="math notranslate nohighlight">\(k\)</span>
+with surface area <span class="math notranslate nohighlight">\(a_k\)</span>, the approximate contribution towards the surface integral
+denoted by equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-3b">(32)</a> is:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-3c">
+<span class="eqno">(33)<a class="headerlink" href="#equation-inner-products-boundary-conditions-3c" title="Permalink to this equation">¶</a></span>\[\begin{split}\oint_{\partial \Omega_k} (\vec{u} \times \vec{w}) \cdot d\vec{a} = \frac{a_k}{4} \! &amp; \bigg [ \!
+\bigg ( \! u_y \big ( i, j\! +\! \tfrac{1}{2}, k \big ) \! +\! u_y \big ( i, j\! +\! \tfrac{1}{2}, k\! +\! 1 \big ) \! \bigg ) \!
+\bigg ( \! \tilde{w}_z \big ( i, j\! +\! \tfrac{1}{2}, k \big ) \! +\! \tilde{w}_z \big ( i, j\! +\! \tfrac{1}{2}, k\! +\! 1 \big ) \! \bigg ) \\
+-&amp; \bigg ( \! u_z \big ( i, j, k\! +\! \tfrac{1}{2} \big ) \! +\! u_z \big ( i, j\! +\! 1, k\! +\! \tfrac{1}{2} \big ) \! \bigg ) \!
+\bigg ( \! \tilde{w}_y \big ( i, j, k\! +\! \tfrac{1}{2} \big ) \! +\! \tilde{w}_y \big ( i, j\! +\! 1, k\! +\! \tfrac{1}{2} \big ) \! \bigg ) \! \Bigg ]\end{split}\]</div>
+<p>Assuming we have constructed matrices <span class="math notranslate nohighlight">\(\boldsymbol{P_{ij}}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{\Lambda}\)</span>,
+we can construct a vector <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{w}}\)</span> such that values <span class="math notranslate nohighlight">\(\vec{w}\)</span> on boundary edges are defined
+by the boundary condition and <span class="math notranslate nohighlight">\(\vec{w}\)</span> on interior edges are set to zero.</p>
+</div>
+<div class="section" id="id5">
+<h3>Neumann<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>According to equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-3a">(31)</a>, we need to construct a large edge vector
+<span class="math notranslate nohighlight">\(\boldsymbol{\tilde{w}}\)</span> when the derivative normal to the surface is known.
+When imposing the Neuwmann condition, we know the value of <span class="math notranslate nohighlight">\(\frac{\partial \vec{w}}{\partial n}\)</span> on the boundary.
+For a 3D mesh, examine a single boundary cell whose surface area vector points in the x-direction
+(<a class="reference internal" href="#inner-products-boundary-conditions-curl"><span class="std std-ref">Figure 3</span></a>); i.e. <span class="math notranslate nohighlight">\(\vec{a} = a\hat{x}\)</span>.</p>
+<p>Once again, we define a Taylor expansion to approximated the values of functions on the boundary.
+For <span class="math notranslate nohighlight">\(w_z\)</span>, we define a Taylor expansion at position <span class="math notranslate nohighlight">\((i, j \! + \! \tfrac{1}{2},k)\)</span>.
+Solving the approximation <span class="math notranslate nohighlight">\(\tilde{w}_z\)</span> on the boundary we obtain:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-3d">
+<span class="eqno">(34)<a class="headerlink" href="#equation-inner-products-boundary-conditions-3d" title="Permalink to this equation">¶</a></span>\[\tilde{w}_z (i, j \! + \! \tfrac{1}{2},k) = w_z (i \! - \! \tfrac{1}{2}, j \! + \! \tfrac{1}{2},k) - \frac{\partial w_z}{\partial n} \Delta s_x\]</div>
+<p>where <span class="math notranslate nohighlight">\(\Delta s_x\)</span> is the path from position <span class="math notranslate nohighlight">\((i, j \! + \! \tfrac{1}{2},k)\)</span>
+to position <span class="math notranslate nohighlight">\((i \! - \! \tfrac{1}{2}, j \! + \! \tfrac{1}{2},k)\)</span>.
+Similarly for <span class="math notranslate nohighlight">\(w_y\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-3e">
+<span class="eqno">(35)<a class="headerlink" href="#equation-inner-products-boundary-conditions-3e" title="Permalink to this equation">¶</a></span>\[\tilde{w}_y (i, j, k \! + \! \tfrac{1}{2}) = w_y (i \! - \! \tfrac{1}{2}, j, k \! + \! \tfrac{1}{2}) - \frac{\partial w_y}{\partial n} \Delta s_x\]</div>
+<p>The same approach can be used to approximate the value of all required components on all boundary edges.
+Much like we did for the gradient and divergence operators, we can define the vector <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{w}}\)</span> in terms of a linear operation:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-3f">
+<span class="eqno">(36)<a class="headerlink" href="#equation-inner-products-boundary-conditions-3f" title="Permalink to this equation">¶</a></span>\[\boldsymbol{\tilde{w}} = \boldsymbol{\tilde{P} w + \tilde{b}}\]</div>
+<p>where</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{\tilde{P}}\)</span> maps the entries of <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span> to the edges where they are needed</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{\tilde{b}}\)</span> is <span class="math notranslate nohighlight">\(-\frac{\partial w_k}{\partial n}\)</span> on boundary faces and 0 for interior faces</p></li>
+</ul>
+</div></blockquote>
+<p>To implement the result in equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-3f">(36)</a> practically,
+we express equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-3">(30)</a> in the case of
+Neumann boundary conditions as:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-3g">
+<span class="eqno">(37)<a class="headerlink" href="#equation-inner-products-boundary-conditions-3g" title="Permalink to this equation">¶</a></span>\[\int_\Omega \vec{u} \cdot (\nabla \times \vec{w}) \, dv
+\approx \boldsymbol{u^T (C^T M_f - B ) \, w - u^T b}\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol{B} = \begin{bmatrix} \boldsymbol{P_1} \\ \boldsymbol{P_2} \end{bmatrix}^T
+\begin{bmatrix} \boldsymbol{\Lambda} &amp; \boldsymbol{0} \\ \boldsymbol{0} &amp; \boldsymbol{-\Lambda} \end{bmatrix}
+\begin{bmatrix} \boldsymbol{P_1} &amp; \boldsymbol{0} \\ \boldsymbol{0} &amp; \boldsymbol{P_2} \end{bmatrix}
+\boldsymbol{\tilde{P}}\end{split}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol{b} = \begin{bmatrix} \boldsymbol{P_1} \\ \boldsymbol{P_2} \end{bmatrix}^T
+\begin{bmatrix} \boldsymbol{\Lambda} &amp; \boldsymbol{0} \\ \boldsymbol{0} &amp; \boldsymbol{-\Lambda} \end{bmatrix}
+\begin{bmatrix} \boldsymbol{P_1} &amp; \boldsymbol{0} \\ \boldsymbol{0} &amp; \boldsymbol{P_2} \end{bmatrix} \boldsymbol{\tilde{b}}\end{split}\]</div>
+</div>
+<div class="section" id="id6">
+<h3>Mixed<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>Where <span class="math notranslate nohighlight">\(\alpha\)</span>, <span class="math notranslate nohighlight">\(\beta\)</span> and <span class="math notranslate nohighlight">\(\gamma\)</span> are constants,
+the boundary conditions are defined by the following ordinary differential equation:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-3h">
+<span class="eqno">(38)<a class="headerlink" href="#equation-inner-products-boundary-conditions-3h" title="Permalink to this equation">¶</a></span>\[\alpha \phi + \beta \frac{\partial \phi}{\partial n} = \gamma\]</div>
+<p>In this case, the Taylor expansions described in expressios <a class="reference internal" href="#equation-inner-products-boundary-conditions-3d">(34)</a>
+and <a class="reference internal" href="#equation-inner-products-boundary-conditions-3e">(35)</a> become:</p>
+<div class="math notranslate nohighlight">
+\[\tilde{w}_z (i, j \! + \! \tfrac{1}{2},k) =
+\Bigg ( \frac{\beta}{\beta - \alpha \Delta s_x} \Bigg ) w_z (i \! - \! \tfrac{1}{2}, j \! + \! \tfrac{1}{2},k)
+- \Bigg ( \frac{\gamma \Delta s_x}{\beta - \alpha \Delta s_x} \Bigg )\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\tilde{w}_y (i, j,k \! + \! \tfrac{1}{2}) =
+\Bigg ( \frac{\beta}{\beta - \alpha \Delta s_x} \Bigg ) w_y (i \! - \! \tfrac{1}{2}, j,k \! + \! \tfrac{1}{2})
+- \Bigg ( \frac{\gamma \Delta s_x}{\beta - \alpha \Delta s_x} \Bigg )\]</div>
+<p>where the derivatives were approximated to first order using backward difference.
+Once again, the Taylor expansion can be used to approximate all required components of <span class="math notranslate nohighlight">\(\vec{w}\)</span>
+at all necessary boundary edges.</p>
+<p>Similarly to how we defined <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{w}}\)</span> in <a class="reference internal" href="#equation-inner-products-boundary-conditions-3f">(36)</a>, we obtain:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-3i">
+<span class="eqno">(39)<a class="headerlink" href="#equation-inner-products-boundary-conditions-3i" title="Permalink to this equation">¶</a></span>\[\boldsymbol{\tilde{w}} = diag(\boldsymbol{\tilde{c}}) \boldsymbol{\tilde{P} w + \tilde{d}}\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol{\tilde{c}} = \begin{cases} \frac{\beta}{\beta - \alpha \Delta s_k} \;\;\textrm{on boundary edges}\\ 0 \;\; \textrm{on all other edges} \end{cases}\end{split}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol{\tilde{d}} = \begin{cases} - \frac{\gamma \Delta s_k}{\beta - \alpha \Delta s_k} \;\;\textrm{on boundary edges}\\ 0 \;\; \textrm{on all other other edges} \end{cases}\end{split}\]</div>
+<p>To implement the result in equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-3i">(39)</a> practically,
+we express equation <a class="reference internal" href="#equation-inner-products-boundary-conditions-3">(30)</a> in the case of
+Neumann boundary conditions as:</p>
+<div class="math notranslate nohighlight" id="equation-inner-products-boundary-conditions-3g">
+<span class="eqno">(40)<a class="headerlink" href="#equation-inner-products-boundary-conditions-3g" title="Permalink to this equation">¶</a></span>\[\int_\Omega \vec{u} \cdot (\nabla \times \vec{w}) \, dv
+\approx \boldsymbol{u^T (C^T M_f - B ) \, w - u^T b}\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol{B} = \begin{bmatrix} \boldsymbol{P_1} \\ \boldsymbol{P_2} \end{bmatrix}^T
+\begin{bmatrix} \boldsymbol{\Lambda} &amp; \boldsymbol{0} \\ \boldsymbol{0} &amp; \boldsymbol{-\Lambda} \end{bmatrix}
+\begin{bmatrix} \boldsymbol{P_1} &amp; \boldsymbol{0} \\ \boldsymbol{0} &amp; \boldsymbol{P_2} \end{bmatrix}
+diag(\boldsymbol{\tilde{c}}) \boldsymbol{\tilde{P}}\end{split}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol{b} = \begin{bmatrix} \boldsymbol{P_1} \\ \boldsymbol{P_2} \end{bmatrix}^T
+\begin{bmatrix} \boldsymbol{\Lambda} &amp; \boldsymbol{0} \\ \boldsymbol{0} &amp; \boldsymbol{-\Lambda} \end{bmatrix}
+\begin{bmatrix} \boldsymbol{P_1} &amp; \boldsymbol{0} \\ \boldsymbol{0} &amp; \boldsymbol{P_2} \end{bmatrix} \boldsymbol{\tilde{d}}\end{split}\]</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="derivation_examples_index.html" class="btn btn-neutral float-right" title="Solving PDEs Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="inner_products_differential.html" class="btn btn-neutral float-left" title="Differential Operators" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+<div role="contentinfo">
+    <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" width="60px"; style="float:right;height:3em;line-height:3em;padding:10px 0 0 1em;">
+        <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+    </a>
+    2013-2020,
+    <a href="http://simpeg.xyz">SimPEG Developers.</a><br />
+    Except where noted, this work is licensed under a <br />
+    <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+        Creative Commons Attribution 4.0 International License
+    </a>
+</div>
+<br>
+<div>
+Built with
+    <a href="http://sphinx-doc.org/">Sphinx</a>
+    using a
+    <a href="https://github.com/snide/sphinx_rtd_theme">theme</a>
+    provided by
+    <a href="https://readthedocs.org">Read the Docs</a>.
+ </div>
+
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

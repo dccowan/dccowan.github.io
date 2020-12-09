@@ -1,0 +1,510 @@
+
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Advection and Diffusion with Zero Neumann Boundary Condition &mdash; discretize 0.6.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-dataframe.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/logo-block.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Release Notes" href="../../release/index.html" />
+    <link rel="prev" title="Poisson Equation with Zero Neumann Boundary Condition" href="derivation_examples_poisson.html" />
+ 
+
+<meta name="description" content="Simulation and Parameter Estimation in Geophysics">
+<meta name="author" content="SimPEG Developers">
+<meta name="keywords" content="python, geophysics, inversion, electromagnetics, magnetotellurics, magnetics, gravity, DC, flow inverse problems, open source, finite volume">
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-45185336-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> discretize
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+    
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../big_picture.html">Why discretize?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../additional_resources.html">Additional Resources</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/mesh_generation/index.html">Mesh Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/operators/index.html">Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/inner_products/index.html">Inner Products</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/pde/index.html">Solving PDEs</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API Reference</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Theory</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../finite_volume_index.html">Intoduction to Finite Volume</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes_index.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="operators_index.html">Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inner_products_index.html">Inner Products</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="derivation_examples_index.html">Solving PDEs Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="derivation_examples_poisson.html">Poisson Equation with Zero Neumann Boundary Condition</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Advection and Diffusion with Zero Neumann Boundary Condition</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#setup">Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#discretization-in-space">Discretization in Space</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#first-equation">First Equation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#second-equation">Second Equation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#third-equation">Third Equation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#combining-the-expressions">Combining the Expressions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#discretization-in-time">Discretization in Time</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Meta Information</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../release/index.html">Release Notes</a></li>
+</ul>
+
+            
+          
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Getting connected
+            
+            </span>
+        </p>
+        <ul>
+            
+                <li class="toctree-l1"><a href="https://simpeg.xyz"><i class="fa fa-external-link-square fa-fw"></i> SimPEG</a></li>
+            
+                <li class="toctree-l1"><a href="http://slack.simpeg.xyz"><i class="fa fa-comment fa-fw"></i> Contact</a></li>
+            
+                <li class="toctree-l1"><a href="https://github.com/simpeg/discretize"><i class="fa fa-github fa-fw"></i> Source Code</a></li>
+            
+        </ul>
+    
+
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">discretize</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="derivation_examples_index.html">Solving PDEs Examples</a> &raquo;</li>
+        
+      <li>Advection and Diffusion with Zero Neumann Boundary Condition</li>
+    
+    
+
+    <li class="wy-breadcrumbs-aside">
+        
+            
+                <a href="https://github.com/simpeg/discretize/edit/master/doc/content/theory/derivation_examples_advection_diffusion.rst"
+                   class="fa fa-github"> Edit this page</a>
+            
+        
+        
+    </li>
+
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="advection-and-diffusion-with-zero-neumann-boundary-condition">
+<span id="derivation-examples-advection-diffusion"></span><h1>Advection and Diffusion with Zero Neumann Boundary Condition<a class="headerlink" href="#advection-and-diffusion-with-zero-neumann-boundary-condition" title="Permalink to this headline">¶</a></h1>
+<p>Here we provide the derivation for solving the advection-diffusion equation using the finite volume method.
+We assume the fluid is incompressible. Key lessons include:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Implementing boundary conditions</p></li>
+<li><p>Solving time-dependent PDEs</p></li>
+<li><p>Strategies for applying finite volume to 2nd order PDEs</p></li>
+</ul>
+</div></blockquote>
+<p><strong>Tutorial:</strong> <a class="reference internal" href="../../tutorials/pde/2_advection_diffusion.html#sphx-glr-tutorials-pde-2-advection-diffusion-py"><span class="std std-ref">Advection-Diffusion Equation</span></a></p>
+<div class="section" id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h2>
+<p>If we assume the fluid is incompressible (i.e. <span class="math notranslate nohighlight">\(\nabla \cdot \vec{u} = 0\)</span>),
+the advection-diffusion equation with zero Neumann boundary conditions is given by:</p>
+<div class="math notranslate nohighlight" id="equation-derivation-examples-advection-diffusion-1">
+<span class="eqno">(1)<a class="headerlink" href="#equation-derivation-examples-advection-diffusion-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{align}
+&amp; p_t = \nabla \cdot \alpha \nabla p - \vec{u} \cdot \nabla p + s \\
+&amp; \textrm{s.t.} \;\;\; \frac{\partial p}{\partial n} \Bigg |_{\partial \Omega} = 0 \\
+&amp; \textrm{and} \;\;\; p(t=0) = 0
+\end{align}\end{split}\]</div>
+<p>where</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(p\)</span> is the unknown variable</p></li>
+<li><p><span class="math notranslate nohighlight">\(p_t\)</span> is its time-derivative</p></li>
+<li><p><span class="math notranslate nohighlight">\(\alpha\)</span> defines the diffusivity within the domain</p></li>
+<li><p><span class="math notranslate nohighlight">\(\vec{u}\)</span> is the velocity field</p></li>
+<li><p><span class="math notranslate nohighlight">\(s\)</span> is the source term</p></li>
+</ul>
+</div></blockquote>
+<p>We will consider the case where there is a single point source within our domain.
+Where <span class="math notranslate nohighlight">\(s_0\)</span> is a constant:</p>
+<div class="math notranslate nohighlight">
+\[s = s_0 \delta ( \vec{r} )\]</div>
+<p>Direct implementation of the finite volume method is more challenging on higher order PDEs.
+Therefore, we redefine the problem as a set of first order PDEs as follows:</p>
+<div class="math notranslate nohighlight" id="equation-derivation-examples-advection-diffusion-2">
+<span class="eqno">(2)<a class="headerlink" href="#equation-derivation-examples-advection-diffusion-2" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{align}
+p_t = \nabla \cdot \vec{j} - \vec{u} \cdot \vec{w} + s \;\;\;\; &amp;(1)\\
+\vec{w} = \nabla p \;\;\;\; &amp;(2)\\
+\alpha^{-1} \vec{j} = \vec{w} \;\;\;\; &amp;(3)
+\end{align}\end{split}\]</div>
+<p>We then take the inner products between the expressions in equation <a class="reference internal" href="#equation-derivation-examples-advection-diffusion-2">(2)</a> and an appropriate test function.</p>
+</div>
+<div class="section" id="discretization-in-space">
+<h2>Discretization in Space<a class="headerlink" href="#discretization-in-space" title="Permalink to this headline">¶</a></h2>
+<p>Because this is a time-dependent problem, we must consider discretization in both space and time.
+We generally begin by discretizing in space. Where <span class="math notranslate nohighlight">\(\boldsymbol{p}\)</span> is the discrete representation of <span class="math notranslate nohighlight">\(p\)</span>,
+we will discretize such that <span class="math notranslate nohighlight">\(\boldsymbol{p}\)</span> lives on the cell centers. If <span class="math notranslate nohighlight">\(\boldsymbol{p}\)</span> lives
+at cell centers, it makes sense for the discrete representations  <span class="math notranslate nohighlight">\(\vec{w}\)</span>, <span class="math notranslate nohighlight">\(\vec{j}\)</span> and <span class="math notranslate nohighlight">\(\vec{u}\)</span>
+in expression <a class="reference internal" href="#equation-derivation-examples-advection-diffusion-2">(2)</a> to live on the faces.</p>
+<div class="section" id="first-equation">
+<h3>First Equation<a class="headerlink" href="#first-equation" title="Permalink to this headline">¶</a></h3>
+<p>Let <span class="math notranslate nohighlight">\(\psi\)</span> be a scalar test function whose discrete representation <span class="math notranslate nohighlight">\(\boldsymbol{\psi}\)</span> lives at cell centers.
+The inner product between <span class="math notranslate nohighlight">\(\psi\)</span> and the first equation
+in <a class="reference internal" href="#equation-derivation-examples-advection-diffusion-2">(2)</a> is given by:</p>
+<div class="math notranslate nohighlight" id="equation-derivation-examples-advection-diffusion-3">
+<span class="eqno">(3)<a class="headerlink" href="#equation-derivation-examples-advection-diffusion-3" title="Permalink to this equation">¶</a></span>\[\int_\Omega \psi p_t \, dv = \int_\Omega \psi \nabla \cdot \vec{j} \, dv + \int_\Omega \psi (\vec{u} \cdot \vec{w}) \, dv + \int_\Omega \psi s \, dv\]</div>
+<p>According to <a class="reference internal" href="inner_products_basic.html#inner-products-basic"><span class="std std-ref">basic inner products</span></a>, the term to the left of the equals sign is approximated by:</p>
+<div class="math notranslate nohighlight" id="equation-derivation-examples-advection-diffusion-4a">
+<span class="eqno">(4)<a class="headerlink" href="#equation-derivation-examples-advection-diffusion-4a" title="Permalink to this equation">¶</a></span>\[\int_\Omega \psi p_t \, dv \approx \boldsymbol{\psi^T M_c \, p_t}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{M_c}\)</span> is the <a class="reference internal" href="inner_products_basic.html#inner-products-basic"><span class="std std-ref">inner product matrix for quantities at cell centers</span></a>.</p>
+<p>Since <span class="math notranslate nohighlight">\(\boldsymbol{\psi}\)</span> lives at cell centers, then so must the divergence of <span class="math notranslate nohighlight">\(\vec{j}\)</span>.
+This implies the discrete vector <span class="math notranslate nohighlight">\(\boldsymbol{j}\)</span> must live on the faces.
+And according to <a class="reference internal" href="inner_products_differential.html#inner-products-differential"><span class="std std-ref">inner products with differential operators</span></a>:</p>
+<div class="math notranslate nohighlight" id="equation-derivation-examples-advection-diffusion-4b">
+<span class="eqno">(5)<a class="headerlink" href="#equation-derivation-examples-advection-diffusion-4b" title="Permalink to this equation">¶</a></span>\[\int_\Omega \psi \nabla \cdot \vec{j} \, dv \approx \boldsymbol{\psi^T M_c D \, j}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{D}\)</span> is the <a class="reference internal" href="operators_differential.html#operators-differential-divergence"><span class="std std-ref">discrete divergence matrix</span></a>.</p>
+<p>For the next term in equation <a class="reference internal" href="#equation-derivation-examples-advection-diffusion-3">(3)</a>, we must take the
+dot product of vectors <span class="math notranslate nohighlight">\(\vec{u}\)</span> and <span class="math notranslate nohighlight">\(\vec{w}\)</span>. Here, we let the corresponding
+discrete representations <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> and  <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span> live on the faces;
+this is because we need the gradient of <span class="math notranslate nohighlight">\(\boldsymbol{p}\)</span> to live on the faces. In doing so, we need a set of operations which
+multiplies the components of the dot product and sums them at the cell center.
+Where <span class="math notranslate nohighlight">\(\boldsymbol{A_{fc}}\)</span> is the <a class="reference internal" href="operators_averaging.html#operators-averaging"><span class="std std-ref">scalar averaging matrix from faces to cell centers</span></a>
+and <span class="math notranslate nohighlight">\(c\)</span> = 1, 2 or 3 is the dimension of the problem, the inner product is approximated by:</p>
+<div class="math notranslate nohighlight" id="equation-derivation-examples-advection-diffusion-4c">
+<span class="eqno">(6)<a class="headerlink" href="#equation-derivation-examples-advection-diffusion-4c" title="Permalink to this equation">¶</a></span>\[\int_\Omega \psi (\vec{u} \cdot \vec{w}) \, dv \approx c \, \boldsymbol{\psi^T M_c A_{fc}} diag(\boldsymbol{u}) \, \boldsymbol{w}\]</div>
+<p>For the final term in <a class="reference internal" href="#equation-derivation-examples-advection-diffusion-3">(3)</a>, our inner product contains the delta function.
+As a result:</p>
+<div class="math notranslate nohighlight" id="equation-derivation-examples-advection-diffusion-4d">
+<span class="eqno">(7)<a class="headerlink" href="#equation-derivation-examples-advection-diffusion-4d" title="Permalink to this equation">¶</a></span>\[\int_\Omega \psi q \, dv \approx \boldsymbol{\psi^T q}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{q}\)</span> is a discrete representation for the integrated source term in each cell.
+In this case, <span class="math notranslate nohighlight">\(\boldsymbol{q_i}=s_0\)</span> at the center of the cell containing the source
+It is zero for every other cell.</p>
+<p>If we substitute the inner product approximations from expressions
+<a class="reference internal" href="#equation-derivation-examples-advection-diffusion-4a">(4)</a>, <a class="reference internal" href="#equation-derivation-examples-advection-diffusion-4b">(5)</a>,
+<a class="reference internal" href="#equation-derivation-examples-advection-diffusion-4c">(6)</a> and <a class="reference internal" href="#equation-derivation-examples-advection-diffusion-4d">(7)</a>
+into equation <a class="reference internal" href="#equation-derivation-examples-advection-diffusion-3">(3)</a>, we obtain:</p>
+<div class="math notranslate nohighlight" id="equation-derivation-examples-advection-diffusion-5">
+<span class="eqno">(8)<a class="headerlink" href="#equation-derivation-examples-advection-diffusion-5" title="Permalink to this equation">¶</a></span>\[\boldsymbol{\psi^T M_c \, p_t} = \boldsymbol{\psi^T M_c D \, j} -
+c\, \boldsymbol{\psi^T M_c A_{fc}} \, diag(\boldsymbol{u}) \, \boldsymbol{w} + \boldsymbol{\psi^T q}\]</div>
+</div>
+<div class="section" id="second-equation">
+<h3>Second Equation<a class="headerlink" href="#second-equation" title="Permalink to this headline">¶</a></h3>
+<p>In the second equation of <a class="reference internal" href="#equation-derivation-examples-advection-diffusion-2">(2)</a>, we use what we learned in
+<a class="reference internal" href="inner_products_differential.html#inner-products-differential"><span class="std std-ref">inner products with differential operators</span></a>.
+Let <span class="math notranslate nohighlight">\(\vec{f}\)</span> be a vector test function whose discrete representation <span class="math notranslate nohighlight">\(\boldsymbol{f}\)</span> lives on the faces.
+After using the vector identity <span class="math notranslate nohighlight">\(\vec{f} \cdot \nabla p = \nabla \cdot p\vec{f} - p \nabla \cdot \vec{f}\)</span>
+and applying the divergence theorem:</p>
+<div class="math notranslate nohighlight" id="equation-derivation-examples-advection-diffusion-6">
+<span class="eqno">(9)<a class="headerlink" href="#equation-derivation-examples-advection-diffusion-6" title="Permalink to this equation">¶</a></span>\[\int_\Omega \vec{f} \cdot \vec{w} = - \int_\Omega p \nabla \cdot \vec{f} \, dv + \oint_{\partial \Omega} p \hat{n} \cdot \vec{f} \, da\]</div>
+<p>The discrete approximation is given by:</p>
+<div class="math notranslate nohighlight" id="equation-derivation-examples-advection-diffusion-7">
+<span class="eqno">(10)<a class="headerlink" href="#equation-derivation-examples-advection-diffusion-7" title="Permalink to this equation">¶</a></span>\[\boldsymbol{f^T M_f \, w} = - \boldsymbol{f^T D^T M_c \, p + f^T B \, p}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{B}\)</span> is a sparse matrix that imposes boundary conditions correctly on <span class="math notranslate nohighlight">\(p\)</span>.</p>
+</div>
+<div class="section" id="third-equation">
+<h3>Third Equation<a class="headerlink" href="#third-equation" title="Permalink to this headline">¶</a></h3>
+<p>In the third equation of <a class="reference internal" href="#equation-derivation-examples-advection-diffusion-2">(2)</a>, we use what we learned in
+<a class="reference internal" href="inner_products_isotropic.html#inner-products-isotropic"><span class="std std-ref">inner products with contitutive relationships</span></a>; assume the diffusibility <span class="math notranslate nohighlight">\(\alpha\)</span> is linear isotropic.
+The inner product with a vector test function <span class="math notranslate nohighlight">\(\vec{f}\)</span> whose discrete representation <span class="math notranslate nohighlight">\(\boldsymbol{f}\)</span> lives on the faces
+is given by:</p>
+<div class="math notranslate nohighlight" id="equation-derivation-examples-advection-diffusion-8">
+<span class="eqno">(11)<a class="headerlink" href="#equation-derivation-examples-advection-diffusion-8" title="Permalink to this equation">¶</a></span>\[\int_\Omega \vec{f} \cdot \alpha^{\! -1} \vec{j} \, dv = \int_\Omega \vec{f} \cdot \vec{w} \, dv\]</div>
+<p>Our formulation defines the diffusivity in terms of its inverse. As a result, the approximation of the inner
+products is given by:</p>
+<div class="math notranslate nohighlight" id="equation-derivation-examples-advection-diffusion-9">
+<span class="eqno">(12)<a class="headerlink" href="#equation-derivation-examples-advection-diffusion-9" title="Permalink to this equation">¶</a></span>\[\boldsymbol{f^T M_\alpha \, j} = \boldsymbol{f^T M_f w}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{M_\alpha}\)</span> is the <a class="reference internal" href="inner_products_isotropic.html#inner-products-isotropic-reciprocal"><span class="std std-ref">inner product matrix at faces for the reciprocal of the diffusivity</span></a>.</p>
+</div>
+<div class="section" id="combining-the-expressions">
+<h3>Combining the Expressions<a class="headerlink" href="#combining-the-expressions" title="Permalink to this headline">¶</a></h3>
+<p>Here, we substitute the discrete representations of the inner products from expressions
+<a class="reference internal" href="#equation-derivation-examples-advection-diffusion-7">(10)</a> and <a class="reference internal" href="#equation-derivation-examples-advection-diffusion-9">(12)</a>
+into <a class="reference internal" href="#equation-derivation-examples-advection-diffusion-5">(8)</a> and factor like-terms.</p>
+<p>Let <span class="math notranslate nohighlight">\(\boldsymbol{\tilde{G}}\)</span> represent a modified gradient operator with the boundary conditions implemented:</p>
+<div class="math notranslate nohighlight" id="equation-derivation-examples-advection-diffusion-10">
+<span class="eqno">(13)<a class="headerlink" href="#equation-derivation-examples-advection-diffusion-10" title="Permalink to this equation">¶</a></span>\[\boldsymbol{\tilde{G}} = \boldsymbol{-D^T M_c + B}\]</div>
+<p>The system of equations discretized in space is given by:</p>
+<div class="math notranslate nohighlight" id="equation-derivation-examples-advection-diffusion-11">
+<span class="eqno">(14)<a class="headerlink" href="#equation-derivation-examples-advection-diffusion-11" title="Permalink to this equation">¶</a></span>\[\boldsymbol{p_t} = \boldsymbol{\big [ D \, M_\alpha^{-1} \tilde{G}} -
+c\, \boldsymbol{A_{fc}} diag(\boldsymbol{u}) \, \boldsymbol{M_f^{-1} \tilde{G} \big ] \, p} + \boldsymbol{M_c^{-1} \, q}\]</div>
+</div>
+</div>
+<div class="section" id="discretization-in-time">
+<h2>Discretization in Time<a class="headerlink" href="#discretization-in-time" title="Permalink to this headline">¶</a></h2>
+<p>To discretize in time, let us re-express equations <a class="reference internal" href="#equation-derivation-examples-advection-diffusion-11">(14)</a> as:</p>
+<div class="math notranslate nohighlight" id="equation-derivation-examples-advection-diffusion-12">
+<span class="eqno">(15)<a class="headerlink" href="#equation-derivation-examples-advection-diffusion-12" title="Permalink to this equation">¶</a></span>\[\boldsymbol{p_t} = \boldsymbol{- M \, p + s}\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight" id="equation-derivation-examples-advection-diffusion-13">
+<span class="eqno">(16)<a class="headerlink" href="#equation-derivation-examples-advection-diffusion-13" title="Permalink to this equation">¶</a></span>\[\boldsymbol{M} = - \boldsymbol{D \, M_\alpha^{-1} \tilde{G}} +
+c\, \boldsymbol{A_{fc}} diag(\boldsymbol{u}) \, \boldsymbol{M_f^{-1} \tilde{G}}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight" id="equation-derivation-examples-advection-diffusion-14">
+<span class="eqno">(17)<a class="headerlink" href="#equation-derivation-examples-advection-diffusion-14" title="Permalink to this equation">¶</a></span>\[\boldsymbol{s} = \boldsymbol{M_c^{-1} \, q}\]</div>
+<p>There are a multitude of ways in which discretization in time can be implemented.
+A stable and easy method to implement is the backward Euler.
+By implementing the backward Euler, we must solve the following linear system
+at each time step <span class="math notranslate nohighlight">\(k\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-derivation-examples-advection-diffusion-14">
+<span class="eqno">(18)<a class="headerlink" href="#equation-derivation-examples-advection-diffusion-14" title="Permalink to this equation">¶</a></span>\[\big [ \boldsymbol{I} + \Delta t \, \boldsymbol{M} \big ] \, \boldsymbol{p}^{k+1} = \boldsymbol{p}^k + \Delta t \, \boldsymbol{s}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{I}\)</span> is the identity matrix and <span class="math notranslate nohighlight">\(\Delta t\)</span> is the step length.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../release/index.html" class="btn btn-neutral float-right" title="Release Notes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="derivation_examples_poisson.html" class="btn btn-neutral float-left" title="Poisson Equation with Zero Neumann Boundary Condition" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+<div role="contentinfo">
+    <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" width="60px"; style="float:right;height:3em;line-height:3em;padding:10px 0 0 1em;">
+        <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+    </a>
+    2013-2020,
+    <a href="http://simpeg.xyz">SimPEG Developers.</a><br />
+    Except where noted, this work is licensed under a <br />
+    <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+        Creative Commons Attribution 4.0 International License
+    </a>
+</div>
+<br>
+<div>
+Built with
+    <a href="http://sphinx-doc.org/">Sphinx</a>
+    using a
+    <a href="https://github.com/snide/sphinx_rtd_theme">theme</a>
+    provided by
+    <a href="https://readthedocs.org">Read the Docs</a>.
+ </div>
+
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

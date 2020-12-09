@@ -1,0 +1,162 @@
+discretize.base.BaseMesh
+========================
+
+.. currentmodule:: discretize.base
+
+.. autoclass:: BaseMesh
+    :show-inheritance:
+
+.. include:: backreferences/discretize.base.BaseMesh.examples
+
+.. raw:: html
+
+     <div style='clear:both'></div>
+
+Attributes
+^^^^^^^^^^
+
+
+.. autoattribute:: BaseMesh.axis_u
+
+.. autoattribute:: BaseMesh.axis_v
+
+.. autoattribute:: BaseMesh.axis_w
+
+.. autoattribute:: BaseMesh.dim
+
+.. autoattribute:: BaseMesh.edge_tangents
+
+.. autoattribute:: BaseMesh.face_normals
+
+.. autoattribute:: BaseMesh.n_cells
+
+.. autoattribute:: BaseMesh.n_edges
+
+.. autoattribute:: BaseMesh.n_edges_x
+
+.. autoattribute:: BaseMesh.n_edges_y
+
+.. autoattribute:: BaseMesh.n_edges_z
+
+.. autoattribute:: BaseMesh.n_faces
+
+.. autoattribute:: BaseMesh.n_faces_x
+
+.. autoattribute:: BaseMesh.n_faces_y
+
+.. autoattribute:: BaseMesh.n_faces_z
+
+.. autoattribute:: BaseMesh.n_nodes
+
+.. autoattribute:: BaseMesh.normals
+
+.. autoattribute:: BaseMesh.reference_is_rotated
+
+.. autoattribute:: BaseMesh.reference_system
+
+.. autoattribute:: BaseMesh.rotation_matrix
+
+.. autoattribute:: BaseMesh.tangents
+
+.. autoattribute:: BaseMesh.vnE
+
+.. autoattribute:: BaseMesh.vnF
+
+.. autoattribute:: BaseMesh.x0
+
+
+
+Methods
+^^^^^^^
+
+
+
+
+
+.. automethod:: BaseMesh.copy
+
+
+
+.. automethod:: BaseMesh.deserialize
+
+
+
+.. automethod:: BaseMesh.equal
+
+
+
+.. automethod:: BaseMesh.plotGrid
+
+
+
+.. automethod:: BaseMesh.plotImage
+
+
+
+.. automethod:: BaseMesh.plotSlice
+
+
+
+.. automethod:: BaseMesh.plot_3d_slicer
+
+
+
+.. automethod:: BaseMesh.plot_grid
+
+
+
+.. automethod:: BaseMesh.plot_image
+
+
+
+.. automethod:: BaseMesh.plot_slice
+
+
+
+.. automethod:: BaseMesh.projectEdgeVector
+
+
+
+.. automethod:: BaseMesh.projectFaceVector
+
+
+
+.. automethod:: BaseMesh.project_edge_vector
+
+
+
+.. automethod:: BaseMesh.project_face_vector
+
+
+
+.. automethod:: BaseMesh.save
+
+
+
+.. automethod:: BaseMesh.serialize
+
+
+
+.. automethod:: BaseMesh.toVTK
+
+
+
+.. automethod:: BaseMesh.to_vtk
+
+
+
+.. automethod:: BaseMesh.validate
+
+
+
+.. automethod:: BaseMesh.writeVTK
+
+
+
+.. automethod:: BaseMesh.write_vtk
+
+
+
+.. raw:: html
+
+     <div style='clear:both'></div>

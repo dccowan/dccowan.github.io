@@ -1,0 +1,534 @@
+
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Interpolation &mdash; discretize 0.6.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-dataframe.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/logo-block.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Averaging" href="operators_averaging.html" />
+    <link rel="prev" title="Operators" href="operators_index.html" />
+ 
+
+<meta name="description" content="Simulation and Parameter Estimation in Geophysics">
+<meta name="author" content="SimPEG Developers">
+<meta name="keywords" content="python, geophysics, inversion, electromagnetics, magnetotellurics, magnetics, gravity, DC, flow inverse problems, open source, finite volume">
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-45185336-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> discretize
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+    
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../big_picture.html">Why discretize?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../additional_resources.html">Additional Resources</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/mesh_generation/index.html">Mesh Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/operators/index.html">Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/inner_products/index.html">Inner Products</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/pde/index.html">Solving PDEs</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API Reference</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Theory</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../finite_volume_index.html">Intoduction to Finite Volume</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes_index.html">Meshes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="operators_index.html">Operators</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Interpolation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#interpolation-matrix-in-1d">Interpolation Matrix in 1D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#interpolation-matrix-in-2d-and-3d">Interpolation Matrix in 2D and 3D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#interpolation-of-vectors">Interpolation of Vectors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="operators_averaging.html">Averaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operators_differential.html">Differential Operators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="inner_products_index.html">Inner Products</a></li>
+<li class="toctree-l1"><a class="reference internal" href="derivation_examples_index.html">Solving PDEs Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Meta Information</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../release/index.html">Release Notes</a></li>
+</ul>
+
+            
+          
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Getting connected
+            
+            </span>
+        </p>
+        <ul>
+            
+                <li class="toctree-l1"><a href="https://simpeg.xyz"><i class="fa fa-external-link-square fa-fw"></i> SimPEG</a></li>
+            
+                <li class="toctree-l1"><a href="http://slack.simpeg.xyz"><i class="fa fa-comment fa-fw"></i> Contact</a></li>
+            
+                <li class="toctree-l1"><a href="https://github.com/simpeg/discretize"><i class="fa fa-github fa-fw"></i> Source Code</a></li>
+            
+        </ul>
+    
+
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">discretize</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="operators_index.html">Operators</a> &raquo;</li>
+        
+      <li>Interpolation</li>
+    
+    
+
+    <li class="wy-breadcrumbs-aside">
+        
+            
+                <a href="https://github.com/simpeg/discretize/edit/master/doc/content/theory/operators_interpolation.rst"
+                   class="fa fa-github"> Edit this page</a>
+            
+        
+        
+    </li>
+
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="interpolation">
+<span id="operators-interpolation"></span><h1>Interpolation<a class="headerlink" href="#interpolation" title="Permalink to this headline">¶</a></h1>
+<p>Interpolation is required when a discrete quantity is known on the mesh (centers, nodes, edges or faces),
+but we would like to estimate its value at locations within the continuous domain.
+Here, we discuss how a sparse matrix <span class="math notranslate nohighlight">\(\boldsymbol{P}\)</span> can be formed which interpolates the discrete values to
+a set of locations in continuous space. Where <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> is vector that stores
+the values of a discrete quantity on the mesh (centers, nodes, faces or edges) and
+<span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span> is a vector containing the interpolated quantity at a set of locations,
+we look to construct an interpolation matrix such that:</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol{w} = \boldsymbol{P \, u}\]</div>
+<p>Presently there is an extensive set of interpolation methods (e.g. polynomial, spline, piecewise constant).
+One of the most effective and widely used interpolation methods is linear interpolation.
+The <em>discretize</em> package primarily uses linear interpolation because 1) it is very fast, and 2) higher order
+interpolation methods require the construction of matricies which are less sparse.
+The formulation for linear interpolation is adequately presented on Wikipedia, see:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Linear_interpolation">Linear Interpolation (1D)</a></p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Bilinear_interpolation">Bilinear Interpolation (2D)</a></p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Trilinear_interpolation">Trilinear Interpolation (3D)</a></p></li>
+</ul>
+</div></blockquote>
+<p><strong>Tutorial:</strong> <a class="reference internal" href="../../tutorials/operators/0_interpolation.html#sphx-glr-tutorials-operators-0-interpolation-py"><span class="std std-ref">tutorial for constructing and applying interpolation operators</span></a></p>
+<div class="section" id="interpolation-matrix-in-1d">
+<h2>Interpolation Matrix in 1D<a class="headerlink" href="#interpolation-matrix-in-1d" title="Permalink to this headline">¶</a></h2>
+<p>Let us define a 1D mesh that contains 8 cells of arbitrary width.
+The mesh is illustrated in the figure below. The width of each cell is
+defined as <span class="math notranslate nohighlight">\(h_i\)</span>. The location of each node is defined as <span class="math notranslate nohighlight">\(x_i\)</span>.</p>
+<div class="figure align-center" id="operators-interpolation-1d">
+<a class="reference internal image-reference" href="../../_images/interpolation_1d.png"><img alt="../../_images/interpolation_1d.png" src="../../_images/interpolation_1d.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-text">Tensor mesh in 1D.</span><a class="headerlink" href="#operators-interpolation-1d" title="Permalink to this image">¶</a></p>
+</div>
+<p>Now let <span class="math notranslate nohighlight">\(u(x)\)</span> be a function whose values are known at the nodes;
+i.e. <span class="math notranslate nohighlight">\(u_i = u(x_i)\)</span>.
+The approximate value of the function at location <span class="math notranslate nohighlight">\(x^*\)</span>
+using linear interpolation is given by:</p>
+<div class="math notranslate nohighlight" id="equation-operators-averaging-interpolation-1d">
+<span class="eqno">(1)<a class="headerlink" href="#equation-operators-averaging-interpolation-1d" title="Permalink to this equation">¶</a></span>\[u(x^*) \approx u_3 + \Bigg ( \frac{u_4 - u_3}{h_3} \Bigg ) (x^* - x_3)\]</div>
+<p>Suppose now that we organize the known values of <span class="math notranslate nohighlight">\(u(x)\)</span> at the nodes
+into a vector of the form:</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol{u} = \begin{bmatrix} u_0 &amp; u_1 &amp; u_2 &amp; u_3 &amp; u_4 &amp; u_5 &amp; u_6 &amp; u_7 &amp; u_8 \end{bmatrix}^T\]</div>
+<p>If we define a row:</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol{p_0} = \begin{bmatrix} 0 &amp; 0 &amp; 0 &amp; a_3 &amp; a_4 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \end{bmatrix}\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[a_3 = 1 - \frac{x^* - x_3}{h_3} \;\;\;\;\; \textrm{and} \;\;\;\;\; a_4 = \frac{x^* - x_3}{h_3}\]</div>
+<p>then</p>
+<div class="math notranslate nohighlight">
+\[u(x^*) \approx \boldsymbol{p_0 \, u}\]</div>
+<p>For a single location, we have just seen how a linear operator can be constructed to
+compute the interpolation using a matrix vector-product.</p>
+<p>Now consider the case where you would like to interpolate the function from the nodes to
+an arbitrary number of locations within the boundaries of the mesh.
+For each location, we simply construct the corresponding row in the interpolation matrix.
+Where <span class="math notranslate nohighlight">\(\boldsymbol{u^*}\)</span> is a vector containing the approximations of <span class="math notranslate nohighlight">\(u(x)\)</span> at <span class="math notranslate nohighlight">\(M\)</span>
+locations:</p>
+<div class="math notranslate nohighlight" id="equation-operators-averaging-interpolation-matrix">
+<span class="eqno">(2)<a class="headerlink" href="#equation-operators-averaging-interpolation-matrix" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{u^*} \approx \boldsymbol{P\, u} \;\;\;\;\;\; \textrm{where} \;\;\;\;\;\;
+\boldsymbol{P} = \begin{bmatrix} \cdots \;\; \boldsymbol{p_0} \;\; \cdots \\
+\cdots \;\; \boldsymbol{p_1} \;\; \cdots \\ \vdots \\
+\cdots \, \boldsymbol{p_{M-1}} \, \cdots \end{bmatrix}\end{split}\]</div>
+<p><span class="math notranslate nohighlight">\(\boldsymbol{P}\)</span> is a sparse matrix whose rows contain a maximum of 2 non-zero elements.
+The size of <span class="math notranslate nohighlight">\(\boldsymbol{P}\)</span> is the number of locations by the number of nodes.
+For seven locations (<span class="math notranslate nohighlight">\(x^* = 3,1,9,2,5,2,8\)</span>) and our mesh (9 nodes),
+the non-zero elements of the interpolation matrix are illustrated below.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../../_images/interpolation_1d_sparse.png"><img alt="../../_images/interpolation_1d_sparse.png" src="../../_images/interpolation_1d_sparse.png" style="width: 250px;" /></a>
+</div>
+<p><strong>What if the function is defined at cell centers?</strong></p>
+<p>Here we let <span class="math notranslate nohighlight">\(\bar{x}_i\)</span> define the center locations
+for cells 0 through 7, and we let <span class="math notranslate nohighlight">\(\bar{u}_i = u(\bar{x}_i)\)</span>.
+In this case, the approximation defined in expression <a class="reference internal" href="#equation-operators-averaging-interpolation-1d">(1)</a> is replaced by:</p>
+<div class="math notranslate nohighlight">
+\[u(x^*) \approx \bar{u}_3 + 2 \Bigg ( \frac{\bar{u}_4 - \bar{u}_3}{h_3 + h_4} \Bigg ) (x^* - \bar{x}_3)\]</div>
+<p>For an arbitrary number of locations, we can construct an interpolation matrix similar to that shown
+in expression <a class="reference internal" href="#equation-operators-averaging-interpolation-1d">(1)</a>. In this case however, the size of
+<span class="math notranslate nohighlight">\(\boldsymbol{P}\)</span> is the number of locations by the number of cells. Note that we <strong>cannot</strong>
+interpolate at locations between the first or last cell center and the boundaries of the mesh
+for quantities defined at cell centers.</p>
+</div>
+<div class="section" id="interpolation-matrix-in-2d-and-3d">
+<h2>Interpolation Matrix in 2D and 3D<a class="headerlink" href="#interpolation-matrix-in-2d-and-3d" title="Permalink to this headline">¶</a></h2>
+<p>In 1D, the location of the interpolated quantity lies between 2 nodes or cell centers.
+In 2D however, the location of the interpolated quantity lies within 4 nodes or cell centers.</p>
+<div class="figure align-center" id="id1">
+<a class="reference internal image-reference" href="../../_images/interpolation_2d.png"><img alt="../../_images/interpolation_2d.png" src="../../_images/interpolation_2d.png" style="width: 300px;" /></a>
+<p class="caption"><span class="caption-text">A tensor mesh in 2D denoting interpolation from nodes (blue) and cell centers (red).</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+<p>Let <span class="math notranslate nohighlight">\((x^*, y^*)\)</span> be within a cell whose nodes are located at
+<span class="math notranslate nohighlight">\((x_1, y_1)\)</span>, <span class="math notranslate nohighlight">\((x_2, y_1)\)</span>, <span class="math notranslate nohighlight">\((x_1, y_2)\)</span> and <span class="math notranslate nohighlight">\((x_2, y_2)\)</span>.
+If we define <span class="math notranslate nohighlight">\(u_0 = u(x_1, y_1)\)</span>, <span class="math notranslate nohighlight">\(u_1 = u(x_2, y_1)\)</span>, <span class="math notranslate nohighlight">\(u_2 = u(x_1, y_2)\)</span> and
+<span class="math notranslate nohighlight">\(u_3 = u(x_2, y_2)\)</span>, then</p>
+<div class="math notranslate nohighlight">
+\[u(x^*, y^*) \approx a_0 u_0 + a_1 u_1 + a_2 u_2 + a_3 u_3\]</div>
+<p>where <span class="math notranslate nohighlight">\(a_0\)</span>, <span class="math notranslate nohighlight">\(a_1\)</span>, <span class="math notranslate nohighlight">\(a_2\)</span> and <span class="math notranslate nohighlight">\(a_3\)</span> are coefficients determined from equations
+governing <a class="reference external" href="https://en.wikipedia.org/wiki/Bilinear_interpolation">bilinear interpolation</a> .
+These coefficients represent the 4 non-zero values within the corresponding row of the interpolation matrix <span class="math notranslate nohighlight">\(\boldsymbol{P}\)</span>.</p>
+<p>Where the values of <span class="math notranslate nohighlight">\(u(x,y)\)</span> at all nodes are organized into a single vector <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span>,
+and <span class="math notranslate nohighlight">\(\boldsymbol{u^*}\)</span> is a vector containing the approximations of <span class="math notranslate nohighlight">\(u(x,y)\)</span> at an arbitrary number of locations:</p>
+<div class="math notranslate nohighlight" id="equation-operators-interpolation-general">
+<span class="eqno">(3)<a class="headerlink" href="#equation-operators-interpolation-general" title="Permalink to this equation">¶</a></span>\[\boldsymbol{u^*} \approx \boldsymbol{P\, u}\]</div>
+<p>In each row of <span class="math notranslate nohighlight">\(\boldsymbol{P}\)</span>, the position of the non-zero elements <span class="math notranslate nohighlight">\(a_0\)</span>, <span class="math notranslate nohighlight">\(a_1\)</span>, <span class="math notranslate nohighlight">\(a_2\)</span> and <span class="math notranslate nohighlight">\(a_3\)</span>
+corresponds to the indecies of the 4 nodes comprising a specific cell.
+Once again the shape of <span class="math notranslate nohighlight">\(\boldsymbol{P}\)</span> is the number of locations by the number of nodes.</p>
+<p><strong>What if the function is defined at cell centers?</strong></p>
+<p>A similar result can be obtained by interpolating a function define at cell centers.
+In this case, we let <span class="math notranslate nohighlight">\((x^*, y^*)\)</span> lie within 4 cell centers located at
+<span class="math notranslate nohighlight">\((\bar{x}_1, \bar{y}_1)\)</span>, <span class="math notranslate nohighlight">\((\bar{x}_2, \bar{y}_1)\)</span>, <span class="math notranslate nohighlight">\((\bar{x}_1, \bar{y}_2)\)</span> and <span class="math notranslate nohighlight">\((\bar{x}_2, \bar{y}_2)\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[u(x^*, y^*) \approx a_0 \bar{u}_0 + a_1 \bar{u}_1 + a_2 \bar{u}_2 + a_3 \bar{u}_3\]</div>
+<p>The resulting interpolation is defined similar to expression <a class="reference internal" href="#equation-operators-interpolation-general">(3)</a>.
+However the size of the resulting interpolation matrix is the number of locations by number of cells.</p>
+<p><strong>What about for 3D case?</strong></p>
+<p>The derivation for the 3D case is effectively the same, except 8 node or center locations must
+be used in the interpolation. Thus:</p>
+<div class="math notranslate nohighlight">
+\[u(x^*, y^*, z^*) \approx \sum_{k=0}^7 a_k u_k\]</div>
+<p>This creates an interpolation matrix <span class="math notranslate nohighlight">\(\boldsymbol{P}\)</span> with 8 non-zero entries per row.
+To learn how to compute the value of the coefficients <span class="math notranslate nohighlight">\(a_k\)</span>,
+see <a class="reference external" href="https://en.wikipedia.org/wiki/Trilinear_interpolation">trilinear interpolation (3D)</a></p>
+</div>
+<div class="section" id="interpolation-of-vectors">
+<h2>Interpolation of Vectors<a class="headerlink" href="#interpolation-of-vectors" title="Permalink to this headline">¶</a></h2>
+<p>Scalar quantities are discretized to live at nodes or cell centers, whereas the
+components of vectors are discretized to live on their respective faces or edges;
+see <a class="reference internal" href="meshes_index.html#meshes-index-quantities"><span class="std std-ref">where quantities live</span></a>.</p>
+<div class="figure align-center" id="id2">
+<a class="reference internal image-reference" href="../../_images/interpolation_2d_vectors.png"><img alt="../../_images/interpolation_2d_vectors.png" src="../../_images/interpolation_2d_vectors.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-text">A tensor mesh in 2D denoting interpolation from faces (left) and edges (right).</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+<p>Let <span class="math notranslate nohighlight">\(\vec{u} (x,y)\)</span> be a 2D vector function that is known on the faces of the mesh;
+that is, <span class="math notranslate nohighlight">\(u_x\)</span> lives on the x-faces and <span class="math notranslate nohighlight">\(u_y\)</span> lives on the y-faces.
+Note that in the above figure, the x-faces and y-faces both form tensor grids.
+If we want to approximate the components of the vector at a location <span class="math notranslate nohighlight">\((x^*,y^*)\)</span>,
+we simply need to treat each component as a scalar function and interpolate it separately.</p>
+<p>Where <span class="math notranslate nohighlight">\(u_{x,i}\)</span> represents the x-component of <span class="math notranslate nohighlight">\(\vec{u} (x,y)\)</span> on a face <span class="math notranslate nohighlight">\(i\)</span> being used for the interpolation,
+the approximation of the x-component at <span class="math notranslate nohighlight">\((x^*, y^*)\)</span> has the form:</p>
+<div class="math notranslate nohighlight" id="equation-operators-interpolation-xvec-coef">
+<span class="eqno">(4)<a class="headerlink" href="#equation-operators-interpolation-xvec-coef" title="Permalink to this equation">¶</a></span>\[u_x(x^*, y^*) \approx a_0 u_{x,0} + a_1 u_{x,1} + a_2 u_{x,2} + a_3 u_{x,3}\]</div>
+<p>For the the y-component, we have a similar representation:</p>
+<div class="math notranslate nohighlight">
+\[u_y(x^*, y^*) \approx b_0 u_{y,0} + b_1 u_{y,1} + b_2 u_{y,2} + b_3 u_{y,3}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> is a vector that organizes the discrete components of <span class="math notranslate nohighlight">\(\vec{u} (x,y)\)</span> on cell faces,
+and <span class="math notranslate nohighlight">\(\boldsymbol{u^*}\)</span> is a vector organizing the components of the approximations of <span class="math notranslate nohighlight">\(\vec{u}(x,y)\)</span> at an arbitrary number of locations,
+the interpolation matrix <span class="math notranslate nohighlight">\(\boldsymbol{P}\)</span> is defined by:</p>
+<div class="math notranslate nohighlight" id="equation-operators-interpolation-2d-sys">
+<span class="eqno">(5)<a class="headerlink" href="#equation-operators-interpolation-2d-sys" title="Permalink to this equation">¶</a></span>\[\boldsymbol{u^*} \approx \boldsymbol{P \, u}\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol{u} = \begin{bmatrix} \boldsymbol{u_x} \\ \boldsymbol{u_y} \end{bmatrix}
+\;\;\textrm{,}\;\;\;\;
+\boldsymbol{u^*} = \begin{bmatrix} \boldsymbol{u_x^*} \\ \boldsymbol{u_y^*} \end{bmatrix}
+\;\;\;\;\textrm{and}\;\;\;\;
+\boldsymbol{P} = \begin{bmatrix} \boldsymbol{P_x} &amp; \boldsymbol{0} \\ \boldsymbol{0} &amp; \boldsymbol{P_y} \end{bmatrix}\end{split}\]</div>
+<p>The interpolation matrix <span class="math notranslate nohighlight">\(\boldsymbol{P}\)</span> is a sparse block-diagonal matrix.
+The size of the interpolation matrix is the number of locations by the number of faces in the mesh.</p>
+<p><strong>What if we want to interpolate from edges?</strong></p>
+<p>In this case, the derivation is effectively the same.
+However, the locations used for the interpolation are different and
+<span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> is now a vector that organizes the discrete components of <span class="math notranslate nohighlight">\(\vec{u} (x,y)\)</span> on cell edges.</p>
+<p><strong>What if we are interpolating a 3D vector?</strong></p>
+<p>In this case, there are 8 face locations or 8 edge locations that are used to approximate
+<span class="math notranslate nohighlight">\(\vec{u}(x,y,z)\)</span> at each location <span class="math notranslate nohighlight">\((x^*, y^*, z^*)\)</span>.
+Similar to expression <a class="reference internal" href="#equation-operators-interpolation-xvec-coef">(4)</a> we have:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+u_x(x^*, y^*, z^*) &amp; \approx \sum_{i=1}^7 a_i u_{x,i} \\
+u_y(x^*, y^*, z^*) &amp; \approx \sum_{i=1}^7 b_i u_{y,i} \\
+u_z(x^*, y^*, z^*) &amp; \approx \sum_{i=1}^7 c_i u_{z,i}
+\end{align}\end{split}\]</div>
+<p>The interpolation can be expressed similar to that in equation <a class="reference internal" href="#equation-operators-interpolation-2d-sys">(5)</a>,
+however:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol{u} = \begin{bmatrix} \boldsymbol{u_x} \\ \boldsymbol{u_y} \\ \boldsymbol{u_z} \end{bmatrix}
+\;\;\textrm{,}\;\;\;\;
+\boldsymbol{u^*} = \begin{bmatrix} \boldsymbol{u_x^*} \\ \boldsymbol{u_y^*} \\ \boldsymbol{u_z^*} \end{bmatrix}
+\;\;\;\;\textrm{and}\;\;\;\;
+\boldsymbol{P} = \begin{bmatrix} \boldsymbol{P_x} &amp; \boldsymbol{0} &amp; \boldsymbol{0} \\
+\boldsymbol{0} &amp; \boldsymbol{P_y} &amp; \boldsymbol{0} \\
+\boldsymbol{0} &amp; \boldsymbol{0} &amp; \boldsymbol{P_z}
+\end{bmatrix}\end{split}\]</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="operators_averaging.html" class="btn btn-neutral float-right" title="Averaging" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="operators_index.html" class="btn btn-neutral float-left" title="Operators" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+<div role="contentinfo">
+    <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" width="60px"; style="float:right;height:3em;line-height:3em;padding:10px 0 0 1em;">
+        <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+    </a>
+    2013-2020,
+    <a href="http://simpeg.xyz">SimPEG Developers.</a><br />
+    Except where noted, this work is licensed under a <br />
+    <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+        Creative Commons Attribution 4.0 International License
+    </a>
+</div>
+<br>
+<div>
+Built with
+    <a href="http://sphinx-doc.org/">Sphinx</a>
+    using a
+    <a href="https://github.com/snide/sphinx_rtd_theme">theme</a>
+    provided by
+    <a href="https://readthedocs.org">Read the Docs</a>.
+ </div>
+
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
