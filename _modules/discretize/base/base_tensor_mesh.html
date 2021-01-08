@@ -129,6 +129,7 @@
 <p class="caption"><span class="caption-text">Reference documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../content/references.html">References</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Theory</span></p>
 <ul>
@@ -237,8 +238,8 @@
 <span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">sp</span>
 <span class="kn">import</span> <span class="nn">properties</span>
 
-<span class="kn">from</span> <span class="nn">discretize.base.base_mesh</span> <span class="k">import</span> <span class="n">BaseMesh</span>
-<span class="kn">from</span> <span class="nn">discretize.utils</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">discretize.base.base_mesh</span> <span class="kn">import</span> <span class="n">BaseMesh</span>
+<span class="kn">from</span> <span class="nn">discretize.utils</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">is_scalar</span><span class="p">,</span>
     <span class="n">as_array_n_by_dim</span><span class="p">,</span>
     <span class="n">unpack_widths</span><span class="p">,</span>
@@ -250,7 +251,7 @@
     <span class="n">TensorType</span><span class="p">,</span>
     <span class="n">interpolation_matrix</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">discretize.utils.code_utils</span> <span class="k">import</span> <span class="n">deprecate_method</span><span class="p">,</span> <span class="n">deprecate_property</span>
+<span class="kn">from</span> <span class="nn">discretize.utils.code_utils</span> <span class="kn">import</span> <span class="n">deprecate_method</span><span class="p">,</span> <span class="n">deprecate_property</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
 
@@ -300,7 +301,7 @@
         <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 
         <span class="n">h_in</span> <span class="o">=</span> <span class="n">h</span>
         <span class="k">if</span> <span class="s2">&quot;x0&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
