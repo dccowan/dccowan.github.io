@@ -129,7 +129,6 @@
 <p class="caption"><span class="caption-text">Reference documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../content/references.html">References</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Theory</span></p>
 <ul>
@@ -312,10 +311,10 @@
     <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
         <span class="n">my_name</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span>
         <span class="n">parent_name</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__bases__</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="vm">__name__</span>
-        <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">my_name</span><span class="si">}</span><span class="s2"> has been deprecated, please use </span><span class="si">{</span><span class="n">parent_name</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{my_name}</span><span class="s2"> has been deprecated, please use </span><span class="si">{parent_name}</span><span class="s2">.&quot;</span>
         <span class="k">if</span> <span class="n">removal_version</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">message</span> <span class="o">+=</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot; It will be removed in version </span><span class="si">{</span><span class="n">removal_version</span><span class="si">}</span><span class="s2"> of discretize.&quot;</span>
+                <span class="n">f</span><span class="s2">&quot; It will be removed in version </span><span class="si">{removal_version}</span><span class="s2"> of discretize.&quot;</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">message</span> <span class="o">+=</span> <span class="s2">&quot; It will be removed in a future version of discretize.&quot;</span>
@@ -323,23 +322,23 @@
         <span class="c1"># stash the original initialization of the class</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">_old__init__</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__init__</span>
 
-        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_old__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="bp">cls</span><span class="o">.</span><span class="fm">__init__</span> <span class="o">=</span> <span class="fm">__init__</span>
         <span class="k">if</span> <span class="n">new_location</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">parent_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">new_location</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">parent_name</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot; This class has been deprecated, see `</span><span class="si">{</span><span class="n">parent_name</span><span class="si">}</span><span class="s2">` for documentation&quot;&quot;&quot;</span>
+            <span class="n">parent_name</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{new_location}</span><span class="s2">.</span><span class="si">{parent_name}</span><span class="s2">&quot;</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot; This class has been deprecated, see `</span><span class="si">{parent_name}</span><span class="s2">` for documentation&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span>
 
     <span class="k">return</span> <span class="n">decorator</span>
 
 
 <span class="k">def</span> <span class="nf">deprecate_module</span><span class="p">(</span><span class="n">old_name</span><span class="p">,</span> <span class="n">new_name</span><span class="p">,</span> <span class="n">removal_version</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;The </span><span class="si">{</span><span class="n">old_name</span><span class="si">}</span><span class="s2"> module has been deprecated, please use </span><span class="si">{</span><span class="n">new_name</span><span class="si">}</span><span class="s2">.&quot;</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;The </span><span class="si">{old_name}</span><span class="s2"> module has been deprecated, please use </span><span class="si">{new_name}</span><span class="s2">.&quot;</span>
     <span class="k">if</span> <span class="n">removal_version</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">message</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; It will be removed in version </span><span class="si">{</span><span class="n">removal_version</span><span class="si">}</span><span class="s2"> of discretize&quot;</span>
+        <span class="n">message</span> <span class="o">+=</span> <span class="n">f</span><span class="s2">&quot; It will be removed in version </span><span class="si">{removal_version}</span><span class="s2"> of discretize&quot;</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">message</span> <span class="o">+=</span> <span class="s2">&quot; It will be removed in a future version of discretize.&quot;</span>
     <span class="n">message</span> <span class="o">+=</span> <span class="s2">&quot; Please update your code accordingly.&quot;</span>
@@ -348,14 +347,14 @@
 
 <span class="k">def</span> <span class="nf">deprecate_property</span><span class="p">(</span><span class="n">new_name</span><span class="p">,</span> <span class="n">old_name</span><span class="p">,</span> <span class="n">removal_version</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">removal_version</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">tag</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot; It will be removed in version </span><span class="si">{</span><span class="n">removal_version</span><span class="si">}</span><span class="s2"> of discretize.&quot;</span>
+        <span class="n">tag</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot; It will be removed in version </span><span class="si">{removal_version}</span><span class="s2"> of discretize.&quot;</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">tag</span> <span class="o">=</span> <span class="s2">&quot; It will be removed in a future version of discretize.&quot;</span>
 
     <span class="k">def</span> <span class="nf">get_dep</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">class_name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
         <span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">class_name</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">old_name</span><span class="si">}</span><span class="s2"> has been deprecated, please use </span><span class="si">{</span><span class="n">class_name</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">new_name</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="n">f</span><span class="s2">&quot;</span><span class="si">{class_name}</span><span class="s2">.</span><span class="si">{old_name}</span><span class="s2"> has been deprecated, please use </span><span class="si">{class_name}</span><span class="s2">.</span><span class="si">{new_name}</span><span class="s2">.&quot;</span>
             <span class="o">+</span> <span class="n">tag</span>
         <span class="p">)</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
@@ -364,33 +363,33 @@
     <span class="k">def</span> <span class="nf">set_dep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="n">class_name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
         <span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">class_name</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">old_name</span><span class="si">}</span><span class="s2"> has been deprecated, please use </span><span class="si">{</span><span class="n">class_name</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">new_name</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="n">f</span><span class="s2">&quot;</span><span class="si">{class_name}</span><span class="s2">.</span><span class="si">{old_name}</span><span class="s2"> has been deprecated, please use </span><span class="si">{class_name}</span><span class="s2">.</span><span class="si">{new_name}</span><span class="s2">.&quot;</span>
             <span class="o">+</span> <span class="n">tag</span>
         <span class="p">)</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
         <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_name</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
 
-    <span class="n">doc</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;`</span><span class="si">{</span><span class="n">old_name</span><span class="si">}</span><span class="s2">` has been deprecated. See `</span><span class="si">{</span><span class="n">new_name</span><span class="si">}</span><span class="s2">` for documentation&quot;</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;`</span><span class="si">{old_name}</span><span class="s2">` has been deprecated. See `</span><span class="si">{new_name}</span><span class="s2">` for documentation&quot;</span>
 
     <span class="k">return</span> <span class="nb">property</span><span class="p">(</span><span class="n">get_dep</span><span class="p">,</span> <span class="n">set_dep</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">doc</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">deprecate_method</span><span class="p">(</span><span class="n">new_name</span><span class="p">,</span> <span class="n">old_name</span><span class="p">,</span> <span class="n">removal_version</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">removal_version</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">tag</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot; It will be removed in version </span><span class="si">{</span><span class="n">removal_version</span><span class="si">}</span><span class="s2"> of discretize.&quot;</span>
+        <span class="n">tag</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot; It will be removed in version </span><span class="si">{removal_version}</span><span class="s2"> of discretize.&quot;</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">tag</span> <span class="o">=</span> <span class="s2">&quot; It will be removed in a future version of discretize.&quot;</span>
 
     <span class="k">def</span> <span class="nf">new_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">class_name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">class_name</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">old_name</span><span class="si">}</span><span class="s2"> has been deprecated, please use </span><span class="si">{</span><span class="n">class_name</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">new_name</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="n">f</span><span class="s2">&quot;</span><span class="si">{class_name}</span><span class="s2">.</span><span class="si">{old_name}</span><span class="s2"> has been deprecated, please use </span><span class="si">{class_name}</span><span class="s2">.</span><span class="si">{new_name}</span><span class="s2">.&quot;</span>
             <span class="o">+</span> <span class="n">tag</span><span class="p">,</span>
             <span class="ne">DeprecationWarning</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_name</span><span class="p">)(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="n">doc</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;`</span><span class="si">{</span><span class="n">old_name</span><span class="si">}</span><span class="s2">` has been deprecated. See `</span><span class="si">{</span><span class="n">new_name</span><span class="si">}</span><span class="s2">` for documentation&quot;</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;`</span><span class="si">{old_name}</span><span class="s2">` has been deprecated. See `</span><span class="si">{new_name}</span><span class="s2">` for documentation&quot;</span>
     <span class="n">new_method</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">doc</span>
     <span class="k">return</span> <span class="n">new_method</span>
 
@@ -398,18 +397,18 @@
 <span class="k">def</span> <span class="nf">deprecate_function</span><span class="p">(</span><span class="n">new_function</span><span class="p">,</span> <span class="n">old_name</span><span class="p">,</span> <span class="n">removal_version</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">new_name</span> <span class="o">=</span> <span class="n">new_function</span><span class="o">.</span><span class="vm">__name__</span>
     <span class="k">if</span> <span class="n">removal_version</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">tag</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot; It will be removed in version </span><span class="si">{</span><span class="n">removal_version</span><span class="si">}</span><span class="s2"> of discretize.&quot;</span>
+        <span class="n">tag</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot; It will be removed in version </span><span class="si">{removal_version}</span><span class="s2"> of discretize.&quot;</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">tag</span> <span class="o">=</span> <span class="s2">&quot; It will be removed in a future version of discretize.&quot;</span>
 
     <span class="k">def</span> <span class="nf">dep_function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">old_name</span><span class="si">}</span><span class="s2"> has been deprecated, please use </span><span class="si">{</span><span class="n">new_name</span><span class="si">}</span><span class="s2">.&quot;</span> <span class="o">+</span> <span class="n">tag</span><span class="p">,</span>
+            <span class="n">f</span><span class="s2">&quot;</span><span class="si">{old_name}</span><span class="s2"> has been deprecated, please use </span><span class="si">{new_name}</span><span class="s2">.&quot;</span> <span class="o">+</span> <span class="n">tag</span><span class="p">,</span>
             <span class="ne">DeprecationWarning</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">new_function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="n">doc</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;`</span><span class="si">{</span><span class="n">old_name</span><span class="si">}</span><span class="s2">` has been deprecated. See `</span><span class="si">{</span><span class="n">new_name</span><span class="si">}</span><span class="s2">` for documentation&quot;</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;`</span><span class="si">{old_name}</span><span class="s2">` has been deprecated. See `</span><span class="si">{new_name}</span><span class="s2">` for documentation&quot;</span>
     <span class="n">dep_function</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">doc</span>
     <span class="k">return</span> <span class="n">dep_function</span>
 

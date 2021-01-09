@@ -142,7 +142,6 @@
 <p class="caption"><span class="caption-text">Reference documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../api/index.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../content/references.html">References</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Theory</span></p>
 <ul>
@@ -285,21 +284,23 @@
 <p>This example is based on the example in the <a class="reference external" href="https://github.com/usnistgov/fipy">FiPy</a> library.
 Please see their documentation for more information about the
 Cahn-Hilliard equation.</p>
-<p>The “Cahn-Hilliard” equation separates a field <span class="math notranslate nohighlight">\(\phi\)</span>
+<p>The “Cahn-Hilliard” equation separates a field \( \phi \)
 into 0 and 1 with smooth transitions.</p>
 <div class="math notranslate nohighlight">
 \[\frac{\partial \phi}{\partial t} = \nabla \cdot D \nabla \left( \frac{\partial f}{\partial \phi} - \epsilon^2 \nabla^2 \phi \right)\]</div>
-<p>Where <span class="math notranslate nohighlight">\(f\)</span> is the energy function <span class="math notranslate nohighlight">\(f = ( a^2 / 2 )\phi^2 (1 - \phi)^2\)</span>
-which drives <span class="math notranslate nohighlight">\(\phi\)</span> towards either 0 or 1. This competes with the term
-<span class="math notranslate nohighlight">\(\epsilon^2 \nabla^2 \phi\)</span> which is a diffusion term that creates smooth changes in <span class="math notranslate nohighlight">\(\phi\)</span>.
+<p>Where \( f \) is the energy function \( f = ( a^2 / 2 )\phi^2(1 - \phi)^2 \)
+which drives \( \phi \) towards either 0 or 1, this competes with the term
+\(\epsilon^2 \nabla^2 \phi \) which is a diffusion term that creates smooth changes in \( \phi \).
 The equation can be factored:</p>
 <div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}\frac{\partial\phi}{\partial t} = \nabla \cdot D \nabla \psi\\\psi = \frac{\partial^2 f}{\partial \phi^2} (\phi - \phi^{\text{old}}) + \frac{\partial f}{\partial \phi} - \epsilon^2 \nabla^2 \phi\end{aligned}\end{align} \]</div>
-<p>Here we will need the derivatives of <span class="math notranslate nohighlight">\(f\)</span>:</p>
+\[\begin{split}\frac{\partial \phi}{\partial t} = \nabla \cdot D \nabla \psi \\
+\psi = \frac{\partial^2 f}{\partial \phi^2} (\phi - \phi^{\text{old}}) + \frac{\partial f}{\partial \phi} - \epsilon^2 \nabla^2 \phi\end{split}\]</div>
+<p>Here we will need the derivatives of \( f \):</p>
 <div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}\frac{\partial f}{\partial \phi} = a^2 \phi(1-\phi)(1-2\phi)\\\frac{\partial^2 f}{\partial \phi^2} = a^2 [1-6\phi(1-\phi)]\end{aligned}\end{align} \]</div>
+\[\frac{\partial f}{\partial \phi} = (a^2/2)2\phi(1-\phi)(1-2\phi)
+\frac{\partial^2 f}{\partial \phi^2} = (a^2/2)2[1-6\phi(1-\phi)]\]</div>
 <p>The implementation below uses backwards Euler in time with an
-exponentially increasing time step. The initial <span class="math notranslate nohighlight">\(\phi\)</span>
+exponentially increasing time step. The initial \( \phi \)
 is a normally distributed field with a standard deviation of 0.1 and
 mean of 0.5. The grid is 60x60 and takes a few seconds to solve ~130
 times. The results are seen below, and you can see the field separating
@@ -325,7 +326,7 @@ as the time increases.</p>
 <div class="line"><br /></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">discretize</span>
-<span class="kn">from</span> <span class="nn">pymatsolver</span> <span class="kn">import</span> <a href="https://propertiespy.readthedocs.io/en/latest/content/hasproperties.html#properties.HasProperties" title="properties.HasProperties" class="sphx-glr-backref-module-properties sphx-glr-backref-type-py-class"><span class="n">Solver</span></a>
+<span class="kn">from</span> <span class="nn">pymatsolver</span> <span class="k">import</span> <span class="n">Solver</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
@@ -374,7 +375,7 @@ as the time increases.</p>
 
         <span class="n">MAT</span> <span class="o">=</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">A</span> <span class="o">*</span> <span class="n">d2fdphi2</span> <span class="o">-</span> <span class="n">I</span> <span class="o">-</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">A</span> <span class="o">*</span> <span class="n">L</span>
         <span class="n">rhs</span> <span class="o">=</span> <span class="p">(</span><span class="n">dt</span> <span class="o">*</span> <span class="n">A</span> <span class="o">*</span> <span class="n">d2fdphi2</span> <span class="o">-</span> <span class="n">I</span><span class="p">)</span> <span class="o">*</span> <span class="n">phi</span> <span class="o">-</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">A</span> <span class="o">*</span> <span class="n">dfdphi</span>
-        <span class="n">phi</span> <span class="o">=</span> <a href="https://propertiespy.readthedocs.io/en/latest/content/hasproperties.html#properties.HasProperties" title="properties.HasProperties" class="sphx-glr-backref-module-properties sphx-glr-backref-type-py-class"><span class="n">Solver</span></a><span class="p">(</span><span class="n">MAT</span><span class="p">)</span> <span class="o">*</span> <span class="n">rhs</span>
+        <span class="n">phi</span> <span class="o">=</span> <span class="n">Solver</span><span class="p">(</span><span class="n">MAT</span><span class="p">)</span> <span class="o">*</span> <span class="n">rhs</span>
 
         <span class="k">if</span> <span class="n">elapsed</span> <span class="o">&gt;</span> <span class="n">capture</span><span class="p">[</span><span class="n">jj</span><span class="p">]:</span>
             <span class="n">PHIS</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">elapsed</span><span class="p">,</span> <span class="n">phi</span><span class="o">.</span><span class="n">copy</span><span class="p">())]</span>
@@ -398,7 +399,7 @@ as the time increases.</p>
     <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  12.564 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  4.428 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-plot-cahn-hilliard-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/e3e324f4509f22594352570233a2bd14/plot_cahn_hilliard.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_cahn_hilliard.py</span></code></a></p>

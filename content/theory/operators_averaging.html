@@ -131,7 +131,6 @@
 <p class="caption"><span class="caption-text">Reference documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Theory</span></p>
 <ul class="current">
@@ -288,9 +287,7 @@
 <span id="operators-averaging"></span><h1>Averaging<a class="headerlink" href="#averaging" title="Permalink to this headline">¶</a></h1>
 <p>Here, we provide the background theory for how discrete averaging matricies are formed.
 Averaging matrices are required when quantities that live on different
-parts of the mesh need to be added, subtracted, multiplied or divided.
-Averaging matrices are built using the same principles that were discussed when forming <a class="reference internal" href="operators_interpolation.html#operators-interpolation"><span class="std std-ref">interpolation matrices</span></a>;
-except the locations of the original quantity and the interpolated quantity are organized on a structured grid.</p>
+parts of the mesh need to be added, subtracted, multiplied or divided.</p>
 <p>Where <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> is a discrete representation of a vector living somewhere on the mesh (nodes, edges, faces),
 and <span class="math notranslate nohighlight">\(\bar{\boldsymbol{u}}\)</span> is the vector containing the averages mapped to another part of the mesh,
 we look to constructs an averaging matrix <span class="math notranslate nohighlight">\(\boldsymbol{A}\)</span> such that:</p>
@@ -400,7 +397,7 @@ can be used to construct a matrix <span class="math notranslate nohighlight">\(A
 can be used to construct a matrix <span class="math notranslate nohighlight">\(A_y\)</span>. The averaging matrix in 2D is given by:</p>
 <div class="math notranslate nohighlight">
 \[\boldsymbol{A} = A_y \otimes A_x\]</div>
-<p>where <span class="math notranslate nohighlight">\(\otimes\)</span> is the <a class="reference external" href="https://en.wikipedia.org/wiki/Kronecker_product">Kronecker product</a>. For a 3D tensor mesh, the averaging matrix
+<p>where <span class="math notranslate nohighlight">\(\otimes\)</span> is the kronecker product. For a 3D tensor mesh, the averaging matrix
 from nodes to cell centers would be given by:</p>
 <div class="math notranslate nohighlight">
 \[\boldsymbol{A} = A_z \otimes (A_y \otimes A_x)\]</div>

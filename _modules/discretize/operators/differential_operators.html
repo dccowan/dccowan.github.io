@@ -129,7 +129,6 @@
 <p class="caption"><span class="caption-text">Reference documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../content/references.html">References</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Theory</span></p>
 <ul>
@@ -231,10 +230,10 @@
             
   <h1>Source code for discretize.operators.differential_operators</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">sparse</span> <span class="k">as</span> <span class="n">sp</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">sparse</span> <span class="k">as</span> <span class="n">sp</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">discretize.utils</span> <span class="kn">import</span> <span class="n">sdiag</span><span class="p">,</span> <span class="n">speye</span><span class="p">,</span> <span class="n">kron3</span><span class="p">,</span> <span class="n">spzeros</span><span class="p">,</span> <span class="n">ddx</span><span class="p">,</span> <span class="n">av</span><span class="p">,</span> <span class="n">av_extrap</span>
-<span class="kn">from</span> <span class="nn">discretize.utils.code_utils</span> <span class="kn">import</span> <span class="n">deprecate_method</span><span class="p">,</span> <span class="n">deprecate_property</span>
+<span class="kn">from</span> <span class="nn">discretize.utils</span> <span class="k">import</span> <span class="n">sdiag</span><span class="p">,</span> <span class="n">speye</span><span class="p">,</span> <span class="n">kron3</span><span class="p">,</span> <span class="n">spzeros</span><span class="p">,</span> <span class="n">ddx</span><span class="p">,</span> <span class="n">av</span><span class="p">,</span> <span class="n">av_extrap</span>
+<span class="kn">from</span> <span class="nn">discretize.utils.code_utils</span> <span class="k">import</span> <span class="n">deprecate_method</span><span class="p">,</span> <span class="n">deprecate_property</span>
 
 
 <span class="k">def</span> <span class="nf">_validate_BC</span><span class="p">(</span><span class="n">bc</span><span class="p">):</span>
@@ -377,7 +376,7 @@
         <span class="s2">&quot;aveN2F&quot;</span><span class="p">:</span> <span class="s2">&quot;average_node_to_face&quot;</span><span class="p">,</span>
     <span class="p">}</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
             <span class="s2">&quot;DiffOperators is a base class providing differential&quot;</span>
             <span class="s2">&quot;operators on meshes and cannot run on its own.&quot;</span>

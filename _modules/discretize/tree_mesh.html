@@ -129,7 +129,6 @@
 <p class="caption"><span class="caption-text">Reference documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../content/references.html">References</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Theory</span></p>
 <ul>
@@ -319,15 +318,15 @@
 
 <span class="kn">import</span> <span class="nn">properties</span>
 
-<span class="kn">from</span> <span class="nn">discretize.base</span> <span class="kn">import</span> <span class="n">BaseTensorMesh</span>
-<span class="kn">from</span> <span class="nn">discretize.operators</span> <span class="kn">import</span> <span class="n">InnerProducts</span><span class="p">,</span> <span class="n">DiffOperators</span>
-<span class="kn">from</span> <span class="nn">discretize.base.mesh_io</span> <span class="kn">import</span> <span class="n">TreeMeshIO</span>
-<span class="kn">from</span> <span class="nn">discretize.utils</span> <span class="kn">import</span> <span class="n">as_array_n_by_dim</span>
-<span class="kn">from</span> <span class="nn">discretize._extensions.tree_ext</span> <span class="kn">import</span> <span class="n">_TreeMesh</span><span class="p">,</span> <span class="n">TreeCell</span>
+<span class="kn">from</span> <span class="nn">discretize.base</span> <span class="k">import</span> <span class="n">BaseTensorMesh</span>
+<span class="kn">from</span> <span class="nn">discretize.operators</span> <span class="k">import</span> <span class="n">InnerProducts</span><span class="p">,</span> <span class="n">DiffOperators</span>
+<span class="kn">from</span> <span class="nn">discretize.base.mesh_io</span> <span class="k">import</span> <span class="n">TreeMeshIO</span>
+<span class="kn">from</span> <span class="nn">discretize.utils</span> <span class="k">import</span> <span class="n">as_array_n_by_dim</span>
+<span class="kn">from</span> <span class="nn">discretize._extensions.tree_ext</span> <span class="k">import</span> <span class="n">_TreeMesh</span><span class="p">,</span> <span class="n">TreeCell</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">sp</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">discretize.utils.code_utils</span> <span class="kn">import</span> <span class="n">deprecate_property</span>
+<span class="kn">from</span> <span class="nn">discretize.utils.code_utils</span> <span class="k">import</span> <span class="n">deprecate_property</span>
 
 
 <div class="viewcode-block" id="TreeMesh"><a class="viewcode-back" href="../../api/generated/discretize.TreeMesh.html#discretize.TreeMesh">[docs]</a><span class="k">class</span> <span class="nc">TreeMesh</span><span class="p">(</span><span class="n">_TreeMesh</span><span class="p">,</span> <span class="n">BaseTensorMesh</span><span class="p">,</span> <span class="n">InnerProducts</span><span class="p">,</span> <span class="n">TreeMeshIO</span><span class="p">):</span>
@@ -369,7 +368,7 @@
     <span class="p">}</span>
 
     <span class="c1"># inheriting stuff from BaseTensorMesh that isn&#39;t defined in _QuadTree</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="s2">&quot;x0&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="n">origin</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;x0&quot;</span><span class="p">)</span>
         <span class="n">BaseTensorMesh</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
@@ -393,7 +392,7 @@
             <span class="n">levels</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;cell_levels&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__setstate__</span><span class="p">((</span><span class="n">inds</span><span class="p">,</span> <span class="n">levels</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Plain text representation.&quot;&quot;&quot;</span>
         <span class="n">mesh_name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0!s}</span><span class="s2">TreeMesh&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">((</span><span class="s2">&quot;Oc&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">3</span> <span class="k">else</span> <span class="s2">&quot;Quad&quot;</span><span class="p">))</span>
 

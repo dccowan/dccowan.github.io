@@ -129,7 +129,6 @@
 <p class="caption"><span class="caption-text">Reference documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../content/references.html">References</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Theory</span></p>
 <ul>
@@ -232,11 +231,11 @@
   <h1>Source code for discretize.utils.interpolation_utils</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">sp</span>
-<span class="kn">from</span> <span class="nn">discretize.utils.matrix_utils</span> <span class="kn">import</span> <span class="n">mkvc</span><span class="p">,</span> <span class="n">sub2ind</span>
-<span class="kn">from</span> <span class="nn">discretize.utils.code_utils</span> <span class="kn">import</span> <span class="n">deprecate_function</span>
+<span class="kn">from</span> <span class="nn">discretize.utils.matrix_utils</span> <span class="k">import</span> <span class="n">mkvc</span><span class="p">,</span> <span class="n">sub2ind</span>
+<span class="kn">from</span> <span class="nn">discretize.utils.code_utils</span> <span class="k">import</span> <span class="n">deprecate_function</span>
 
 <span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">discretize._extensions</span> <span class="kn">import</span> <span class="n">interputils_cython</span> <span class="k">as</span> <span class="n">pyx</span>
+    <span class="kn">from</span> <span class="nn">discretize._extensions</span> <span class="k">import</span> <span class="n">interputils_cython</span> <span class="k">as</span> <span class="n">pyx</span>
 
     <span class="n">_interp_point_1D</span> <span class="o">=</span> <span class="n">pyx</span><span class="o">.</span><span class="n">_interp_point_1D</span>
     <span class="n">_interpmat1D</span> <span class="o">=</span> <span class="n">pyx</span><span class="o">.</span><span class="n">_interpmat1D</span>
@@ -399,8 +398,8 @@
     <span class="n">valid_meshs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;TENSOR&quot;</span><span class="p">,</span> <span class="s2">&quot;TREE&quot;</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">in_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_meshs</span> <span class="ow">or</span> <span class="n">out_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_meshs</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Volume averaging is only implemented for TensorMesh and TreeMesh, &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;not </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">mesh_in</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> and/or </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">mesh_out</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">f</span><span class="s2">&quot;Volume averaging is only implemented for TensorMesh and TreeMesh, &quot;</span>
+            <span class="n">f</span><span class="s2">&quot;not {type(mesh_in).__name__} and/or {type(mesh_out).__name__}&quot;</span>
         <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">mesh_in</span><span class="o">.</span><span class="n">dim</span> <span class="o">!=</span> <span class="n">mesh_out</span><span class="o">.</span><span class="n">dim</span><span class="p">:</span>
