@@ -94,6 +94,27 @@ of tutorials. These tutorials aim to teach the user:
    :hidden:
 
    /tutorials/operators/2_differential
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="For geophysical problems, the relationship between two physical quantities may include one of s...">
+
+.. only:: html
+
+ .. figure:: /tutorials/operators/images/thumb/sphx_glr_2_differential_new_thumb.png
+     :alt: Differential Operators New
+
+     :ref:`sphx_glr_tutorials_operators_2_differential_new.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /tutorials/operators/2_differential_new
 .. raw:: html
 
     <div class="sphx-glr-clear"></div>

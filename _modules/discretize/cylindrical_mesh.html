@@ -129,6 +129,7 @@
 <p class="caption"><span class="caption-text">Reference documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../content/references.html">References</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Theory</span></p>
 <ul>
@@ -232,9 +233,9 @@
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">properties</span>
 <span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">sp</span>
-<span class="kn">from</span> <span class="nn">scipy.constants</span> <span class="k">import</span> <span class="n">pi</span>
+<span class="kn">from</span> <span class="nn">scipy.constants</span> <span class="kn">import</span> <span class="n">pi</span>
 
-<span class="kn">from</span> <span class="nn">discretize.utils</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">discretize.utils</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">kron3</span><span class="p">,</span>
     <span class="n">ndgrid</span><span class="p">,</span>
     <span class="n">av</span><span class="p">,</span>
@@ -245,9 +246,9 @@
     <span class="n">interpolation_matrix</span><span class="p">,</span>
     <span class="n">cyl2cart</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">discretize.base</span> <span class="k">import</span> <span class="n">BaseTensorMesh</span><span class="p">,</span> <span class="n">BaseRectangularMesh</span>
-<span class="kn">from</span> <span class="nn">discretize.operators</span> <span class="k">import</span> <span class="n">DiffOperators</span><span class="p">,</span> <span class="n">InnerProducts</span>
-<span class="kn">from</span> <span class="nn">discretize.utils.code_utils</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">discretize.base</span> <span class="kn">import</span> <span class="n">BaseTensorMesh</span><span class="p">,</span> <span class="n">BaseRectangularMesh</span>
+<span class="kn">from</span> <span class="nn">discretize.operators</span> <span class="kn">import</span> <span class="n">DiffOperators</span><span class="p">,</span> <span class="n">InnerProducts</span>
+<span class="kn">from</span> <span class="nn">discretize.utils.code_utils</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">deprecate_class</span><span class="p">,</span>
     <span class="n">deprecate_property</span><span class="p">,</span>
     <span class="n">deprecate_method</span><span class="p">,</span>
@@ -307,7 +308,7 @@
         <span class="s2">&quot;Cartesian origin of the mesh&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">,)</span>
     <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">h</span><span class="o">=</span><span class="n">h</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">origin</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reference_system</span> <span class="o">=</span> <span class="s2">&quot;cylindrical&quot;</span>
 
@@ -1812,7 +1813,7 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">grid</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location_type</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-            <span class="n">grid</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="s2">&quot;grid</span><span class="si">{location_type}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">grid</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;grid</span><span class="si">{</span><span class="n">location_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">theta_shift</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">grid</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">theta_shift</span>
         <span class="k">return</span> <span class="n">cyl2cart</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>  <span class="c1"># TODO: account for cartesian origin</span></div>

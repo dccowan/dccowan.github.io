@@ -129,6 +129,7 @@
 <p class="caption"><span class="caption-text">Reference documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../content/references.html">References</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Theory</span></p>
 <ul>
@@ -233,13 +234,13 @@
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">discretize.utils</span> <span class="k">import</span> <span class="n">mkvc</span>
-<span class="kn">from</span> <span class="nn">discretize.base.base_mesh</span> <span class="k">import</span> <span class="n">BaseMesh</span>
-<span class="kn">from</span> <span class="nn">discretize.utils.code_utils</span> <span class="k">import</span> <span class="n">deprecate_method</span>
+<span class="kn">from</span> <span class="nn">discretize.utils</span> <span class="kn">import</span> <span class="n">mkvc</span>
+<span class="kn">from</span> <span class="nn">discretize.base.base_mesh</span> <span class="kn">import</span> <span class="n">BaseMesh</span>
+<span class="kn">from</span> <span class="nn">discretize.utils.code_utils</span> <span class="kn">import</span> <span class="n">deprecate_method</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">..mixins</span> <span class="k">import</span> <span class="n">InterfaceTensorread_vtk</span>
+    <span class="kn">from</span> <span class="nn">..mixins</span> <span class="kn">import</span> <span class="n">InterfaceTensorread_vtk</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="n">InterfaceTensorread_vtk</span> <span class="o">=</span> <span class="nb">object</span>
 
@@ -724,10 +725,10 @@
         <span class="n">levels</span> <span class="o">=</span> <span class="n">levels</span><span class="p">[</span><span class="n">ubc_order</span><span class="p">]</span>
 
         <span class="c1"># Write the UBC octree mesh file</span>
-        <span class="n">head</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;{int(n)}&quot;</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nCunderMesh</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; </span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="n">head</span> <span class="o">+=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{v:.4f}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">tswCorn</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; </span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="n">head</span> <span class="o">+=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{v:.3f}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">smallCell</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; </span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="n">head</span> <span class="o">+=</span> <span class="n">f</span><span class="s2">&quot;{int(nrCells)}&quot;</span>
+        <span class="n">head</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nCunderMesh</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; </span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">head</span> <span class="o">+=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">tswCorn</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; </span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">head</span> <span class="o">+=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">smallCell</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; </span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">head</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">nrCells</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">indArr</span><span class="p">,</span> <span class="n">levels</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%i</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">head</span><span class="p">,</span> <span class="n">comments</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 
         <span class="c1"># Print the models</span>
