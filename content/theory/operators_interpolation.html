@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/gallery-binder.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-rendered-html.css" type="text/css" />
 
   
   
@@ -123,10 +124,10 @@
 </ul>
 <p class="caption"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorials/mesh_generation/index.html">Mesh Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/mesh_generation/index.html">Meshes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/operators/index.html">Operators</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/inner_products/index.html">Inner Products</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorials/pde/index.html">Solving PDEs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/pde/index.html">Solving PDEs with Discretize</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Reference documentation</span></p>
 <ul>
@@ -293,7 +294,7 @@ The formulation for linear interpolation is adequately presented on Wikipedia, s
 <li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Trilinear_interpolation">Trilinear Interpolation (3D)</a></p></li>
 </ul>
 </div></blockquote>
-<p><strong>Tutorial:</strong> <a class="reference internal" href="../../tutorials/operators/0_interpolation.html#sphx-glr-tutorials-operators-0-interpolation-py"><span class="std std-ref">tutorial for constructing and applying interpolation operators</span></a></p>
+<p><strong>Tutorial:</strong> <span class="xref std std-ref">tutorial for constructing and applying interpolation operators</span></p>
 <div class="section" id="interpolation-matrix-in-1d">
 <h2>Interpolation Matrix in 1D<a class="headerlink" href="#interpolation-matrix-in-1d" title="Permalink to this headline">¶</a></h2>
 <p>Let us define a 1D mesh that contains 8 cells of arbitrary width.
@@ -344,11 +345,11 @@ the non-zero elements of the interpolation matrix are illustrated below.</p>
 <p><strong>What if the function is defined at cell centers?</strong></p>
 <p>Here we let <span class="math notranslate nohighlight">\(\bar{x}_i\)</span> define the center locations
 for cells 0 through 7, and we let <span class="math notranslate nohighlight">\(\bar{u}_i = u(\bar{x}_i)\)</span>.
-In this case, the approximation defined in expression <a class="reference internal" href="#equation-operators-averaging-interpolation-1d">(1)</a> is replaced by:</p>
+In this case, the approximation defined in expression <a class="reference internal" href="../../tutorials/operators/1_1_interpolation_1d.html#equation-operators-averaging-interpolation-1d">(1)</a> is replaced by:</p>
 <div class="math notranslate nohighlight">
 \[u(x^*) \approx \bar{u}_3 + 2 \Bigg ( \frac{\bar{u}_4 - \bar{u}_3}{h_3 + h_4} \Bigg ) (x^* - \bar{x}_3)\]</div>
 <p>For an arbitrary number of locations, we can construct an interpolation matrix similar to that shown
-in expression <a class="reference internal" href="#equation-operators-averaging-interpolation-1d">(1)</a>. In this case however, the size of
+in expression <a class="reference internal" href="../../tutorials/operators/1_1_interpolation_1d.html#equation-operators-averaging-interpolation-1d">(1)</a>. In this case however, the size of
 <span class="math notranslate nohighlight">\(\boldsymbol{P}\)</span> is the number of locations by the number of cells. Note that we <strong>cannot</strong>
 interpolate at locations between the first or last cell center and the boundaries of the mesh
 for quantities defined at cell centers.</p>
@@ -383,7 +384,7 @@ In this case, we let <span class="math notranslate nohighlight">\((x^*, y^*)\)</
 <span class="math notranslate nohighlight">\((\bar{x}_1, \bar{y}_1)\)</span>, <span class="math notranslate nohighlight">\((\bar{x}_2, \bar{y}_1)\)</span>, <span class="math notranslate nohighlight">\((\bar{x}_1, \bar{y}_2)\)</span> and <span class="math notranslate nohighlight">\((\bar{x}_2, \bar{y}_2)\)</span>.</p>
 <div class="math notranslate nohighlight">
 \[u(x^*, y^*) \approx a_0 \bar{u}_0 + a_1 \bar{u}_1 + a_2 \bar{u}_2 + a_3 \bar{u}_3\]</div>
-<p>The resulting interpolation is defined similar to expression <a class="reference internal" href="#equation-operators-interpolation-general">(3)</a>.
+<p>The resulting interpolation is defined similar to expression <a class="reference internal" href="../../tutorials/operators/1_2_interpolation_scalar.html#equation-operators-interpolation-general">(1)</a>.
 However the size of the resulting interpolation matrix is the number of locations by number of cells.</p>
 <p><strong>What about for 3D case?</strong></p>
 <p>The derivation for the 3D case is effectively the same, except 8 node or center locations must
@@ -436,14 +437,14 @@ However, the locations used for the interpolation are different and
 <p><strong>What if we are interpolating a 3D vector?</strong></p>
 <p>In this case, there are 8 face locations or 8 edge locations that are used to approximate
 <span class="math notranslate nohighlight">\(\vec{u}(x,y,z)\)</span> at each location <span class="math notranslate nohighlight">\((x^*, y^*, z^*)\)</span>.
-Similar to expression <a class="reference internal" href="#equation-operators-interpolation-xvec-coef">(4)</a> we have:</p>
+Similar to expression <a class="reference internal" href="../../tutorials/operators/1_3_interpolation_vector.html#equation-operators-interpolation-xvec-coef">(1)</a> we have:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{align}
 u_x(x^*, y^*, z^*) &amp; \approx \sum_{i=1}^7 a_i u_{x,i} \\
 u_y(x^*, y^*, z^*) &amp; \approx \sum_{i=1}^7 b_i u_{y,i} \\
 u_z(x^*, y^*, z^*) &amp; \approx \sum_{i=1}^7 c_i u_{z,i}
 \end{align}\end{split}\]</div>
-<p>The interpolation can be expressed similar to that in equation <a class="reference internal" href="#equation-operators-interpolation-2d-sys">(5)</a>,
+<p>The interpolation can be expressed similar to that in equation <a class="reference internal" href="../../tutorials/operators/1_3_interpolation_vector.html#equation-operators-interpolation-2d-sys">(2)</a>,
 however:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\boldsymbol{u} = \begin{bmatrix} \boldsymbol{u_x} \\ \boldsymbol{u_y} \\ \boldsymbol{u_z} \end{bmatrix}

@@ -4,36 +4,26 @@
 
 .. _sphx_glr_tutorials_mesh_generation:
 
-Mesh Generation
-===============
+Meshes
+======
 
-`discretize` provides a numerical grid (or "mesh") on which to solve differential
-equations. Each mesh type has a similar API to make working with
-different meshes relatively simple. Within `discretize`, all meshes are
-classes that have properties like the number of cells `nC`, and methods,
-like `plotGrid`.
-
-To learn how to create meshes with `discretize`, we have provided a set
-of tutorials. These tutorials aim to teach the user:
-
-	- where discrete variables can live on meshes
-	- how to construct various types of meshes
-	- how to extract useful properties from mesh objects
-	- some aspects of plotting and meshes
-
-
-
+A mesh is a structured numerical grid on which discrete variables are organized.
+Regarding numerical solution of partial differential equations (PDEs), discrete variables
+generally represent approximations to continuous functions.
+Meshes can be created and used to solve PDEs in 1D, 2D or 3D.
+For a given system of PDEs, the mesh defines a discrete representation of the domain and its boundaries.
+Here, we provide a set of tutorials related to generating and understanding mesh types supported by the *discretize* package.
 
 
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Here we provide an overview of mesh types and define some terminology. Separate tutorials have ...">
+    <div class="sphx-glr-thumbcontainer" tooltip="Here we provide a basic overview of the meshes supported by *discretize* and define some useful...">
 
 .. only:: html
 
  .. figure:: /tutorials/mesh_generation/images/thumb/sphx_glr_1_mesh_overview_thumb.png
-     :alt: Overview of Mesh Types
+     :alt: Meshes Overview
 
      :ref:`sphx_glr_tutorials_mesh_generation_1_mesh_overview.py`
 
@@ -49,12 +39,12 @@ of tutorials. These tutorials aim to teach the user:
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Tensor meshes are the most basic class of meshes that can be created with discretize. They belo...">
+    <div class="sphx-glr-thumbcontainer" tooltip="Tensor meshes are the most basic class of meshes supported by the *discretize* package. For ten...">
 
 .. only:: html
 
  .. figure:: /tutorials/mesh_generation/images/thumb/sphx_glr_2_tensor_mesh_thumb.png
-     :alt: Tensor meshes
+     :alt: Tensor Meshes
 
      :ref:`sphx_glr_tutorials_mesh_generation_2_tensor_mesh.py`
 
@@ -70,12 +60,12 @@ of tutorials. These tutorials aim to teach the user:
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Cylindrical meshes (:class:`~discretize.CylMesh`) are defined in terms of *r* (radial position)...">
+    <div class="sphx-glr-thumbcontainer" tooltip="Cylindrical meshes are useful when solving 3D differential equations that posess rotational sym...">
 
 .. only:: html
 
  .. figure:: /tutorials/mesh_generation/images/thumb/sphx_glr_3_cylindrical_mesh_thumb.png
-     :alt: Cylindrical meshes
+     :alt: Cylindrical Meshes
 
      :ref:`sphx_glr_tutorials_mesh_generation_3_cylindrical_mesh.py`
 
@@ -91,7 +81,7 @@ of tutorials. These tutorials aim to teach the user:
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Compared to tensor meshes, tree meshes are able to provide higher levels of discretization in c...">
+    <div class="sphx-glr-thumbcontainer" tooltip="Tree meshes are able to provide higher levels of discretization in certain regions while reduci...">
 
 .. only:: html
 

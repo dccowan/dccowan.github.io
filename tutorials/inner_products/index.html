@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/gallery-binder.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-rendered-html.css" type="text/css" />
 
   
   
@@ -45,8 +46,8 @@
     
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Basic Inner Products" href="1_basic.html" />
-    <link rel="prev" title="Differential Operators New" href="../operators/2_differential_new.html" />
+    <link rel="next" title="Basic Scalar Inner Products" href="1_1_basic_scalar.html" />
+    <link rel="prev" title="Curl Opertor" href="../operators/4_curl.html" />
  
 
 <meta name="description" content="Simulation and Parameter Estimation in Geophysics">
@@ -123,16 +124,19 @@
 </ul>
 <p class="caption"><span class="caption-text">Tutorials</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../mesh_generation/index.html">Mesh Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesh_generation/index.html">Meshes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../operators/index.html">Operators</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Inner Products</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="1_basic.html">Basic Inner Products</a></li>
-<li class="toctree-l2"><a class="reference internal" href="2_physical_properties.html">Constitutive Relations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="3_calculus.html">Differential Operators</a></li>
-<li class="toctree-l2"><a class="reference internal" href="4_advanced.html">Advanced Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1_1_basic_scalar.html">Basic Scalar Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1_2_basic_vector.html">Basic Vector Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2_1_constitutive_isotropic.html">Constitutive Relations (Isotropic)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2_2_constitutive_anisotropic.html">Constitutive Relations (Anisotropic)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3_1_gradient.html">Gradient Operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3_2_divergence.html">Divergence Operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3_3_curl.html">Curl Operator</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../pde/index.html">Solving PDEs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pde/index.html">Solving PDEs with Discretize</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Reference documentation</span></p>
 <ul>
@@ -274,29 +278,49 @@ rule, or higher-order approximations. A simple method for evaluating
 inner products on a numerical grid is to apply the midpoint rule;
 which is used by the <em>discretize</em> package.</p>
 <p>Here, we demonstrate how to approximate various classes of inner
-products numerically. If this is known, the user will be capable
-of properly discretizing any term in a problem specific PDE.</p>
-<div class="sphx-glr-thumbcontainer" tooltip="Inner products between two scalar or vector quantities represents the most basic class of inner..."><div class="figure align-default" id="id1">
-<img alt="Basic Inner Products" src="../../_images/sphx_glr_1_basic_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="1_basic.html#sphx-glr-tutorials-inner-products-1-basic-py"><span class="std std-ref">Basic Inner Products</span></a></span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+products numerically. The inner products can be approximated in
+terms of a linear expression which contains an inner-product matrix.
+By learning how to formulate each class of inner products, the user will
+have the building blocks to discretize and solve a problem-specific PDE.</p>
+<div class="sphx-glr-thumbcontainer" tooltip="The inner product between two scalar quantities represents the most basic class of inner produc..."><div class="figure align-default" id="id1">
+<img alt="Basic Scalar Inner Products" src="../../_images/sphx_glr_1_1_basic_scalar_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="1_1_basic_scalar.html#sphx-glr-tutorials-inner-products-1-1-basic-scalar-py"><span class="std std-ref">Basic Scalar Inner Products</span></a></span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="When solving PDEs using the finite volume approach, inner products may contain constitutive rel..."><div class="figure align-default" id="id2">
-<img alt="Constitutive Relations" src="../../_images/sphx_glr_2_physical_properties_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="2_physical_properties.html#sphx-glr-tutorials-inner-products-2-physical-properties-py"><span class="std std-ref">Constitutive Relations</span></a></span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+<div class="sphx-glr-thumbcontainer" tooltip="The inner product between two vector quantities represents one of the most basic classes of inn..."><div class="figure align-default" id="id2">
+<img alt="Basic Vector Inner Products" src="../../_images/sphx_glr_1_2_basic_vector_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="1_2_basic_vector.html#sphx-glr-tutorials-inner-products-1-2-basic-vector-py"><span class="std std-ref">Basic Vector Inner Products</span></a></span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="When solving PDEs using the finite volume approach, inner products may contain differential ope..."><div class="figure align-default" id="id3">
-<img alt="Differential Operators" src="../../_images/sphx_glr_3_calculus_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="3_calculus.html#sphx-glr-tutorials-inner-products-3-calculus-py"><span class="std std-ref">Differential Operators</span></a></span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+<div class="sphx-glr-thumbcontainer" tooltip="A constitutive relationship quantifies the response of a material to an external stimulus. Exam..."><div class="figure align-default" id="id3">
+<img alt="Constitutive Relations (Isotropic)" src="../../_images/sphx_glr_2_1_constitutive_isotropic_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="2_1_constitutive_isotropic.html#sphx-glr-tutorials-inner-products-2-1-constitutive-isotropic-py"><span class="std std-ref">Constitutive Relations (Isotropic)</span></a></span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="In this section, we demonstrate how to go from the inner product to the discrete approximation ..."><div class="figure align-default" id="id4">
-<img alt="Advanced Examples" src="../../_images/sphx_glr_4_advanced_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="4_advanced.html#sphx-glr-tutorials-inner-products-4-advanced-py"><span class="std std-ref">Advanced Examples</span></a></span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+<div class="sphx-glr-thumbcontainer" tooltip="A constitutive relationship quantifies the response of a material to an external stimulus. Exam..."><div class="figure align-default" id="id4">
+<img alt="Constitutive Relations (Anisotropic)" src="../../_images/sphx_glr_2_2_constitutive_anisotropic_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="2_2_constitutive_anisotropic.html#sphx-glr-tutorials-inner-products-2-2-constitutive-anisotropic-py"><span class="std std-ref">Constitutive Relations (Anisotropic)</span></a></span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="When solving PDEs using the finite volume approach, inner products may contain the gradient ope..."><div class="figure align-default" id="id5">
+<img alt="Gradient Operator" src="../../_images/sphx_glr_3_1_gradient_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="3_1_gradient.html#sphx-glr-tutorials-inner-products-3-1-gradient-py"><span class="std std-ref">Gradient Operator</span></a></span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="When solving PDEs using the finite volume approach, inner products may contain the divergence o..."><div class="figure align-default" id="id6">
+<img alt="Divergence Operator" src="../../_images/sphx_glr_3_2_divergence_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="3_2_divergence.html#sphx-glr-tutorials-inner-products-3-2-divergence-py"><span class="std std-ref">Divergence Operator</span></a></span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="When solving PDEs using the finite volume approach, inner products may contain the curl operato..."><div class="figure align-default" id="id7">
+<img alt="Curl Operator" src="../../_images/sphx_glr_3_3_curl_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="3_3_curl.html#sphx-glr-tutorials-inner-products-3-3-curl-py"><span class="std std-ref">Curl Operator</span></a></span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
@@ -319,10 +343,10 @@ of properly discretizing any term in a problem specific PDE.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="1_basic.html" class="btn btn-neutral float-right" title="Basic Inner Products" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="1_1_basic_scalar.html" class="btn btn-neutral float-right" title="Basic Scalar Inner Products" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../operators/2_differential_new.html" class="btn btn-neutral float-left" title="Differential Operators New" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../operators/4_curl.html" class="btn btn-neutral float-left" title="Curl Opertor" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

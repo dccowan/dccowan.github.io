@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/gallery-binder.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-rendered-html.css" type="text/css" />
 
   
   
@@ -45,7 +46,7 @@
     
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Interpolation Matricies" href="0_interpolation.html" />
+    <link rel="next" title="Interpolation and Averaging in 1D" href="1_1_interpolation_1d.html" />
     <link rel="prev" title="Tree Meshes" href="../mesh_generation/4_tree_mesh.html" />
  
 
@@ -123,16 +124,18 @@
 </ul>
 <p class="caption"><span class="caption-text">Tutorials</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../mesh_generation/index.html">Mesh Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesh_generation/index.html">Meshes</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Operators</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="0_interpolation.html">Interpolation Matricies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="1_averaging.html">Averaging Matricies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="2_differential.html">Differential Operators</a></li>
-<li class="toctree-l2"><a class="reference internal" href="2_differential_new.html">Differential Operators New</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1_1_interpolation_1d.html">Interpolation and Averaging in 1D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1_2_interpolation_scalar.html">Interpolating and Averaging Scalar Quantities in 2D and 3D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1_3_interpolation_vector.html">Interpolating and Averaging Vector Quantities in 2D and 3D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2_gradient.html">Gradient Operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3_divergence.html">Divergence Operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4_curl.html">Curl Opertor</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../inner_products/index.html">Inner Products</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../pde/index.html">Solving PDEs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pde/index.html">Solving PDEs with Discretize</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Reference documentation</span></p>
 <ul>
@@ -266,47 +269,52 @@
 </style>
 <div class="section" id="operators">
 <span id="sphx-glr-tutorials-operators"></span><h1>Operators<a class="headerlink" href="#operators" title="Permalink to this headline">¶</a></h1>
-<p>Numerical solutions to differential equations using the finite volume
-method require discrete operators. These include averaging operators
-and differential operators. Averaging operators are used when a
-variable living on some part of the mesh (e.g. nodes, centers, edges or
-faces) must be approximated at other locations. Differential operators
-include the gradient, divergence, curl and scalar Laplacian.</p>
-<p>The discrete operators are properties of each mesh class (<em>tensor mesh</em>,
-<em>tree mesh</em>, <em>curvilinear mesh</em>). An operator is only constructed when
-called. Since each mesh type has a similar API, the operators can be
-called using the same syntax.</p>
-<p>To learn about discrete operators, we have provided a set
-of tutorials. These tutorials aim to teach the user:</p>
+<p>To approximate numerical solutions to partial differential equations using the finite volume method,
+we must be able to apply the following mathematical operations to discrete quantities living on mesh:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>how to construct averaging and differential operators from a mesh</p></li>
-<li><p>how to apply the discrete operators to discrete variables</p></li>
-<li><p>how to impose boundary conditions using differential operators</p></li>
-<li><p>how discrete differential operators preserve vector calculus identities</p></li>
+<li><p>Interpolation</p></li>
+<li><p>Averaging</p></li>
+<li><p>Gradient</p></li>
+<li><p>Divergence</p></li>
+<li><p>Curl</p></li>
 </ul>
 </div></blockquote>
-<div class="sphx-glr-thumbcontainer" tooltip="Interpolation is required when a discrete quantity is known on the mesh (centers, nodes, edges ..."><div class="figure align-default" id="id1">
-<img alt="Interpolation Matricies" src="../../_images/sphx_glr_0_interpolation_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="0_interpolation.html#sphx-glr-tutorials-operators-0-interpolation-py"><span class="std std-ref">Interpolation Matricies</span></a></span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+<p>The following tutorials demonstrate the basic construction these operators and how to
+apply them to discrete quantities.</p>
+<div class="sphx-glr-thumbcontainer" tooltip="Interpolation is used when a discrete quantity is known on the mesh (centers, nodes, edges or f..."><div class="figure align-default" id="id1">
+<img alt="Interpolation and Averaging in 1D" src="../../_images/sphx_glr_1_1_interpolation_1d_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="1_1_interpolation_1d.html#sphx-glr-tutorials-operators-1-1-interpolation-1d-py"><span class="std std-ref">Interpolation and Averaging in 1D</span></a></span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="Averaging matricies are used when a discrete variable living on some part of the mesh (e.g. nod..."><div class="figure align-default" id="id2">
-<img alt="Averaging Matricies" src="../../_images/sphx_glr_1_averaging_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="1_averaging.html#sphx-glr-tutorials-operators-1-averaging-py"><span class="std std-ref">Averaging Matricies</span></a></span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+<div class="sphx-glr-thumbcontainer" tooltip="Interpolation is used when a discrete quantity is known on the mesh (centers, nodes, edges or f..."><div class="figure align-default" id="id2">
+<img alt="Interpolating and Averaging Scalar Quantities in 2D and 3D" src="../../_images/sphx_glr_1_2_interpolation_scalar_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="1_2_interpolation_scalar.html#sphx-glr-tutorials-operators-1-2-interpolation-scalar-py"><span class="std std-ref">Interpolating and Averaging Scalar Quantities in 2D and 3D</span></a></span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="For discretized quantities living on a mesh, sparse matricies can be used to approximate the fo..."><div class="figure align-default" id="id3">
-<img alt="Differential Operators" src="../../_images/sphx_glr_2_differential_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="2_differential.html#sphx-glr-tutorials-operators-2-differential-py"><span class="std std-ref">Differential Operators</span></a></span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+<div class="sphx-glr-thumbcontainer" tooltip="Interpolation is used when a discrete quantity is known on the mesh (centers, nodes, edges or f..."><div class="figure align-default" id="id3">
+<img alt="Interpolating and Averaging Vector Quantities in 2D and 3D" src="../../_images/sphx_glr_1_3_interpolation_vector_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="1_3_interpolation_vector.html#sphx-glr-tutorials-operators-1-3-interpolation-vector-py"><span class="std std-ref">Interpolating and Averaging Vector Quantities in 2D and 3D</span></a></span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="For geophysical problems, the relationship between two physical quantities may include one of s..."><div class="figure align-default" id="id4">
-<img alt="Differential Operators New" src="../../_images/sphx_glr_2_differential_new_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="2_differential_new.html#sphx-glr-tutorials-operators-2-differential-new-py"><span class="std std-ref">Differential Operators New</span></a></span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+<div class="sphx-glr-thumbcontainer" tooltip="For geophysical problems, the relationship between two physical quantities may include the grad..."><div class="figure align-default" id="id4">
+<img alt="Gradient Operator" src="../../_images/sphx_glr_2_gradient_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="2_gradient.html#sphx-glr-tutorials-operators-2-gradient-py"><span class="std std-ref">Gradient Operator</span></a></span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="For geophysical problems, the relationship between two physical quantities may include the dive..."><div class="figure align-default" id="id5">
+<img alt="Divergence Operator" src="../../_images/sphx_glr_3_divergence_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="3_divergence.html#sphx-glr-tutorials-operators-3-divergence-py"><span class="std std-ref">Divergence Operator</span></a></span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="For geophysical problems, the relationship between two physical quantities may include the curl..."><div class="figure align-default" id="id6">
+<img alt="Curl Opertor" src="../../_images/sphx_glr_4_curl_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="4_curl.html#sphx-glr-tutorials-operators-4-curl-py"><span class="std std-ref">Curl Opertor</span></a></span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
@@ -329,7 +337,7 @@ of tutorials. These tutorials aim to teach the user:</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="0_interpolation.html" class="btn btn-neutral float-right" title="Interpolation Matricies" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="1_1_interpolation_1d.html" class="btn btn-neutral float-right" title="Interpolation and Averaging in 1D" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../mesh_generation/4_tree_mesh.html" class="btn btn-neutral float-left" title="Tree Meshes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/gallery-binder.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-rendered-html.css" type="text/css" />
 
   
   
@@ -46,7 +47,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Operators" href="../operators/index.html" />
-    <link rel="prev" title="Cylindrical meshes" href="3_cylindrical_mesh.html" />
+    <link rel="prev" title="Cylindrical Meshes" href="3_cylindrical_mesh.html" />
  
 
 <meta name="description" content="Simulation and Parameter Estimation in Geophysics">
@@ -123,10 +124,10 @@
 </ul>
 <p class="caption"><span class="caption-text">Tutorials</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Mesh Generation</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="1_mesh_overview.html">Overview of Mesh Types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="2_tensor_mesh.html">Tensor meshes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="3_cylindrical_mesh.html">Cylindrical meshes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Meshes</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1_mesh_overview.html">Meshes Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2_tensor_mesh.html">Tensor Meshes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3_cylindrical_mesh.html">Cylindrical Meshes</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Tree Meshes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#import-packages">Import Packages</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#basic-example">Basic Example</a></li>
@@ -139,7 +140,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../operators/index.html">Operators</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../inner_products/index.html">Inner Products</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../pde/index.html">Solving PDEs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pde/index.html">Solving PDEs with Discretize</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Reference documentation</span></p>
 <ul>
@@ -225,7 +226,7 @@
     
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="index.html">Mesh Generation</a> &raquo;</li>
+          <li><a href="index.html">Meshes</a> &raquo;</li>
         
       <li>Tree Meshes</li>
     
@@ -275,36 +276,35 @@
 </style>
 <div class="sphx-glr-download-link-note admonition note">
 <p class="admonition-title">Note</p>
-<p>Click <a class="reference internal" href="#sphx-glr-download-tutorials-mesh-generation-4-tree-mesh-py"><span class="std std-ref">here</span></a>     to download the full example code</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-tutorials-mesh-generation-4-tree-mesh-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
 </div>
 <div class="sphx-glr-example-title section" id="tree-meshes">
 <span id="sphx-glr-tutorials-mesh-generation-4-tree-mesh-py"></span><h1>Tree Meshes<a class="headerlink" href="#tree-meshes" title="Permalink to this headline">¶</a></h1>
-<p>Compared to tensor meshes, tree meshes are able to provide higher levels
+<p>Tree meshes are able to provide higher levels
 of discretization in certain regions while reducing the total number of
-cells. Tree meshes belong to the class (<a class="reference internal" href="../../api/generated/discretize.TreeMesh.html#discretize.TreeMesh" title="discretize.TreeMesh"><code class="xref py py-class docutils literal notranslate"><span class="pre">TreeMesh</span></code></a>).
-Tree meshes can be defined in 2 or 3 dimensions. Here we demonstrate:</p>
+cells. Tree meshes can be defined in 2 or 3 dimensions. Here we demonstrate:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>How to create basic tree meshes in 2D and 3D</p></li>
-<li><p>Strategies for local mesh refinement</p></li>
-<li><p>How to plot tree meshes</p></li>
-<li><p>How to extract properties from tree meshes</p></li>
+<li><p>how to create tree meshes in 2D and 3D</p></li>
+<li><p>strategies for local mesh refinement</p></li>
+<li><p>how to plot tree meshes</p></li>
+<li><p>how to extract properties from tree meshes</p></li>
 </ul>
 </div></blockquote>
-<p>To create a tree mesh, we first define the base tensor mesh (a mesh
-comprised entirely of the smallest cells). Next we choose the level of
-discretization around certain points or within certain regions. When
-creating tree meshes, we must remember certain rules:</p>
+<p>To create a tree mesh, we first define the base tensor mesh (a uniform tensor mesh
+comprised entirely of cells of the smallest size). Next we choose the level of
+discretization around certain points or within certain regions.
+When creating tree meshes, we must remember certain rules:</p>
 <blockquote>
-<div><ul class="simple">
+<div><ol class="arabic simple">
 <li><p>The number of base mesh cells in x, y and z must all be powers of 2</p></li>
 <li><p>We cannot refine the mesh to create cells smaller than those defining the base mesh</p></li>
 <li><p>The range of cell sizes in the tree mesh depends on the number of base mesh cells in x, y and z</p></li>
-</ul>
+</ol>
 </div></blockquote>
 <div class="section" id="import-packages">
 <h2>Import Packages<a class="headerlink" href="#import-packages" title="Permalink to this headline">¶</a></h2>
-<p>Here we import the packages required for this tutorial.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">discretize</span> <span class="kn">import</span> <a href="https://propertiespy.readthedocs.io/en/latest/content/hasproperties.html#properties.HasProperties" title="properties.HasProperties" class="sphx-glr-backref-module-properties sphx-glr-backref-type-py-class"><span class="n">TreeMesh</span></a>
 <span class="kn">from</span> <span class="nn">discretize.utils</span> <span class="kn">import</span> <span class="n">mkvc</span><span class="p">,</span> <span class="n">refine_tree_xyz</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -336,12 +336,12 @@ rate of cell width increase outside the box.</p>
 
 <span class="n">mesh</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span>  <span class="c1"># Must finalize tree mesh before use</span>
 
-<span class="n">mesh</span><span class="o">.</span><span class="n">plotGrid</span><span class="p">(</span><span class="n">show_it</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">plot_grid</span><span class="p">(</span><span class="n">show_it</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <img alt="4 tree mesh" class="sphx-glr-single-img" src="../../_images/sphx_glr_4_tree_mesh_001.png" />
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.axes._subplots.AxesSubplot object at 0x0000022E8791F448&gt;
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;x1&#39;, ylabel=&#39;x2&#39;&gt;
 </pre></div>
 </div>
 </div>
@@ -385,10 +385,10 @@ refining.</p>
 
 <span class="n">mesh</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span>
 
-<span class="c1"># We can apply the plotGrid method and output to a specified axes object</span>
+<span class="c1"># We can apply the plot_grid method and output to a specified axes object</span>
 <a href="https://matplotlib.org/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="matplotlib.figure.Figure" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.figure.html#matplotlib.pyplot.figure" title="matplotlib.pyplot.figure" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">figure</span></a><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
 <span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure.add_subplot" title="matplotlib.figure.Figure.add_subplot" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span></a><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
-<span class="n">mesh</span><span class="o">.</span><span class="n">plotGrid</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">plot_grid</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
 <a href="https://matplotlib.org/api/_as_gen/matplotlib.axes.Axes.set_xbound.html#matplotlib.axes.Axes.set_xbound" title="matplotlib.axes.Axes.set_xbound" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">set_xbound</span></a><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">origin</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">mesh</span><span class="o">.</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">origin</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.sum.html#numpy.sum" title="numpy.sum" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">sum</span></a><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">hx</span></a><span class="p">))</span>
 <a href="https://matplotlib.org/api/_as_gen/matplotlib.axes.Axes.set_ybound.html#matplotlib.axes.Axes.set_ybound" title="matplotlib.axes.Axes.set_ybound" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">set_ybound</span></a><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">origin</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">mesh</span><span class="o">.</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">origin</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.sum.html#numpy.sum" title="numpy.sum" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">sum</span></a><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">hy</span></a><span class="p">))</span>
 <a href="https://matplotlib.org/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s2">&quot;QuadTree Mesh&quot;</span><span class="p">)</span>
@@ -442,10 +442,10 @@ we show some properties that can be extracted from a QuadTree mesh.</p>
 <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">nC</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">mesh</span><span class="o">.</span><span class="n">nC</span></a>
 
 <span class="c1"># An (nC, 2) array containing the cell-center locations</span>
-<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cc</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">mesh</span><span class="o">.</span><span class="n">gridCC</span></a>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cc</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">mesh</span><span class="o">.</span><span class="n">cell_centers</span></a>
 
 <span class="c1"># A boolean array specifying which cells lie on the boundary</span>
-<a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">bInd</span></a> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">cellBoundaryInd</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">bInd</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">mesh</span><span class="o">.</span><span class="n">cell_boundary_indices</span></a>
 
 <span class="c1"># The cell areas (2D &quot;volume&quot;)</span>
 <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">s</span></a> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">vol</span>
@@ -510,10 +510,10 @@ properties from a 3D tree mesh.</p>
 <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">nC</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">mesh</span><span class="o">.</span><span class="n">nC</span></a>
 
 <span class="c1"># An (nC, 2) array containing the cell-center locations</span>
-<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cc</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">mesh</span><span class="o">.</span><span class="n">gridCC</span></a>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cc</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">mesh</span><span class="o">.</span><span class="n">cell_centers</span></a>
 
 <span class="c1"># A boolean array specifying which cells lie on the boundary</span>
-<a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">bInd</span></a> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">cellBoundaryInd</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">bInd</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">mesh</span><span class="o">.</span><span class="n">cell_boundary_indices</span></a>
 
 <span class="c1"># Cell volumes</span>
 <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">v</span></a> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">vol</span>
@@ -529,7 +529,7 @@ properties from a 3D tree mesh.</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Cell Log-Volumes at Y = 0 m&#39;)
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.654 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.804 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorials-mesh-generation-4-tree-mesh-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/78d1b454c575edc427dcba3572c14488/4_tree_mesh.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">4_tree_mesh.py</span></code></a></p>
@@ -553,7 +553,7 @@ properties from a 3D tree mesh.</p>
         <a href="../operators/index.html" class="btn btn-neutral float-right" title="Operators" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="3_cylindrical_mesh.html" class="btn btn-neutral float-left" title="Cylindrical meshes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="3_cylindrical_mesh.html" class="btn btn-neutral float-left" title="Cylindrical Meshes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

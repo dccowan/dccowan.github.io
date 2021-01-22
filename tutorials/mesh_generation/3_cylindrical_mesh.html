@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Cylindrical meshes &mdash; discretize 0.6.2 documentation</title>
+  <title>Cylindrical Meshes &mdash; discretize 0.6.2 documentation</title>
   
 
   
@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/gallery-binder.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-rendered-html.css" type="text/css" />
 
   
   
@@ -46,7 +47,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Tree Meshes" href="4_tree_mesh.html" />
-    <link rel="prev" title="Tensor meshes" href="2_tensor_mesh.html" />
+    <link rel="prev" title="Tensor Meshes" href="2_tensor_mesh.html" />
  
 
 <meta name="description" content="Simulation and Parameter Estimation in Geophysics">
@@ -123,10 +124,10 @@
 </ul>
 <p class="caption"><span class="caption-text">Tutorials</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Mesh Generation</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="1_mesh_overview.html">Overview of Mesh Types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="2_tensor_mesh.html">Tensor meshes</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Cylindrical meshes</a><ul>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Meshes</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1_mesh_overview.html">Meshes Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2_tensor_mesh.html">Tensor Meshes</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Cylindrical Meshes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#import-packages">Import Packages</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#basic-example">Basic Example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#padding-cells-and-extracting-properties">Padding Cells and Extracting Properties</a></li>
@@ -138,7 +139,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../operators/index.html">Operators</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../inner_products/index.html">Inner Products</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../pde/index.html">Solving PDEs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pde/index.html">Solving PDEs with Discretize</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Reference documentation</span></p>
 <ul>
@@ -224,9 +225,9 @@
     
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="index.html">Mesh Generation</a> &raquo;</li>
+          <li><a href="index.html">Meshes</a> &raquo;</li>
         
-      <li>Cylindrical meshes</li>
+      <li>Cylindrical Meshes</li>
     
     
 
@@ -274,27 +275,24 @@
 </style>
 <div class="sphx-glr-download-link-note admonition note">
 <p class="admonition-title">Note</p>
-<p>Click <a class="reference internal" href="#sphx-glr-download-tutorials-mesh-generation-3-cylindrical-mesh-py"><span class="std std-ref">here</span></a>     to download the full example code</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-tutorials-mesh-generation-3-cylindrical-mesh-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
 </div>
 <div class="sphx-glr-example-title section" id="cylindrical-meshes">
-<span id="sphx-glr-tutorials-mesh-generation-3-cylindrical-mesh-py"></span><h1>Cylindrical meshes<a class="headerlink" href="#cylindrical-meshes" title="Permalink to this headline">¶</a></h1>
-<p>Cylindrical meshes (<a class="reference internal" href="../../api/generated/discretize.CylMesh.html#discretize.CylMesh" title="discretize.CylMesh"><code class="xref py py-class docutils literal notranslate"><span class="pre">CylMesh</span></code></a>) are defined in terms of <em>r</em>
+<span id="sphx-glr-tutorials-mesh-generation-3-cylindrical-mesh-py"></span><h1>Cylindrical Meshes<a class="headerlink" href="#cylindrical-meshes" title="Permalink to this headline">¶</a></h1>
+<p>Cylindrical meshes are useful when solving 3D differential equations
+that posess rotational symmetry. Cylindrical meshes are defined in terms of <em>r</em>
 (radial position), <em>z</em> (vertical position) and <em>phi</em> (azimuthal position).
-They are a child class of the tensor mesh class. Cylindrical meshes are useful
-in solving differential equations that possess rotational symmetry. Here we
-demonstrate:</p>
+Here we demonstrate:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>How to create basic cylindrical meshes</p></li>
-<li><p>How to include padding cells</p></li>
-<li><p>How to plot cylindrical meshes</p></li>
-<li><p>How to extract properties from meshes</p></li>
-<li><p>How to create cylindrical meshes to solve PDEs with rotational symmetry</p></li>
+<li><p>how to construct cylindrical meshes</p></li>
+<li><p>how to plot cylindrical meshes</p></li>
+<li><p>how to extract properties from cylindrical meshes</p></li>
 </ul>
 </div></blockquote>
 <div class="section" id="import-packages">
 <h2>Import Packages<a class="headerlink" href="#import-packages" title="Permalink to this headline">¶</a></h2>
-<p>Here we import the packages required for this tutorial.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">discretize</span> <span class="kn">import</span> <a href="https://propertiespy.readthedocs.io/en/latest/content/hasproperties.html#properties.HasProperties" title="properties.HasProperties" class="sphx-glr-backref-module-properties sphx-glr-backref-type-py-class"><span class="n">CylMesh</span></a>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -304,8 +302,8 @@ demonstrate:</p>
 <div class="section" id="basic-example">
 <h2>Basic Example<a class="headerlink" href="#basic-example" title="Permalink to this headline">¶</a></h2>
 <p>The easiest way to define a cylindrical mesh is to define the cell widths in
-<em>r</em>, <em>phi</em> and <em>z</em> as 1D numpy arrays. And to provide a Cartesian position
-for the bottom of the vertical axis of symmetry of the mesh. Note that</p>
+<em>r</em>, <em>phi</em> and <em>z</em> as 1D numpy arrays, and to provide a Cartesian position
+for the bottom of the vertical axis of symmetry of the mesh. Note that:</p>
 <blockquote>
 <div><ol class="arabic simple">
 <li><p><em>phi</em> is in radians</p></li>
@@ -328,15 +326,15 @@ for the bottom of the vertical axis of symmetry of the mesh. Note that</p>
 
 <span class="n">mesh</span> <span class="o">=</span> <a href="https://propertiespy.readthedocs.io/en/latest/content/hasproperties.html#properties.HasProperties" title="properties.HasProperties" class="sphx-glr-backref-module-properties sphx-glr-backref-type-py-class"><span class="n">CylMesh</span></a><span class="p">([</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">hr</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">hp</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">hz</span></a><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x0</span></a><span class="o">=</span><span class="p">[</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x0</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#float" title="builtins.float" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">y0</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#float" title="builtins.float" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">z0</span></a><span class="p">])</span>
 
-<span class="n">mesh</span><span class="o">.</span><span class="n">plotGrid</span><span class="p">()</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">plot_grid</span><span class="p">()</span>
 </pre></div>
 </div>
 <img alt="3 cylindrical mesh" class="sphx-glr-single-img" src="../../_images/sphx_glr_3_cylindrical_mesh_001.png" />
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>C:\Users\devin\anaconda3\lib\site-packages\matplotlib\projections\polar.py:55: RuntimeWarning: invalid value encountered in greater_equal
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>C:\Users\devin\anaconda3\lib\site-packages\matplotlib\projections\polar.py:48: RuntimeWarning: invalid value encountered in greater_equal
   r = np.where(r &gt;= 0, r, np.nan)
 
-[&lt;matplotlib.axes._subplots.PolarAxesSubplot object at 0x000002086FF6AA88&gt;, &lt;matplotlib.axes._subplots.AxesSubplot object at 0x000002086FD70CC8&gt;]
+[&lt;PolarAxesSubplot:&gt;, &lt;AxesSubplot:xlabel=&#39;x&#39;, ylabel=&#39;z&#39;&gt;]
 </pre></div>
 </div>
 </div>
@@ -367,8 +365,8 @@ We then show some properties that can be extracted from cylindrical meshes.</p>
 <span class="c1"># We can use flags &#39;C&#39;, &#39;0&#39; and &#39;N&#39; to define the xyz position of the mesh.</span>
 <span class="n">mesh</span> <span class="o">=</span> <a href="https://propertiespy.readthedocs.io/en/latest/content/hasproperties.html#properties.HasProperties" title="properties.HasProperties" class="sphx-glr-backref-module-properties sphx-glr-backref-type-py-class"><span class="n">CylMesh</span></a><span class="p">([</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">hr</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">hp</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">hz</span></a><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x0</span></a><span class="o">=</span><span class="s2">&quot;00C&quot;</span><span class="p">)</span>
 
-<span class="c1"># We can apply the plotGrid method and change the axis properties</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">plotGrid</span><span class="p">()</span>
+<span class="c1"># We can apply the plot_grid method and change the axis properties</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">plot_grid</span><span class="p">()</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Discretization in phi&quot;</span><span class="p">)</span>
 
 <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Discretization in r and z&quot;</span><span class="p">)</span>
@@ -383,7 +381,7 @@ We then show some properties that can be extracted from cylindrical meshes.</p>
 <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">nC</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">mesh</span><span class="o">.</span><span class="n">nC</span></a>
 
 <span class="c1"># An (nC, 3) array containing the cell-center locations</span>
-<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cc</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">mesh</span><span class="o">.</span><span class="n">gridCC</span></a>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cc</span></a> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">cell_centers</span>
 
 <span class="c1"># The cell volumes</span>
 <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">v</span></a> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">vol</span>
@@ -391,7 +389,7 @@ We then show some properties that can be extracted from cylindrical meshes.</p>
 </div>
 <img alt="Discretization in phi, Discretization in r and z" class="sphx-glr-single-img" src="../../_images/sphx_glr_3_cylindrical_mesh_002.png" />
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>C:\Users\devin\anaconda3\lib\site-packages\matplotlib\projections\polar.py:55: RuntimeWarning: invalid value encountered in greater_equal
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>C:\Users\devin\anaconda3\lib\site-packages\matplotlib\projections\polar.py:48: RuntimeWarning: invalid value encountered in greater_equal
   r = np.where(r &gt;= 0, r, np.nan)
 </pre></div>
 </div>
@@ -433,7 +431,7 @@ direction.</p>
 <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">nC</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">mesh</span><span class="o">.</span><span class="n">nC</span></a>
 
 <span class="c1"># An (nC, 3) array containing the cell-center locations</span>
-<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cc</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">mesh</span><span class="o">.</span><span class="n">gridCC</span></a>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cc</span></a> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">cell_centers</span>
 
 <span class="c1"># Plot the cell volumes.</span>
 <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">v</span></a> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">vol</span>
@@ -453,7 +451,7 @@ direction.</p>
 </pre></div>
 </div>
 <p>Notice that we do not plot the discretization in phi as it is irrelevant.</p>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.492 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.847 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorials-mesh-generation-3-cylindrical-mesh-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/18819569608f52bf5a021359018f528f/3_cylindrical_mesh.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">3_cylindrical_mesh.py</span></code></a></p>
@@ -477,7 +475,7 @@ direction.</p>
         <a href="4_tree_mesh.html" class="btn btn-neutral float-right" title="Tree Meshes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="2_tensor_mesh.html" class="btn btn-neutral float-left" title="Tensor meshes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="2_tensor_mesh.html" class="btn btn-neutral float-left" title="Tensor Meshes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

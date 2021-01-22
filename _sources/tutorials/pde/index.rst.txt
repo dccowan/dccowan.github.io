@@ -4,30 +4,31 @@
 
 .. _sphx_glr_tutorials_pde:
 
-Solving PDEs
-============
+Solving PDEs with Discretize
+============================
 
 Here we show how the *discretize* package can be used to solve partial differential
-equations (PDE) numerically by employing the finite volume method. To solve a PDE
-numerically we must complete the following steps:
+equations (PDEs) numerically by employing the finite volume method. In each tutorial,
+we demonstrate the following steps for a given PDE:
 
-	1. Formulate the problem; e.g. the PDE and its boundary conditions
-	2. Apply the weak formulation by taking the inner product of each PDE with a test function
-	3. Formulate a discrete set of equations for the inner products according to the finite volume method
-	4. Use the discrete set of equations to solve for the unknown variable numerically
+	1. Formulating the problem; i.e. the PDE and its boundary conditions
+	2. Taking the inner product of each differential expression
+	3. Approximating the inner products as discrete expressions according to the finite volume method
+	4. Reducing the set of discrete expressions to a solvable linear system
+	5. Implementing the *discretize* package to construct the necessary mesh, operators, matrices, etc... and solve the system
 
 
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Here we use the discretize package to solve for the electric potential (:math:`\phi`) and elect...">
+    <div class="sphx-glr-thumbcontainer" tooltip="Here we use the *discretize* package to approximate the solution to a 2D Poisson equation with ...">
 
 .. only:: html
 
- .. figure:: /tutorials/pde/images/thumb/sphx_glr_1_poisson_thumb.png
-     :alt: Poisson Equation with Zero Neumann Boundary Condition
+ .. figure:: /tutorials/pde/images/thumb/sphx_glr_1_1_poisson_nodal_thumb.png
+     :alt: 2D Poisson Equation with Zero Neumann Condition (Nodal Formulation)
 
-     :ref:`sphx_glr_tutorials_pde_1_poisson.py`
+     :ref:`sphx_glr_tutorials_pde_1_1_poisson_nodal.py`
 
 .. raw:: html
 
@@ -37,16 +38,37 @@ numerically we must complete the following steps:
 .. toctree::
    :hidden:
 
-   /tutorials/pde/1_poisson
+   /tutorials/pde/1_1_poisson_nodal
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Here we use the discretize package to solve the 2D advection-diffusion equation. We implement a...">
+    <div class="sphx-glr-thumbcontainer" tooltip="Here we use the *discretize* package to approximate the solution to a 2D Poisson equation with ...">
+
+.. only:: html
+
+ .. figure:: /tutorials/pde/images/thumb/sphx_glr_1_2_poisson_centers_thumb.png
+     :alt: 2D Poisson Equation with Zero Neumann Condition (Cell Centered Formulation)
+
+     :ref:`sphx_glr_tutorials_pde_1_2_poisson_centers.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /tutorials/pde/1_2_poisson_centers
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Here we use the *discretize package* to approximate the solution to the 2D advection-diffusion ...">
 
 .. only:: html
 
  .. figure:: /tutorials/pde/images/thumb/sphx_glr_2_advection_diffusion_thumb.png
-     :alt: Advection-Diffusion Equation
+     :alt: 2D Advection-Diffusion Equation with Zero Neumann Condition
 
      :ref:`sphx_glr_tutorials_pde_2_advection_diffusion.py`
 

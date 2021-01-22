@@ -1,0 +1,626 @@
+
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Interpolating and Averaging Vector Quantities in 2D and 3D &mdash; discretize 0.6.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-rendered-html.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/logo-block.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Gradient Operator" href="2_gradient.html" />
+    <link rel="prev" title="Interpolating and Averaging Scalar Quantities in 2D and 3D" href="1_2_interpolation_scalar.html" />
+ 
+
+<meta name="description" content="Simulation and Parameter Estimation in Geophysics">
+<meta name="author" content="SimPEG Developers">
+<meta name="keywords" content="python, geophysics, inversion, electromagnetics, magnetotellurics, magnetics, gravity, DC, flow inverse problems, open source, finite volume">
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-45185336-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> discretize
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+    
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../content/big_picture.html">Why discretize?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../content/installing.html">Installing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../content/additional_resources.html">Additional Resources</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../mesh_generation/index.html">Meshes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Operators</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1_1_interpolation_1d.html">Interpolation and Averaging in 1D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1_2_interpolation_scalar.html">Interpolating and Averaging Scalar Quantities in 2D and 3D</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Interpolating and Averaging Vector Quantities in 2D and 3D</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#background-theory">Background Theory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#import-packages">Import Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#constructing-and-applying-a-2d-3d-interpolation-matrix">Constructing and Applying a 2D/3D Interpolation Matrix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#constructing-and-applying-a-2d-averaging-matrix">Constructing and Applying a 2D Averaging Matrix</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="2_gradient.html">Gradient Operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3_divergence.html">Divergence Operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4_curl.html">Curl Opertor</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../inner_products/index.html">Inner Products</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pde/index.html">Solving PDEs with Discretize</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../content/references.html">References</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Theory</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../content/finite_volume_index.html">Intoduction to Finite Volume</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../content/theory/meshes_index.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../content/theory/operators_index.html">Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../content/theory/inner_products_index.html">Inner Products</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../content/theory/derivation_examples_index.html">Solving PDEs Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Meta Information</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../release/index.html">Release Notes</a></li>
+</ul>
+
+            
+          
+
+    
+        <p class="caption">
+            <span class="caption-text">
+            
+                Getting connected
+            
+            </span>
+        </p>
+        <ul>
+            
+                <li class="toctree-l1"><a href="https://simpeg.xyz"><i class="fa fa-external-link-square fa-fw"></i> SimPEG</a></li>
+            
+                <li class="toctree-l1"><a href="http://slack.simpeg.xyz"><i class="fa fa-comment fa-fw"></i> Contact</a></li>
+            
+                <li class="toctree-l1"><a href="https://github.com/simpeg/discretize"><i class="fa fa-github fa-fw"></i> Source Code</a></li>
+            
+        </ul>
+    
+
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">discretize</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Operators</a> &raquo;</li>
+        
+      <li>Interpolating and Averaging Vector Quantities in 2D and 3D</li>
+    
+    
+
+    <li class="wy-breadcrumbs-aside">
+        
+            
+                <a href="https://github.com/simpeg/discretize/edit/master/doc/tutorials/operators/1_3_interpolation_vector.rst"
+                   class="fa fa-github"> Edit this page</a>
+            
+        
+        
+    </li>
+
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-tutorials-operators-1-3-interpolation-vector-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="interpolating-and-averaging-vector-quantities-in-2d-and-3d">
+<span id="sphx-glr-tutorials-operators-1-3-interpolation-vector-py"></span><h1>Interpolating and Averaging Vector Quantities in 2D and 3D<a class="headerlink" href="#interpolating-and-averaging-vector-quantities-in-2d-and-3d" title="Permalink to this headline">¶</a></h1>
+<p>Interpolation is used when a discrete quantity is known on the mesh (centers, nodes, edges or faces),
+but we would like to estimate its value at locations within the continuous domain.
+For any mesh type, <em>discretize</em> allows the user to construct a sparse interpolation matrix
+for a corresponding set of locations.</p>
+<p>In <em>discretize</em>, averaging matrices are constructed when a discrete quantity must be mapped
+between centers, nodes, edges or faces.
+Averaging matrices are a property of the mesh and are constructed when called.</p>
+<p>In this tutorial, we demonstrate:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>how to construct interpolation and averaging matrices</p></li>
+<li><p>how to apply the interpolation and averaging to vector functions</p></li>
+</ul>
+</div></blockquote>
+<div class="section" id="background-theory">
+<h2>Background Theory<a class="headerlink" href="#background-theory" title="Permalink to this headline">¶</a></h2>
+<p>We will begin by presenting the theory for 2D interpolation, then extend the
+theory to cover 3D interpolation.
+The components of a vector quantity are discretized to live either on
+their respective mesh faces or edges. Thus different components of the
+vector are being interpolated from different locations.</p>
+<div class="figure align-center" id="id1">
+<a class="reference internal image-reference" href="../../_images/interpolation_2d_vectors1.png"><img alt="../../_images/interpolation_2d_vectors1.png" src="../../_images/interpolation_2d_vectors1.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-text">A tensor mesh in 2D denoting interpolation from faces (left) and edges (right).</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+<p>Let <span class="math notranslate nohighlight">\(\vec{u} (x,y)\)</span> be a 2D vector function that is known on the faces of the mesh;
+that is, <span class="math notranslate nohighlight">\(u_x\)</span> lives on the x-faces and <span class="math notranslate nohighlight">\(u_y\)</span> lives on the y-faces.
+Note that in the above figure, the x-faces and y-faces both form tensor grids.
+If we want to approximate the components of the vector at a location <span class="math notranslate nohighlight">\((x^*,y^*)\)</span>,
+we simply need to treat each component as a scalar function and interpolate it separately.</p>
+<p>Where <span class="math notranslate nohighlight">\(u_{x,i}\)</span> represents the x-component of <span class="math notranslate nohighlight">\(\vec{u} (x,y)\)</span> on a face <span class="math notranslate nohighlight">\(i\)</span> being used for the interpolation,
+the approximation of the x-component at <span class="math notranslate nohighlight">\((x^*, y^*)\)</span> has the form:</p>
+<div class="math notranslate nohighlight" id="equation-operators-interpolation-xvec-coef">
+<span class="eqno">(1)<a class="headerlink" href="#equation-operators-interpolation-xvec-coef" title="Permalink to this equation">¶</a></span>\[u_x(x^*, y^*) \approx a_0 u_{x,0} + a_1 u_{x,1} + a_2 u_{x,2} + a_3 u_{x,3}\]</div>
+<p>For the the y-component, we have a similar representation:</p>
+<div class="math notranslate nohighlight">
+\[u_y(x^*, y^*) \approx b_0 u_{y,0} + b_1 u_{y,1} + b_2 u_{y,2} + b_3 u_{y,3}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> is a vector that organizes the discrete components of <span class="math notranslate nohighlight">\(\vec{u} (x,y)\)</span> on cell faces,
+and <span class="math notranslate nohighlight">\(\boldsymbol{u^*}\)</span> is a vector organizing the components of the approximations of <span class="math notranslate nohighlight">\(\vec{u}(x,y)\)</span> at an arbitrary number of locations,
+the interpolation matrix <span class="math notranslate nohighlight">\(\boldsymbol{P}\)</span> is defined by:</p>
+<div class="math notranslate nohighlight" id="equation-operators-interpolation-2d-sys">
+<span class="eqno">(2)<a class="headerlink" href="#equation-operators-interpolation-2d-sys" title="Permalink to this equation">¶</a></span>\[\boldsymbol{u^*} \approx \boldsymbol{P \, u}\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol{u} = \begin{bmatrix} \boldsymbol{u_x} \\ \boldsymbol{u_y} \end{bmatrix}
+\;\;\textrm{,}\;\;\;\;
+\boldsymbol{u^*} = \begin{bmatrix} \boldsymbol{u_x^*} \\ \boldsymbol{u_y^*} \end{bmatrix}
+\;\;\;\;\textrm{and}\;\;\;\;
+\boldsymbol{P} = \begin{bmatrix} \boldsymbol{P_x} &amp; \boldsymbol{0} \\ \boldsymbol{0} &amp; \boldsymbol{P_y} \end{bmatrix}\end{split}\]</div>
+<p>The interpolation matrix <span class="math notranslate nohighlight">\(\boldsymbol{P}\)</span> is a sparse block-diagonal matrix.
+The size of the interpolation matrix is the number of locations by the number of faces in the mesh.</p>
+<p><strong>What if we want to interpolate from edges?</strong></p>
+<p>In this case, the derivation is effectively the same.
+However, the locations used for the interpolation are different and
+<span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> is now a vector that organizes the discrete components of <span class="math notranslate nohighlight">\(\vec{u} (x,y)\)</span> on cell edges.</p>
+<p><strong>What if we are interpolating a 3D vector?</strong></p>
+<p>In this case, there are 8 face locations or 8 edge locations that are used to approximate
+<span class="math notranslate nohighlight">\(\vec{u}(x,y,z)\)</span> at each location <span class="math notranslate nohighlight">\((x^*, y^*, z^*)\)</span>.
+Similar to expression <a class="reference internal" href="#equation-operators-interpolation-xvec-coef">(1)</a> we have:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+u_x(x^*, y^*, z^*) &amp; \approx \sum_{i=1}^7 a_i u_{x,i} \\
+u_y(x^*, y^*, z^*) &amp; \approx \sum_{i=1}^7 b_i u_{y,i} \\
+u_z(x^*, y^*, z^*) &amp; \approx \sum_{i=1}^7 c_i u_{z,i}
+\end{align}\end{split}\]</div>
+<p>The interpolation can be expressed similar to that in equation <a class="reference internal" href="#equation-operators-interpolation-2d-sys">(2)</a>,
+however:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol{u} = \begin{bmatrix} \boldsymbol{u_x} \\ \boldsymbol{u_y} \\ \boldsymbol{u_z} \end{bmatrix}
+\;\;\textrm{,}\;\;\;\;
+\boldsymbol{u^*} = \begin{bmatrix} \boldsymbol{u_x^*} \\ \boldsymbol{u_y^*} \\ \boldsymbol{u_z^*} \end{bmatrix}
+\;\;\;\;\textrm{and}\;\;\;\;
+\boldsymbol{P} = \begin{bmatrix} \boldsymbol{P_x} &amp; \boldsymbol{0} &amp; \boldsymbol{0} \\
+\boldsymbol{0} &amp; \boldsymbol{P_y} &amp; \boldsymbol{0} \\
+\boldsymbol{0} &amp; \boldsymbol{0} &amp; \boldsymbol{P_z}
+\end{bmatrix}\end{split}\]</div>
+</div>
+<div class="section" id="import-packages">
+<h2>Import Packages<a class="headerlink" href="#import-packages" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">discretize</span> <span class="kn">import</span> <a href="https://propertiespy.readthedocs.io/en/latest/content/hasproperties.html#properties.HasProperties" title="properties.HasProperties" class="sphx-glr-backref-module-properties sphx-glr-backref-type-py-class"><span class="n">TensorMesh</span></a><span class="p">,</span> <span class="n">TreeMesh</span>
+<span class="kn">from</span> <span class="nn">discretize.utils</span> <span class="kn">import</span> <span class="n">refine_tree_xyz</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#dict.update" title="builtins.dict.update" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-method"><span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span></a><span class="p">({</span><span class="s1">&#39;font.size&#39;</span><span class="p">:</span><span class="mi">14</span><span class="p">})</span>
+
+<span class="c1"># sphinx_gallery_thumbnail_number = 1</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="constructing-and-applying-a-2d-3d-interpolation-matrix">
+<h2>Constructing and Applying a 2D/3D Interpolation Matrix<a class="headerlink" href="#constructing-and-applying-a-2d-3d-interpolation-matrix" title="Permalink to this headline">¶</a></h2>
+<p>Here we discretize a vector quantity to live on the edges of a 2D tensor mesh,
+where the x component lives on x-edges and the y component lives on y-edges.
+We then use interpolation matrices to approximate the vector components
+on the faces of the mesh. That is, we interpolate the x component from x-edges
+to x-faces, and we interpolate the y component from y-edges to y-faces.
+Since the x and y components of vectors are discretized at different locations
+on the mesh, separate interpolation matrices must be constructed for the
+x and y components.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a tensor mesh</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">h</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ones.html#numpy.ones" title="numpy.ones" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">ones</span></a><span class="p">(</span><span class="mi">75</span><span class="p">)</span>
+<span class="n">mesh</span> <span class="o">=</span> <a href="https://propertiespy.readthedocs.io/en/latest/content/hasproperties.html#properties.HasProperties" title="properties.HasProperties" class="sphx-glr-backref-module-properties sphx-glr-backref-type-py-class"><span class="n">TensorMesh</span></a><span class="p">([</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">h</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">h</span></a><span class="p">],</span> <span class="s2">&quot;CC&quot;</span><span class="p">)</span>
+
+<span class="c1"># Define the x and y components of the vector function.</span>
+<span class="c1"># In this case, the vector function is a circular vortex.</span>
+<span class="k">def</span> <span class="nf">fun_x</span><span class="p">(</span><span class="n">xy</span><span class="p">):</span>
+    <span class="n">r</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.sqrt.html#numpy.sqrt" title="numpy.sqrt" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.sum.html#numpy.sum" title="numpy.sum" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">sum</span></a><span class="p">(</span><span class="n">xy</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">return</span> <span class="mf">5.</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="n">xy</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">r</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.tanh.html#numpy.tanh" title="numpy.tanh" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">tanh</span></a><span class="p">(</span><span class="mf">0.15</span> <span class="o">*</span> <span class="p">(</span><span class="mf">28.0</span> <span class="o">-</span> <span class="n">r</span><span class="p">)))</span>
+
+<span class="k">def</span> <span class="nf">fun_y</span><span class="p">(</span><span class="n">xy</span><span class="p">):</span>
+    <span class="n">r</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.sqrt.html#numpy.sqrt" title="numpy.sqrt" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.sum.html#numpy.sum" title="numpy.sum" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">sum</span></a><span class="p">(</span><span class="n">xy</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">return</span> <span class="mf">5.</span> <span class="o">*</span> <span class="p">(</span><span class="n">xy</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">r</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.tanh.html#numpy.tanh" title="numpy.tanh" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">tanh</span></a><span class="p">(</span><span class="mf">0.15</span> <span class="o">*</span> <span class="p">(</span><span class="mf">28.0</span> <span class="o">-</span> <span class="n">r</span><span class="p">)))</span>
+
+<span class="c1"># Evaluate x and y components of the vector on x and y edges, respectively</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">edges_x</span></a> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">edges_x</span></a>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">edges_y</span></a> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">edges_y</span></a>
+
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ux_edges</span></a> <span class="o">=</span> <span class="n">fun_x</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">edges_x</span></a><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">uy_edges</span></a> <span class="o">=</span> <span class="n">fun_y</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">edges_y</span></a><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">u_edges</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.r_.html#numpy.r_" title="numpy.r_" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">r_</span></a><span class="p">[</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ux_edges</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">uy_edges</span></a><span class="p">]</span>
+
+<span class="c1"># Compute true x and y components of the vector on x and y faces, respectively</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">faces_x</span></a> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">faces_x</span></a>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">faces_y</span></a> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">faces_y</span></a>
+
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ux_faces</span></a> <span class="o">=</span> <span class="n">fun_x</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">faces_x</span></a><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">uy_faces</span></a> <span class="o">=</span> <span class="n">fun_y</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">faces_y</span></a><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">u_faces</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.r_.html#numpy.r_" title="numpy.r_" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">r_</span></a><span class="p">[</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ux_faces</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">uy_faces</span></a><span class="p">]</span>
+
+<span class="c1"># Generate the interpolation matricies and interpolate from edges to faces.</span>
+<span class="c1"># Interpolation matrices from edges and faces assume all vector components</span>
+<span class="c1"># are defined on their respective edges or faces. Thus an interpolation matrix</span>
+<span class="c1"># from x-edges will extract the x component values then interpolate to locations.</span>
+<a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csr_matrix.html#scipy.sparse.csr_matrix" title="scipy.sparse.csr_matrix" class="sphx-glr-backref-module-scipy-sparse sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">Px</span></a> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">get_interpolation_matrix</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">faces_x</span></a><span class="p">,</span> <span class="s2">&quot;Ex&quot;</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csr_matrix.html#scipy.sparse.csr_matrix" title="scipy.sparse.csr_matrix" class="sphx-glr-backref-module-scipy-sparse sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">Py</span></a> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">get_interpolation_matrix</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">faces_y</span></a><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">)</span>
+
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ux_interp</span></a> <span class="o">=</span> <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csr_matrix.html#scipy.sparse.csr_matrix" title="scipy.sparse.csr_matrix" class="sphx-glr-backref-module-scipy-sparse sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">Px</span></a><span class="o">*</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">u_edges</span></a>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">uy_interp</span></a> <span class="o">=</span> <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csr_matrix.html#scipy.sparse.csr_matrix" title="scipy.sparse.csr_matrix" class="sphx-glr-backref-module-scipy-sparse sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">Py</span></a><span class="o">*</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">u_edges</span></a>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">u_interp</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.r_.html#numpy.r_" title="numpy.r_" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">r_</span></a><span class="p">[</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ux_interp</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">uy_interp</span></a><span class="p">]</span>
+
+<span class="c1"># Plotting</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="matplotlib.figure.Figure" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.figure.html#matplotlib.pyplot.figure" title="matplotlib.pyplot.figure" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">figure</span></a><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<a href="https://matplotlib.org/api/axes_api.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax1</span></a> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure.add_axes" title="matplotlib.figure.Figure.add_axes" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span></a><span class="p">([</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.22</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">])</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">plot_image</span><span class="p">(</span>
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">u_faces</span></a><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><a href="https://matplotlib.org/api/axes_api.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax1</span></a><span class="p">,</span> <span class="n">v_type</span><span class="o">=</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="s2">&quot;vec&quot;</span><span class="p">,</span>
+    <span class="n">stream_opts</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="s2">&quot;density&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">},</span> <span class="n">clim</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">],</span>
+<span class="p">)</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s2">&quot;True Vector on Faces&quot;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/axes_api.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax2</span></a> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure.add_axes" title="matplotlib.figure.Figure.add_axes" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span></a><span class="p">([</span><span class="mf">0.35</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.22</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">])</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">plot_image</span><span class="p">(</span>
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">u_interp</span></a><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><a href="https://matplotlib.org/api/axes_api.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax2</span></a><span class="p">,</span> <span class="n">v_type</span><span class="o">=</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="s2">&quot;vec&quot;</span><span class="p">,</span>
+    <span class="n">stream_opts</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="s2">&quot;density&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">},</span> <span class="n">clim</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">],</span>
+<span class="p">)</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s2">&quot;Interpolated from Edges to Faces&quot;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/axes_api.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax3</span></a> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure.add_axes" title="matplotlib.figure.Figure.add_axes" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span></a><span class="p">([</span><span class="mf">0.65</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.22</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">])</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">plot_image</span><span class="p">(</span>
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">u_faces</span></a><span class="o">-</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">u_interp</span></a><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><a href="https://matplotlib.org/api/axes_api.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax3</span></a><span class="p">,</span> <span class="n">v_type</span><span class="o">=</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="s2">&quot;vec&quot;</span><span class="p">,</span>
+    <span class="n">stream_opts</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="s2">&quot;density&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">},</span> <span class="n">clim</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">],</span>
+<span class="p">)</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax3</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/axes_api.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax4</span></a> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure.add_axes" title="matplotlib.figure.Figure.add_axes" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span></a><span class="p">([</span><span class="mf">0.92</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.025</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">])</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.colors.Normalize.html#matplotlib.colors.Normalize" title="matplotlib.colors.Normalize" class="sphx-glr-backref-module-matplotlib-colors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">norm</span></a> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.colors.Normalize.html#matplotlib.colors.Normalize" title="matplotlib.colors.Normalize" class="sphx-glr-backref-module-matplotlib-colors sphx-glr-backref-type-py-class"><span class="n">mpl</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">Normalize</span></a><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mf">10.</span><span class="p">)</span>
+<a href="https://matplotlib.org/api/colorbar_api.html#matplotlib.colorbar.ColorbarBase" title="matplotlib.colorbar.ColorbarBase" class="sphx-glr-backref-module-matplotlib-colorbar sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cbar</span></a> <span class="o">=</span> <a href="https://matplotlib.org/api/colorbar_api.html#matplotlib.colorbar.ColorbarBase" title="matplotlib.colorbar.ColorbarBase" class="sphx-glr-backref-module-matplotlib-colorbar sphx-glr-backref-type-py-class"><span class="n">mpl</span><span class="o">.</span><span class="n">colorbar</span><span class="o">.</span><span class="n">ColorbarBase</span></a><span class="p">(</span>
+    <a href="https://matplotlib.org/api/axes_api.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax4</span></a><span class="p">,</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.colors.Normalize.html#matplotlib.colors.Normalize" title="matplotlib.colors.Normalize" class="sphx-glr-backref-module-matplotlib-colors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">norm</span></a><span class="o">=</span><a href="https://matplotlib.org/api/_as_gen/matplotlib.colors.Normalize.html#matplotlib.colors.Normalize" title="matplotlib.colors.Normalize" class="sphx-glr-backref-module-matplotlib-colors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">norm</span></a><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s2">&quot;vertical&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<img alt="True Vector on Faces, Interpolated from Edges to Faces, Error" class="sphx-glr-single-img" src="../../_images/sphx_glr_1_3_interpolation_vector_001.png" />
+</div>
+<div class="section" id="constructing-and-applying-a-2d-averaging-matrix">
+<h2>Constructing and Applying a 2D Averaging Matrix<a class="headerlink" href="#constructing-and-applying-a-2d-averaging-matrix" title="Permalink to this headline">¶</a></h2>
+<p>Here we compute a vector function that lives on the edges.
+We then create an averaging operator to approximate the components
+of the vector at cell centers.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a tensor mesh</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">h</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ones.html#numpy.ones" title="numpy.ones" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">ones</span></a><span class="p">(</span><span class="mi">75</span><span class="p">)</span>
+<span class="n">mesh</span> <span class="o">=</span> <a href="https://propertiespy.readthedocs.io/en/latest/content/hasproperties.html#properties.HasProperties" title="properties.HasProperties" class="sphx-glr-backref-module-properties sphx-glr-backref-type-py-class"><span class="n">TensorMesh</span></a><span class="p">([</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">h</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">h</span></a><span class="p">],</span> <span class="s2">&quot;CC&quot;</span><span class="p">)</span>
+
+<span class="c1"># Define the x and y components of the vector function.</span>
+<span class="c1"># In this case, the vector function is a circular vortex.</span>
+<span class="k">def</span> <span class="nf">fun_x</span><span class="p">(</span><span class="n">xy</span><span class="p">):</span>
+    <span class="n">r</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.sqrt.html#numpy.sqrt" title="numpy.sqrt" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.sum.html#numpy.sum" title="numpy.sum" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">sum</span></a><span class="p">(</span><span class="n">xy</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">return</span> <span class="mf">5.</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="n">xy</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">r</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.tanh.html#numpy.tanh" title="numpy.tanh" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">tanh</span></a><span class="p">(</span><span class="mf">0.15</span> <span class="o">*</span> <span class="p">(</span><span class="mf">28.0</span> <span class="o">-</span> <span class="n">r</span><span class="p">)))</span>
+
+<span class="k">def</span> <span class="nf">fun_y</span><span class="p">(</span><span class="n">xy</span><span class="p">):</span>
+    <span class="n">r</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.sqrt.html#numpy.sqrt" title="numpy.sqrt" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.sum.html#numpy.sum" title="numpy.sum" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">sum</span></a><span class="p">(</span><span class="n">xy</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">return</span> <span class="mf">5.</span> <span class="o">*</span> <span class="p">(</span><span class="n">xy</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">r</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.tanh.html#numpy.tanh" title="numpy.tanh" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">tanh</span></a><span class="p">(</span><span class="mf">0.15</span> <span class="o">*</span> <span class="p">(</span><span class="mf">28.0</span> <span class="o">-</span> <span class="n">r</span><span class="p">)))</span>
+
+<span class="c1"># Evaluate x and y components of the vector on x and y edges, respectively</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">edges_x</span></a> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">edges_x</span></a>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">edges_y</span></a> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">edges_y</span></a>
+
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ux_edges</span></a> <span class="o">=</span> <span class="n">fun_x</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">edges_x</span></a><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">uy_edges</span></a> <span class="o">=</span> <span class="n">fun_y</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">edges_y</span></a><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">u_edges</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.r_.html#numpy.r_" title="numpy.r_" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">r_</span></a><span class="p">[</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ux_edges</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">uy_edges</span></a><span class="p">]</span>
+
+<span class="c1"># Compute true x and y components of the vector at cell centers</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">centers</span></a> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">cell_centers</span>
+
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ux_centers</span></a> <span class="o">=</span> <span class="n">fun_x</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">centers</span></a><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">uy_centers</span></a> <span class="o">=</span> <span class="n">fun_y</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">centers</span></a><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">u_centers</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.r_.html#numpy.r_" title="numpy.r_" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">r_</span></a><span class="p">[</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ux_centers</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">uy_centers</span></a><span class="p">]</span>
+
+<span class="c1"># Create the averaging operator for a vector from edges to cell centers</span>
+<a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csr_matrix.html#scipy.sparse.csr_matrix" title="scipy.sparse.csr_matrix" class="sphx-glr-backref-module-scipy-sparse sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">A</span></a> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">average_edge_to_cell_vector</span>
+
+<span class="c1"># Apply the averaging operator</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">u_average</span></a> <span class="o">=</span> <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csr_matrix.html#scipy.sparse.csr_matrix" title="scipy.sparse.csr_matrix" class="sphx-glr-backref-module-scipy-sparse sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">A</span></a><span class="o">*</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">u_edges</span></a>
+
+<span class="c1"># Plotting</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="matplotlib.figure.Figure" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.figure.html#matplotlib.pyplot.figure" title="matplotlib.pyplot.figure" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">figure</span></a><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<a href="https://matplotlib.org/api/axes_api.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax1</span></a> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure.add_axes" title="matplotlib.figure.Figure.add_axes" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span></a><span class="p">([</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.22</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">])</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">plot_image</span><span class="p">(</span>
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">u_edges</span></a><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><a href="https://matplotlib.org/api/axes_api.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax1</span></a><span class="p">,</span> <span class="n">v_type</span><span class="o">=</span><span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="s2">&quot;vec&quot;</span><span class="p">,</span>
+    <span class="n">stream_opts</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="s2">&quot;density&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">},</span> <span class="n">clim</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">],</span>
+<span class="p">)</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s2">&quot;True Vector on Edges&quot;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/axes_api.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax2</span></a> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure.add_axes" title="matplotlib.figure.Figure.add_axes" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span></a><span class="p">([</span><span class="mf">0.35</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.22</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">])</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">plot_image</span><span class="p">(</span>
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">u_average</span></a><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><a href="https://matplotlib.org/api/axes_api.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax2</span></a><span class="p">,</span> <span class="n">v_type</span><span class="o">=</span><span class="s2">&quot;CCv&quot;</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="s2">&quot;vec&quot;</span><span class="p">,</span>
+    <span class="n">stream_opts</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="s2">&quot;density&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">},</span> <span class="n">clim</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">],</span>
+<span class="p">)</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s2">&quot;Averaged to Cell Centers&quot;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/axes_api.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax3</span></a> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure.add_axes" title="matplotlib.figure.Figure.add_axes" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span></a><span class="p">([</span><span class="mf">0.65</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.22</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">])</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">plot_image</span><span class="p">(</span>
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">u_centers</span></a><span class="o">-</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">u_average</span></a><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><a href="https://matplotlib.org/api/axes_api.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax3</span></a><span class="p">,</span> <span class="n">v_type</span><span class="o">=</span><span class="s2">&quot;CCv&quot;</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="s2">&quot;vec&quot;</span><span class="p">,</span>
+    <span class="n">stream_opts</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="s2">&quot;density&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">},</span> <span class="n">clim</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">],</span>
+<span class="p">)</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax3</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/axes_api.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax4</span></a> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure.add_axes" title="matplotlib.figure.Figure.add_axes" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span></a><span class="p">([</span><span class="mf">0.92</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.025</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">])</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.colors.Normalize.html#matplotlib.colors.Normalize" title="matplotlib.colors.Normalize" class="sphx-glr-backref-module-matplotlib-colors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">norm</span></a> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.colors.Normalize.html#matplotlib.colors.Normalize" title="matplotlib.colors.Normalize" class="sphx-glr-backref-module-matplotlib-colors sphx-glr-backref-type-py-class"><span class="n">mpl</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">Normalize</span></a><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mf">10.</span><span class="p">)</span>
+<a href="https://matplotlib.org/api/colorbar_api.html#matplotlib.colorbar.ColorbarBase" title="matplotlib.colorbar.ColorbarBase" class="sphx-glr-backref-module-matplotlib-colorbar sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cbar</span></a> <span class="o">=</span> <a href="https://matplotlib.org/api/colorbar_api.html#matplotlib.colorbar.ColorbarBase" title="matplotlib.colorbar.ColorbarBase" class="sphx-glr-backref-module-matplotlib-colorbar sphx-glr-backref-type-py-class"><span class="n">mpl</span><span class="o">.</span><span class="n">colorbar</span><span class="o">.</span><span class="n">ColorbarBase</span></a><span class="p">(</span>
+    <a href="https://matplotlib.org/api/axes_api.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax4</span></a><span class="p">,</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.colors.Normalize.html#matplotlib.colors.Normalize" title="matplotlib.colors.Normalize" class="sphx-glr-backref-module-matplotlib-colors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">norm</span></a><span class="o">=</span><a href="https://matplotlib.org/api/_as_gen/matplotlib.colors.Normalize.html#matplotlib.colors.Normalize" title="matplotlib.colors.Normalize" class="sphx-glr-backref-module-matplotlib-colors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">norm</span></a><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s2">&quot;vertical&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<img alt="True Vector on Edges, Averaged to Cell Centers, Error" class="sphx-glr-single-img" src="../../_images/sphx_glr_1_3_interpolation_vector_002.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>D:\Documents\Repositories\discretize\tutorials\operators\1_3_interpolation_vector.py:229: RuntimeWarning: invalid value encountered in true_divide
+  return 5. * (-xy[:, 1] / r) * (1 + np.tanh(0.15 * (28.0 - r)))
+D:\Documents\Repositories\discretize\tutorials\operators\1_3_interpolation_vector.py:233: RuntimeWarning: invalid value encountered in true_divide
+  return 5. * (xy[:, 0] / r) * (1 + np.tanh(0.15 * (28.0 - r)))
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.566 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorials-operators-1-3-interpolation-vector-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/d5f1b787ba26b06bdf1a695f1aeee6b8/1_3_interpolation_vector.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">1_3_interpolation_vector.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/89b63dd51ae619f04462f7cc469ee10a/1_3_interpolation_vector.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">1_3_interpolation_vector.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="2_gradient.html" class="btn btn-neutral float-right" title="Gradient Operator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="1_2_interpolation_scalar.html" class="btn btn-neutral float-left" title="Interpolating and Averaging Scalar Quantities in 2D and 3D" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+<div role="contentinfo">
+    <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" width="60px"; style="float:right;height:3em;line-height:3em;padding:10px 0 0 1em;">
+        <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+    </a>
+    2013-2020,
+    <a href="http://simpeg.xyz">SimPEG Developers.</a><br />
+    Except where noted, this work is licensed under a <br />
+    <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+        Creative Commons Attribution 4.0 International License
+    </a>
+</div>
+<br>
+<div>
+Built with
+    <a href="http://sphinx-doc.org/">Sphinx</a>
+    using a
+    <a href="https://github.com/snide/sphinx_rtd_theme">theme</a>
+    provided by
+    <a href="https://readthedocs.org">Read the Docs</a>.
+ </div>
+
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
